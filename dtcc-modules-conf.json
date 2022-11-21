@@ -1,0 +1,25 @@
+{
+    "modules":
+    [
+	{
+	    "name": "DTCC Builder",
+	    "parameters":
+	    {
+		"foo": 1,
+		"bar": True
+	    }
+	    "input": "Shapefiles and point clouds...",
+	    "output": "Protobuf files..."
+	},
+	{
+	    "name": "IPS IBOFlow",
+	    "parameters":
+	    {
+		"foo": 1,
+		"bar": True
+	    }
+	    "input": "STL surface?",
+	    "output": "HDF5 files..."
+	}
+    ]
+}
