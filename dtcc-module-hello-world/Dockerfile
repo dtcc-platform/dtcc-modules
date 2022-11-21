@@ -9,4 +9,6 @@ COPY wrapper.py /wrapper.py
 COPY dtcc_hello_world.py /dtcc_hello_world.py
 
 # start pubsub client
+RUN ["chmod", "+x", "/wrapper.py"]
+ENTRYPOINT ["/wrapper.py"]
 

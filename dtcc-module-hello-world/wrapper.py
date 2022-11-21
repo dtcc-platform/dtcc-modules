@@ -1,20 +1,31 @@
-import subprocess
+#!/usr/bin/env python3
 
+import subprocess
+import tempfile
+import os
+
+from pubsub_client.run_in_shell import RunInShell
 from dtcc_hello_world import hello_world
 
+class DtccHelloWorld(RunInShell):
+    def __init__(self, publish=True) -> None:
+        RunInShell.__init__(self,
+            task_name="run_dtcc_hello_world",
+            publish=publish,
+            shell_command="python3 dtcc_hello_world.py"
+        )
+        self.output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
+    def process_arguments_on_start(self, message:dict):
+        lang = message['lang']
+        sleep_time = message['sleep_time']
+        return f"{self.shell_command} --lang={lang} --sleep_time={sleep_time} --output-file={self.output_file.name}"
 
-def start(command, data = {}, config = {}):
-    if command == "hello-world":
-        lang = config['lang']
-        sleep_time = config['sleep_time']
-        hi = hello_world(lang, sleep_time)
-        return {"hello_world": hi}
-    if command == "hello-world-cli":
-        lang = config['lang']
-        sleep_time = config['sleep_time']
-        hi = subprocess.check_output(["dtcc-hello-world", "--lang", lang, "--sleep_time", str(sleep_time)])
-        return {"hello_world": hi}
+    def process_return_data(self):
+        with open(self.output_file.name, 'r') as f:
+            return_data = r.read()
+        os.remove(self.output_file.name)
+        return return_data
 
-    else:
-        return {"error": "Command not found"}
-
+if __name__ == "__main__":
+    dtcc_hello_world = DtccHelloWorld(publish=True)
+    dtcc_hello_world.start()
