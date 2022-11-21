@@ -25,7 +25,7 @@
 					"output": [
 						{
 							"name": "hello_world",
-							"format": "string"
+							"type": "string"
 						}
 					]
 				},
@@ -50,7 +50,7 @@
 					"output": [
 						{
 							"name": "hello_world",
-							"format": "string"
+							"type": "string"
 						}
 					]
 				}
