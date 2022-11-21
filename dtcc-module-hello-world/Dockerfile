@@ -1,6 +1,7 @@
-FROM python:3.8-slim-buster
+FROM python:3.8-alpine
 
-COPY ../pubsub_client /pubsub_client
+
+COPY ../pubsub_client /
 RUN pip install -r /pubsub_client/requirements.txt
 
 COPY wrapper.py /wrapper.py
