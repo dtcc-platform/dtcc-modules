@@ -1,7 +1,8 @@
 {
 	"modules": [
 		{
-			"name": "DTCC Hello World",
+			"name": "dtcc-module-hello-world",
+			"description": "DTCC Hello World Module",
 			"commands": ["hello-world", "hello-world-cli"],
 			"parameters": [
 				{
