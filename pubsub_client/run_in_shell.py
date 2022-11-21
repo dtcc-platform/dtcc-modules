@@ -2,7 +2,7 @@ import subprocess, shlex, logging, time, pathlib, sys, os, threading, signal, tr
 
 from abc import ABC, abstractmethod
 
-project_dir = str(pathlib.Path(__file__).resolve().parents[2])
+project_dir = str(pathlib.Path(__file__).parent)
 sys.path.append(project_dir)
 
 from logger import getLogger

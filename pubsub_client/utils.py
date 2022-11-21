@@ -4,7 +4,7 @@ from urllib.request import urlretrieve
 from types import ModuleType
 from tqdm import tqdm
 
-project_dir = pathlib.Path(__file__).resolve().parents[2]
+project_dir = pathlib.Path(__file__).parent
 
 class AttrDict(dict):
   __getattr__ = dict.__getitem__

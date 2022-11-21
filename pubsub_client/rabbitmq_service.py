@@ -4,7 +4,7 @@ import pika
 import aio_pika
 import os, pathlib, sys, json, uuid, time, asyncio
 
-project_dir = str(pathlib.Path(__file__)) #.resolve().parents[2])
+project_dir = str(pathlib.Path(__file__).parent) 
 sys.path.append(project_dir)
 
 from utils import try_except
