@@ -10,7 +10,7 @@ def hello_world(lang = 'en', sleep_time = 0.1):
     else:
        hi = "Hello World!"
 
-    time.sleep(sleep_time)
+    sleep(sleep_time)
     return hi
 
 
