@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from time import sleep
 
 def hello_world(lang = 'en', sleep_time = 0.1):
