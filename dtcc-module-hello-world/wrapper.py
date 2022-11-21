@@ -17,3 +17,4 @@ def start(command, data = {}, config = {}):
 
     else:
         return {"error": "Command not found"}
+
