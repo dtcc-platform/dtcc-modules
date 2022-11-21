@@ -2,7 +2,7 @@
 	"modules": [
 		{
 			"name": "DTCC Hello World",
-			"commands": ["hello-world"],
+			"commands": ["hello-world", "hello-world-cli"],
 			"parameters": [
 				{
 					"name": "lang",
