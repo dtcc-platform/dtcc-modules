@@ -3,26 +3,56 @@
 		{
 			"name": "dtcc-module-hello-world",
 			"description": "DTCC Hello World Module",
-			"commands": ["hello-world", "hello-world-cli"],
-			"parameters": [
+			"commands": [
 				{
-					"name": "lang",
-					"description": "Language to return the greeting in",
-					"type": "string",
-					"required": false
+					"name": "hello-world",
+					"description": "Returns Hello World in different languages",
+					"parameters": [
+						{
+							"name": "lang",
+							"description": "Language to return the greeting in",
+							"type": "string",
+							"required": false
+						},
+						{
+							"name": "sleep_time",
+							"description": "Time to sleep in seconds",
+							"type": "float",
+							"required": false
+						}
+					],
+					"input": [],
+					"output": [
+						{
+							"name": "hello_world",
+							"format": "string"
+						}
+					]
 				},
 				{
-					"name":"sleep_time",
-					"description":"Time to sleep in seconds",
-					"type":"float",
-					"required":false
-				}
-			],
-			"input": [],
-			"output": [
-				{
-					"name": "hello_world",
-					"format": "string"
+					"name": "hello-world-2",
+					"description": "Also returns Hello World in different languages",
+					"parameters": [
+						{
+							"name": "lang",
+							"description": "Language to return the greeting in",
+							"type": "string",
+							"required": false
+						},
+						{
+							"name": "sleep_time",
+							"description": "Time to sleep in seconds",
+							"type": "float",
+							"required": false
+						}
+					],
+					"input": [],
+					"output": [
+						{
+							"name": "hello_world",
+							"format": "string"
+						}
+					]
 				}
 			]
 		}
