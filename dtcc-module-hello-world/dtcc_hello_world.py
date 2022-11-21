@@ -14,3 +14,10 @@ def hello_world(lang = 'en', sleep_time = 0.1):
     return hi
 
 
+if __name__ == "__main__":
+    import argparse 
+    parser = argparse.ArgumentParser(description='Hello World')
+    parser.add_argument('--lang', type=str, default='en', help='Language')
+    parser.add_argument('--sleep_time', type=float, default=0.1, help='Sleep time')
+    args = parser.parse_args()
+    print(hello_world(args.lang, args.sleep_time))
