@@ -1,25 +1,28 @@
 {
-    "modules":
-    [
-	{
-	    "name": "DTCC Builder",
-	    "parameters":
-	    {
-		"foo": 1,
-		"bar": True
-	    }
-	    "input": "Shapefiles and point clouds...",
-	    "output": "Protobuf files..."
-	},
-	{
-	    "name": "IPS IBOFlow",
-	    "parameters":
-	    {
-		"foo": 1,
-		"bar": True
-	    }
-	    "input": "STL surface?",
-	    "output": "HDF5 files..."
-	}
-    ]
+	"modules": [
+		{
+			"name": "DTCC Hello World",
+			"parameters": [
+				{
+					"name": "lang",
+					"description": "Language to return the greeting in",
+					"type": "string",
+					"required": false
+				},
+				{
+					"name":"sleep_time",
+					"description":"Time to sleep in seconds",
+					"type":"float",
+					"required":false
+				}
+			],
+			"input": [],
+			"output": [
+				{
+					"name": "hello_world",
+					"format": "string"
+				}
+			]
+		}
+	]
 }
