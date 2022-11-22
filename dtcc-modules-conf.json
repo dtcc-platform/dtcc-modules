@@ -1,60 +1,110 @@
 {
-	"modules": [
+    "modules":
+    [
+	{
+	    "name": "dtcc-module-hello-world",
+	    "description": "DTCC Hello World Module",
+	    "commands":
+	    [
 		{
-			"name": "dtcc-module-hello-world",
-			"description": "DTCC Hello World Module",
-			"commands": [
-				{
-					"name": "hello-world",
-					"description": "Returns Hello World in different languages",
-					"parameters": [
-						{
-							"name": "lang",
-							"description": "Language to return the greeting in",
-							"type": "string",
-							"required": false
-						},
-						{
-							"name": "sleep_time",
-							"description": "Time to sleep in seconds",
-							"type": "float",
-							"required": false
-						}
-					],
-					"input": [],
-					"output": [
-						{
-							"name": "hello_world",
-							"type": "string"
-						}
-					]
-				},
-				{
-					"name": "hello-world-2",
-					"description": "Also returns Hello World in different languages",
-					"parameters": [
-						{
-							"name": "lang",
-							"description": "Language to return the greeting in",
-							"type": "string",
-							"required": false
-						},
-						{
-							"name": "sleep_time",
-							"description": "Time to sleep in seconds",
-							"type": "float",
-							"required": false
-						}
-					],
-					"input": [],
-					"output": [
-						{
-							"name": "hello_world",
-							"type": "string"
-						}
-					]
-				}
-			]
+		    "name": "hello-world",
+		    "description": "Returns Hello World in different languages",
+		    "parameters":
+		    [
+			{
+			    "name": "lang",
+			    "description": "Language to return the greeting in",
+			    "type": "string",
+			    "required": false
+			},
+			{
+			    "name": "sleep_time",
+			    "description": "Time to sleep in seconds",
+			    "type": "float",
+			    "required": false
+			}
+		    ],
+		    "input": [],
+		    "output":
+		    [
+			{
+			    "name": "hello_world",
+			    "type": "string"
+			}
+		    ]
+		},
+		{
+		    "name": "hello-world-2",
+		    "description": "Also returns Hello World in different languages",
+		    "parameters":
+		    [
+			{
+			    "name": "lang",
+			    "description": "Language to return the greeting in",
+			    "type": "string",
+			    "required": false
+			},
+			{
+			    "name": "sleep_time",
+			    "description": "Time to sleep in seconds",
+			    "type": "float",
+			    "required": false
+			}
+		    ],
+		    "input": [],
+		    "output":
+		    [
+			{
+			    "name": "hello_world",
+			    "type": "string"
+			}
+		    ]
 		}
-	]
+	    ]
+	},
+	{
+	    "name": "dtcc-module-dtcc-builder",
+	    "description": "DTCC Builder Module",
+	    "commands":
+	    [
+		{
+		    "name": "generate-citymodel",
+		    "description": "Generate city model from point cloud and property map",
+		    "parameters":
+		    [
+			{
+			    "name": "MeshResolution",
+			    "description": "Mesh resolution (size of triangles) [m]",
+			    "type": "float",
+			    "required": true
+			},
+			{
+			    "name": "MinBuildingDistance",
+			    "description": "Minimum distance between buildings [m]",
+			    "type": "float",
+			    "required": true
+			}
+		    ],
+		    "input":
+		    [
+			{
+			    "name": "PointCloud (FIXME: How do we handle this???)",
+			    "type": "file (FIXME: How do we handle this???)"
+			},
+			{
+			    "name": "PropertyMap (FIXME: How do we handle this???)",
+			    "type": "file (FIXME: How do we handle this???)"
+			}
+		    ],
+		    "output":
+		    [
+			{
+			    "name": "CityModel (FIXME: How do we handle this???)",
+			    "type": "file"
+			}
+		    ]
+		}
+	    ]
+	}
+    ]
 }
