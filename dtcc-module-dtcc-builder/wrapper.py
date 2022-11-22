@@ -6,7 +6,6 @@ import os
 import json
 
 from pubsub_client.run_in_shell import RunInShell
-from dtcc_hello_world import hello_world
 
 
 class DtccBuilder(RunInShell):
