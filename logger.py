@@ -2,7 +2,7 @@ import os, sys, pathlib, logging, logging.config, time, datetime, socket
 from logging.handlers import RotatingFileHandler
 
 
-project_folder_path = str(pathlib.Path(__file__))#.resolve().parents[2])
+project_folder_path = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_folder_path)
 
 

@@ -1,0 +1,1461 @@
+2022-11-22 11:21:28,244 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+TypeError: listen() missing 1 required positional argument: 'self'
+2022-11-22 11:22:36,872 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:22:36,873 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+AttributeError: 'SamplePythonProcessRunner' object has no attribute 'pika_pub_sub'
+2022-11-22 11:22:36,873 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+AttributeError: 'SamplePythonProcessRunner' object has no attribute 'pika_pub_sub'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:31:32,873 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:31:32,889 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:31:32,890 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:31:32,890 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 131, in subscribe
+    if self.channel.is_closed():
+TypeError: 'bool' object is not callable
+2022-11-22 11:31:32,892 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 131, in subscribe
+    if self.channel.is_closed():
+TypeError: 'bool' object is not callable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:33:34,300 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:33:34,318 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:33:34,319 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:33:34,324 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 135, in subscribe
+    self.channel.basic_consume(queue=self.publish_queue_name, on_message_callback=on_mesage_callback)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1645, in basic_consume
+    return self._basic_consume_impl(
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1714, in _basic_consume_impl
+    self._flush_output(ok_result.is_ready)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1357, in _flush_output
+    raise self._closing_reason  # pylint: disable=E0702
+pika.exceptions.ChannelClosedByBroker: (404, "NOT_FOUND - no queue '/task/run_sample_python_process' in vhost '/'")
+2022-11-22 11:33:34,326 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 135, in subscribe
+    self.channel.basic_consume(queue=self.publish_queue_name, on_message_callback=on_mesage_callback)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1645, in basic_consume
+    return self._basic_consume_impl(
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1714, in _basic_consume_impl
+    self._flush_output(ok_result.is_ready)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1357, in _flush_output
+    raise self._closing_reason  # pylint: disable=E0702
+pika.exceptions.ChannelClosedByBroker: (404, "NOT_FOUND - no queue '/task/run_sample_python_process' in vhost '/'")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:37:12,487 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:37:12,501 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:37:12,501 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:39:59,515 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:39:59,521 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:39:59,522 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 851, in process_data_events
+    self._dispatch_channel_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 567, in _dispatch_channel_events
+    impl_channel._get_cookie()._dispatch_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1510, in _dispatch_events
+    consumer_info.on_message_callback(self, evt.method,
+  File "run_in_shell.py", line 50, in consume
+    updated_shell_command = self.process_arguments_on_start(message=message)
+  File "run_in_shell.py", line 270, in process_arguments_on_start
+    return self.shell_command
+AttributeError: 'SamplePythonProcessRunner' object has no attribute 'shell_command'
+2022-11-22 11:39:59,532 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 851, in process_data_events
+    self._dispatch_channel_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 567, in _dispatch_channel_events
+    impl_channel._get_cookie()._dispatch_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1510, in _dispatch_events
+    consumer_info.on_message_callback(self, evt.method,
+  File "run_in_shell.py", line 50, in consume
+    updated_shell_command = self.process_arguments_on_start(message=message)
+  File "run_in_shell.py", line 270, in process_arguments_on_start
+    return self.shell_command
+AttributeError: 'SamplePythonProcessRunner' object has no attribute 'shell_command'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:42:48,128 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:42:48,139 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:42:48,140 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:42:50,461 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:42:50,480 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:42:50,480 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 851, in process_data_events
+    self._dispatch_channel_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 567, in _dispatch_channel_events
+    impl_channel._get_cookie()._dispatch_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1510, in _dispatch_events
+    consumer_info.on_message_callback(self, evt.method,
+  File "run_in_shell.py", line 51, in consume
+    self.start(
+TypeError: start() got an unexpected keyword argument 'command'
+2022-11-22 11:42:50,484 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 851, in process_data_events
+    self._dispatch_channel_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 567, in _dispatch_channel_events
+    impl_channel._get_cookie()._dispatch_events()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1510, in _dispatch_events
+    consumer_info.on_message_callback(self, evt.method,
+  File "run_in_shell.py", line 51, in consume
+    self.start(
+TypeError: start() got an unexpected keyword argument 'command'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:44:03,020 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:44:03,037 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:44:03,037 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:44:04,719 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:44:04,723 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:44:04,724 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:44:04,724 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:44:04,733 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:44:04,838 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:44:04,944 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:44:47,171 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:44:47,174 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:44:47,174 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:44:47,174 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:44:47,180 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:44:47,240 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:44:47,346 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:44:49,390 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:44:49,393 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:44:49,394 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:44:49,394 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:44:49,400 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:44:49,455 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:44:49,560 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:45:14,737 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:45:14,741 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:45:14,742 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:45:14,742 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:45:14,748 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:45:14,798 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:45:14,901 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:45:15,429 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:45:15,432 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:45:15,432 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:45:15,432 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:45:15,436 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:45:15,482 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:45:15,583 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:45:16,117 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:45:16,121 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:45:16,121 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:45:16,121 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:45:16,125 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:45:16,176 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:45:16,277 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:45:18,867 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:45:18,871 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:45:18,871 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/src/tests/sample_logging_process.py"
+2022-11-22 11:45:18,871 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:45:18,876 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:45:18,926 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/src/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:45:19,032 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:46:43,191 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1064, in poll
+    kevents = self._kqueue.control(None, 1000, self._get_max_wait())
+KeyboardInterrupt
+2022-11-22 11:46:43,194 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1064, in poll
+    kevents = self._kqueue.control(None, 1000, self._get_max_wait())
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:46:49,864 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:46:49,876 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:46:49,876 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:46:52,413 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:46:52,416 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:46:52,417 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/tests/sample_logging_process.py"
+2022-11-22 11:46:52,417 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:46:52,423 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:46:52,498 INFO  [run_in_shell.py:207] /task/run_sample_python_process: /usr/local/bin/python3: can't open file '/Users/sidkas/workspace/tests/sample_logging_process.py': [Errno 2] No such file or directory
+2022-11-22 11:46:52,600 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:47:14,895 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1064, in poll
+    kevents = self._kqueue.control(None, 1000, self._get_max_wait())
+KeyboardInterrupt
+2022-11-22 11:47:14,898 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1064, in poll
+    kevents = self._kqueue.control(None, 1000, self._get_max_wait())
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:47:17,114 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:47:17,127 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:47:17,127 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 11:47:19,912 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:47:19,915 INFO  [run_in_shell.py:45] received meassge: 
+2022-11-22 11:47:19,916 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 11:47:19,916 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 11:47:19,921 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 11:47:20,067 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 11:47:20,067 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:20,067 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 11:47:20,272 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 11:47:20,273 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:20,272 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 11:47:20,474 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 11:47:20,475 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:20,474 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 11:47:20,679 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 11:47:20,681 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:20,679 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 11:47:20,881 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 11:47:20,883 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:20,881 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 11:47:21,087 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 11:47:21,088 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:21,087 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 11:47:21,288 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 11:47:21,290 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:21,288 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 11:47:21,489 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 11:47:21,491 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:21,489 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 11:47:21,695 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 11:47:21,696 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:21,695 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 11:47:21,897 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 11:47:21,898 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:21,897 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 11:47:22,099 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 11:47:22,100 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:22,099 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 11:47:22,302 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 11:47:22,304 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:22,302 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 11:47:22,503 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 11:47:22,504 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:22,503 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 11:47:22,704 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 11:47:22,705 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:22,704 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 11:47:22,908 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 11:47:22,909 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:22,908 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 11:47:23,112 INFO  [sample_logging_process.py:15] 15: new logg from sample logging process
+2022-11-22 11:47:23,114 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:23,112 INFO  [sample_logging_process.py:15] 15: new logg from sample logging process
+2022-11-22 11:47:23,317 INFO  [sample_logging_process.py:15] 16: new logg from sample logging process
+2022-11-22 11:47:23,318 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:23,317 INFO  [sample_logging_process.py:15] 16: new logg from sample logging process
+2022-11-22 11:47:23,522 INFO  [sample_logging_process.py:15] 17: new logg from sample logging process
+2022-11-22 11:47:23,523 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:23,522 INFO  [sample_logging_process.py:15] 17: new logg from sample logging process
+2022-11-22 11:47:23,723 INFO  [sample_logging_process.py:15] 18: new logg from sample logging process
+2022-11-22 11:47:23,724 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:23,723 INFO  [sample_logging_process.py:15] 18: new logg from sample logging process
+2022-11-22 11:47:23,926 INFO  [sample_logging_process.py:15] 19: new logg from sample logging process
+2022-11-22 11:47:23,927 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:23,926 INFO  [sample_logging_process.py:15] 19: new logg from sample logging process
+2022-11-22 11:47:24,127 INFO  [sample_logging_process.py:15] 20: new logg from sample logging process
+2022-11-22 11:47:24,127 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:24,127 INFO  [sample_logging_process.py:15] 20: new logg from sample logging process
+2022-11-22 11:47:24,328 INFO  [sample_logging_process.py:15] 21: new logg from sample logging process
+2022-11-22 11:47:24,329 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:24,328 INFO  [sample_logging_process.py:15] 21: new logg from sample logging process
+2022-11-22 11:47:24,530 INFO  [sample_logging_process.py:15] 22: new logg from sample logging process
+2022-11-22 11:47:24,531 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:24,530 INFO  [sample_logging_process.py:15] 22: new logg from sample logging process
+2022-11-22 11:47:24,735 INFO  [sample_logging_process.py:15] 23: new logg from sample logging process
+2022-11-22 11:47:24,737 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:24,735 INFO  [sample_logging_process.py:15] 23: new logg from sample logging process
+2022-11-22 11:47:24,939 INFO  [sample_logging_process.py:15] 24: new logg from sample logging process
+2022-11-22 11:47:24,941 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:24,939 INFO  [sample_logging_process.py:15] 24: new logg from sample logging process
+2022-11-22 11:47:25,143 INFO  [sample_logging_process.py:15] 25: new logg from sample logging process
+2022-11-22 11:47:25,144 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:25,143 INFO  [sample_logging_process.py:15] 25: new logg from sample logging process
+2022-11-22 11:47:25,346 INFO  [sample_logging_process.py:15] 26: new logg from sample logging process
+2022-11-22 11:47:25,348 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:25,346 INFO  [sample_logging_process.py:15] 26: new logg from sample logging process
+2022-11-22 11:47:25,550 INFO  [sample_logging_process.py:15] 27: new logg from sample logging process
+2022-11-22 11:47:25,551 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:25,550 INFO  [sample_logging_process.py:15] 27: new logg from sample logging process
+2022-11-22 11:47:25,753 INFO  [sample_logging_process.py:15] 28: new logg from sample logging process
+2022-11-22 11:47:25,754 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:25,753 INFO  [sample_logging_process.py:15] 28: new logg from sample logging process
+2022-11-22 11:47:25,953 INFO  [sample_logging_process.py:15] 29: new logg from sample logging process
+2022-11-22 11:47:25,954 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:25,953 INFO  [sample_logging_process.py:15] 29: new logg from sample logging process
+2022-11-22 11:47:26,159 INFO  [sample_logging_process.py:15] 30: new logg from sample logging process
+2022-11-22 11:47:26,160 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:26,159 INFO  [sample_logging_process.py:15] 30: new logg from sample logging process
+2022-11-22 11:47:26,361 INFO  [sample_logging_process.py:15] 31: new logg from sample logging process
+2022-11-22 11:47:26,362 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:26,361 INFO  [sample_logging_process.py:15] 31: new logg from sample logging process
+2022-11-22 11:47:26,565 INFO  [sample_logging_process.py:15] 32: new logg from sample logging process
+2022-11-22 11:47:26,566 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:26,565 INFO  [sample_logging_process.py:15] 32: new logg from sample logging process
+2022-11-22 11:47:26,769 INFO  [sample_logging_process.py:15] 33: new logg from sample logging process
+2022-11-22 11:47:26,771 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:26,769 INFO  [sample_logging_process.py:15] 33: new logg from sample logging process
+2022-11-22 11:47:26,975 INFO  [sample_logging_process.py:15] 34: new logg from sample logging process
+2022-11-22 11:47:26,976 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:26,975 INFO  [sample_logging_process.py:15] 34: new logg from sample logging process
+2022-11-22 11:47:27,179 INFO  [sample_logging_process.py:15] 35: new logg from sample logging process
+2022-11-22 11:47:27,180 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:27,179 INFO  [sample_logging_process.py:15] 35: new logg from sample logging process
+2022-11-22 11:47:27,383 INFO  [sample_logging_process.py:15] 36: new logg from sample logging process
+2022-11-22 11:47:27,384 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:27,383 INFO  [sample_logging_process.py:15] 36: new logg from sample logging process
+2022-11-22 11:47:27,586 INFO  [sample_logging_process.py:15] 37: new logg from sample logging process
+2022-11-22 11:47:27,588 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:27,586 INFO  [sample_logging_process.py:15] 37: new logg from sample logging process
+2022-11-22 11:47:27,790 INFO  [sample_logging_process.py:15] 38: new logg from sample logging process
+2022-11-22 11:47:27,791 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:27,790 INFO  [sample_logging_process.py:15] 38: new logg from sample logging process
+2022-11-22 11:47:27,991 INFO  [sample_logging_process.py:15] 39: new logg from sample logging process
+2022-11-22 11:47:27,993 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:27,991 INFO  [sample_logging_process.py:15] 39: new logg from sample logging process
+2022-11-22 11:47:28,196 INFO  [sample_logging_process.py:15] 40: new logg from sample logging process
+2022-11-22 11:47:28,197 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:28,196 INFO  [sample_logging_process.py:15] 40: new logg from sample logging process
+2022-11-22 11:47:28,401 INFO  [sample_logging_process.py:15] 41: new logg from sample logging process
+2022-11-22 11:47:28,403 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:28,401 INFO  [sample_logging_process.py:15] 41: new logg from sample logging process
+2022-11-22 11:47:28,603 INFO  [sample_logging_process.py:15] 42: new logg from sample logging process
+2022-11-22 11:47:28,605 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:28,603 INFO  [sample_logging_process.py:15] 42: new logg from sample logging process
+2022-11-22 11:47:28,808 INFO  [sample_logging_process.py:15] 43: new logg from sample logging process
+2022-11-22 11:47:28,810 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:28,808 INFO  [sample_logging_process.py:15] 43: new logg from sample logging process
+2022-11-22 11:47:29,014 INFO  [sample_logging_process.py:15] 44: new logg from sample logging process
+2022-11-22 11:47:29,015 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:29,014 INFO  [sample_logging_process.py:15] 44: new logg from sample logging process
+2022-11-22 11:47:29,215 INFO  [sample_logging_process.py:15] 45: new logg from sample logging process
+2022-11-22 11:47:29,216 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:29,215 INFO  [sample_logging_process.py:15] 45: new logg from sample logging process
+2022-11-22 11:47:29,418 INFO  [sample_logging_process.py:15] 46: new logg from sample logging process
+2022-11-22 11:47:29,419 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:29,418 INFO  [sample_logging_process.py:15] 46: new logg from sample logging process
+2022-11-22 11:47:29,624 INFO  [sample_logging_process.py:15] 47: new logg from sample logging process
+2022-11-22 11:47:29,625 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:29,624 INFO  [sample_logging_process.py:15] 47: new logg from sample logging process
+2022-11-22 11:47:29,828 INFO  [sample_logging_process.py:15] 48: new logg from sample logging process
+2022-11-22 11:47:29,829 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:29,828 INFO  [sample_logging_process.py:15] 48: new logg from sample logging process
+2022-11-22 11:47:30,030 INFO  [sample_logging_process.py:15] 49: new logg from sample logging process
+2022-11-22 11:47:30,031 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:30,030 INFO  [sample_logging_process.py:15] 49: new logg from sample logging process
+2022-11-22 11:47:30,235 INFO  [sample_logging_process.py:15] 50: new logg from sample logging process
+2022-11-22 11:47:30,236 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:30,235 INFO  [sample_logging_process.py:15] 50: new logg from sample logging process
+2022-11-22 11:47:30,437 INFO  [sample_logging_process.py:15] 51: new logg from sample logging process
+2022-11-22 11:47:30,438 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:30,437 INFO  [sample_logging_process.py:15] 51: new logg from sample logging process
+2022-11-22 11:47:30,638 INFO  [sample_logging_process.py:15] 52: new logg from sample logging process
+2022-11-22 11:47:30,639 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:30,638 INFO  [sample_logging_process.py:15] 52: new logg from sample logging process
+2022-11-22 11:47:30,839 INFO  [sample_logging_process.py:15] 53: new logg from sample logging process
+2022-11-22 11:47:30,840 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:30,839 INFO  [sample_logging_process.py:15] 53: new logg from sample logging process
+2022-11-22 11:47:31,044 INFO  [sample_logging_process.py:15] 54: new logg from sample logging process
+2022-11-22 11:47:31,046 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:31,044 INFO  [sample_logging_process.py:15] 54: new logg from sample logging process
+2022-11-22 11:47:31,246 INFO  [sample_logging_process.py:15] 55: new logg from sample logging process
+2022-11-22 11:47:31,247 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:31,246 INFO  [sample_logging_process.py:15] 55: new logg from sample logging process
+2022-11-22 11:47:31,449 INFO  [sample_logging_process.py:15] 56: new logg from sample logging process
+2022-11-22 11:47:31,450 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:31,449 INFO  [sample_logging_process.py:15] 56: new logg from sample logging process
+2022-11-22 11:47:31,652 INFO  [sample_logging_process.py:15] 57: new logg from sample logging process
+2022-11-22 11:47:31,653 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:31,652 INFO  [sample_logging_process.py:15] 57: new logg from sample logging process
+2022-11-22 11:47:31,853 INFO  [sample_logging_process.py:15] 58: new logg from sample logging process
+2022-11-22 11:47:31,854 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:31,853 INFO  [sample_logging_process.py:15] 58: new logg from sample logging process
+2022-11-22 11:47:32,054 INFO  [sample_logging_process.py:15] 59: new logg from sample logging process
+2022-11-22 11:47:32,055 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:32,054 INFO  [sample_logging_process.py:15] 59: new logg from sample logging process
+2022-11-22 11:47:32,260 INFO  [sample_logging_process.py:15] 60: new logg from sample logging process
+2022-11-22 11:47:32,261 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:32,260 INFO  [sample_logging_process.py:15] 60: new logg from sample logging process
+2022-11-22 11:47:32,464 INFO  [sample_logging_process.py:15] 61: new logg from sample logging process
+2022-11-22 11:47:32,465 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:32,464 INFO  [sample_logging_process.py:15] 61: new logg from sample logging process
+2022-11-22 11:47:32,667 INFO  [sample_logging_process.py:15] 62: new logg from sample logging process
+2022-11-22 11:47:32,668 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:32,667 INFO  [sample_logging_process.py:15] 62: new logg from sample logging process
+2022-11-22 11:47:32,871 INFO  [sample_logging_process.py:15] 63: new logg from sample logging process
+2022-11-22 11:47:32,872 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:32,871 INFO  [sample_logging_process.py:15] 63: new logg from sample logging process
+2022-11-22 11:47:33,072 INFO  [sample_logging_process.py:15] 64: new logg from sample logging process
+2022-11-22 11:47:33,073 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:33,072 INFO  [sample_logging_process.py:15] 64: new logg from sample logging process
+2022-11-22 11:47:33,273 INFO  [sample_logging_process.py:15] 65: new logg from sample logging process
+2022-11-22 11:47:33,274 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 11:47:33,273 INFO  [sample_logging_process.py:15] 65: new logg from sample logging process
+2022-11-22 11:47:33,298 INFO  [sample_logging_process.py:18] keyboard interrupt
+2022-11-22 11:47:33,298 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1064, in poll
+    kevents = self._kqueue.control(None, 1000, self._get_max_wait())
+KeyboardInterrupt
+2022-11-22 11:47:33,299 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1064, in poll
+    kevents = self._kqueue.control(None, 1000, self._get_max_wait())
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 11:47:33,379 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 11:59:52,449 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:59:52,465 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 11:59:52,465 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 12:00:41,054 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 12:00:41,065 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:00:41,066 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:00:41,073 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:00:41,202 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:00:41,203 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:00:41,202 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:00:41,407 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:00:41,409 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:00:41,407 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:00:41,613 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:00:41,614 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:00:41,613 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:00:41,819 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:00:41,820 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:00:41,819 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:00:42,020 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:00:42,021 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:00:42,020 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:00:42,065 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:00:42,066 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:00:42,074 ERROR [run_in_shell.py:35] from RunInShell
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1076, in poll
+    self._dispatch_fd_events(fd_event_map)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 891, in _dispatch_fd_events
+    self._processing_fd_event_map.clear()
+AttributeError: 'NoneType' object has no attribute 'clear'
+2022-11-22 12:00:42,084 ERROR [utils.py:202] from >> listen
+Traceback (most recent call last):
+  File "run_in_shell.py", line 33, in listen
+    self.pika_pub_sub.subscribe(self.consume)
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/rabbitmq_service.py", line 138, in subscribe
+    self.channel.start_consuming()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 1883, in start_consuming
+    self._process_data_events(time_limit=None)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 2044, in _process_data_events
+    self.connection.process_data_events(time_limit=time_limit)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 842, in process_data_events
+    self._flush_output(common_terminator)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/blocking_connection.py", line 514, in _flush_output
+    self._impl.ioloop.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 579, in poll
+    self._poller.poll()
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 1076, in poll
+    self._dispatch_fd_events(fd_event_map)
+  File "/usr/local/Caskroom/miniconda/base/lib/python3.8/site-packages/pika/adapters/select_connection.py", line 891, in _dispatch_fd_events
+    self._processing_fd_event_map.clear()
+AttributeError: 'NoneType' object has no attribute 'clear'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sidkas/workspace/dtcc/dtcc-modules/utils.py", line 198, in wrapper
+    return func(*args, **kwargs)
+  File "run_in_shell.py", line 36, in listen
+    sys.exit(0)
+SystemExit: 0
+2022-11-22 12:09:46,296 INFO  [rabbitmq_service.py:100] Pika connection initialized
+2022-11-22 12:33:07,497 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:07,509 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:07,509 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 12:33:07,543 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:33:07,543 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:33:07,549 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:33:07,555 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:33:07,556 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:33:07,560 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:33:07,561 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:33:07,569 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:33:07,571 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:33:07,675 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:33:38,626 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:38,632 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:33:38,632 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:33:38,636 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:33:38,742 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:38,743 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:38,744 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:38,745 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:38,785 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:33:38,785 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:38,785 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:33:38,986 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:33:38,987 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:38,986 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:33:39,187 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:33:39,188 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:39,187 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:33:39,393 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:33:39,394 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:39,393 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:33:39,598 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:33:39,599 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:39,598 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:33:39,635 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:33:39,636 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:33:39,690 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:39,691 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:39,692 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:42,653 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:33:42,654 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:33:42,654 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:33:42,656 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:42,654 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:33:42,686 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:33:42,860 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:33:42,861 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:42,860 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:33:43,061 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:33:43,062 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:43,061 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:33:43,263 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:33:43,265 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:43,263 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:33:43,469 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:33:43,470 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:43,469 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:33:43,671 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:33:43,672 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:43,671 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:33:43,873 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:33:43,875 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:43,873 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:33:44,075 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:33:44,076 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:44,075 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:33:44,276 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:33:44,277 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:44,276 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:33:44,477 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:33:44,479 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:33:44,477 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:33:44,662 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:33:44,665 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:33:44,768 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:34:05,035 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:34:05,041 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:34:05,041 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:34:05,048 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:34:05,162 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:34:05,163 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:05,162 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:34:05,367 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:34:05,371 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:05,367 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:34:05,572 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:34:05,573 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:05,572 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:34:05,777 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:34:05,779 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:05,777 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:34:05,983 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:34:05,984 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:05,983 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:34:06,050 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:34:06,050 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:34:09,064 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:34:09,065 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:34:09,065 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:34:09,067 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:09,065 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:34:09,268 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:34:09,269 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:09,268 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:34:09,471 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:34:09,473 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:09,471 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:34:09,676 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:34:09,677 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:09,676 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:34:09,879 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:34:09,880 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:09,879 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:34:10,082 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:34:10,083 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:10,082 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:34:10,284 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:34:10,285 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:10,284 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:34:10,487 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:34:10,489 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:10,487 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:34:10,693 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:34:10,694 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:10,693 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:34:10,895 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:34:10,896 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:34:10,895 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:34:11,075 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:34:11,078 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:34:11,182 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:34:50,711 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:34:54,066 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:00,474 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:00,489 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:00,489 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 12:35:06,445 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:12,475 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 12:35:12,482 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 12:35:16,413 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:16,416 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 12:35:16,416 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:35:16,417 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:35:16,420 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:35:16,428 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 12:35:16,534 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:35:16,535 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:16,534 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:35:16,735 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:35:16,736 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:16,735 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:35:16,941 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:35:16,942 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:16,941 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:35:17,145 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:35:17,146 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:17,145 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:35:17,351 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:35:17,352 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:17,351 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:35:17,426 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 12:35:17,426 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:35:17,427 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:35:17,433 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 12:35:20,437 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 12:35:20,437 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:35:20,438 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:35:20,438 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:35:20,440 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:20,438 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:35:20,449 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 12:35:20,642 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:35:20,644 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:20,642 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:35:20,845 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:35:20,846 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:20,845 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:35:21,050 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:35:21,051 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:21,050 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:35:21,255 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:35:21,256 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:21,255 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:35:21,457 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:35:21,459 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:21,457 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:35:21,661 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:35:21,663 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:21,661 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:35:21,862 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:35:21,864 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:21,862 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:35:22,068 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:35:22,069 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:22,068 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:35:22,274 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:35:22,275 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:22,274 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:35:22,444 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 12:35:22,444 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:35:22,445 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:35:22,453 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 12:35:22,551 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:35:26,871 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:26,874 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 12:35:26,874 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:35:26,874 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:35:26,878 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:35:26,886 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 12:35:26,912 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:35:26,950 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:35:26,951 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:26,950 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:35:27,151 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:35:27,152 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:27,151 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:35:27,357 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:35:27,358 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:27,357 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:35:27,558 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:35:27,559 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:27,558 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:35:27,758 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:35:27,759 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:27,758 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:35:27,883 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 12:35:27,884 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:35:27,885 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:35:27,891 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 12:35:30,896 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 12:35:30,897 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:35:30,898 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:35:30,898 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:35:30,900 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:30,898 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:35:30,906 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 12:35:31,103 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:35:31,105 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:31,103 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:35:31,309 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:35:31,310 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:31,309 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:35:31,514 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:35:31,515 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:31,514 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:35:31,716 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:35:31,718 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:31,716 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:35:31,921 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:35:31,923 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:31,921 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:35:32,125 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:35:32,127 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:32,125 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:35:32,331 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:35:32,332 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:32,331 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:35:32,536 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:35:32,538 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:32,536 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:35:32,742 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:35:32,743 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:35:32,742 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:35:32,907 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 12:35:32,907 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:35:32,909 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:35:32,917 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 12:35:33,016 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:36:39,691 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 12:36:39,691 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:36:39,692 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:36:39,697 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:36:39,703 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 12:36:39,765 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:36:39,766 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:39,765 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:36:39,966 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:36:39,967 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:39,966 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:36:40,170 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:36:40,171 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:40,170 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:36:40,374 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:36:40,376 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:40,374 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:36:40,580 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:36:40,581 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:40,580 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:36:40,783 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:36:40,785 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:40,783 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:36:40,985 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:36:40,987 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:40,985 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:36:41,190 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:36:41,191 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:41,190 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:36:41,393 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:36:41,395 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:41,393 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:36:41,597 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:36:41,598 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:41,597 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:36:41,798 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:36:41,799 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:41,798 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:36:42,003 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:36:42,004 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:42,003 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:36:42,207 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:36:42,208 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:42,207 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:36:42,410 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:36:42,412 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:42,410 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:36:42,614 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:36:42,615 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:42,614 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:36:42,817 INFO  [sample_logging_process.py:15] 15: new logg from sample logging process
+2022-11-22 12:36:42,819 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:42,817 INFO  [sample_logging_process.py:15] 15: new logg from sample logging process
+2022-11-22 12:36:43,019 INFO  [sample_logging_process.py:15] 16: new logg from sample logging process
+2022-11-22 12:36:43,020 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:43,019 INFO  [sample_logging_process.py:15] 16: new logg from sample logging process
+2022-11-22 12:36:43,224 INFO  [sample_logging_process.py:15] 17: new logg from sample logging process
+2022-11-22 12:36:43,225 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:43,224 INFO  [sample_logging_process.py:15] 17: new logg from sample logging process
+2022-11-22 12:36:43,432 INFO  [sample_logging_process.py:15] 18: new logg from sample logging process
+2022-11-22 12:36:43,440 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:43,432 INFO  [sample_logging_process.py:15] 18: new logg from sample logging process
+2022-11-22 12:36:43,636 INFO  [sample_logging_process.py:15] 19: new logg from sample logging process
+2022-11-22 12:36:43,637 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:43,636 INFO  [sample_logging_process.py:15] 19: new logg from sample logging process
+2022-11-22 12:36:43,837 INFO  [sample_logging_process.py:15] 20: new logg from sample logging process
+2022-11-22 12:36:43,837 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:43,837 INFO  [sample_logging_process.py:15] 20: new logg from sample logging process
+2022-11-22 12:36:44,038 INFO  [sample_logging_process.py:15] 21: new logg from sample logging process
+2022-11-22 12:36:44,039 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:44,038 INFO  [sample_logging_process.py:15] 21: new logg from sample logging process
+2022-11-22 12:36:44,242 INFO  [sample_logging_process.py:15] 22: new logg from sample logging process
+2022-11-22 12:36:44,244 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:44,242 INFO  [sample_logging_process.py:15] 22: new logg from sample logging process
+2022-11-22 12:36:44,444 INFO  [sample_logging_process.py:15] 23: new logg from sample logging process
+2022-11-22 12:36:44,445 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:44,444 INFO  [sample_logging_process.py:15] 23: new logg from sample logging process
+2022-11-22 12:36:44,645 INFO  [sample_logging_process.py:15] 24: new logg from sample logging process
+2022-11-22 12:36:44,646 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:44,645 INFO  [sample_logging_process.py:15] 24: new logg from sample logging process
+2022-11-22 12:36:44,846 INFO  [sample_logging_process.py:15] 25: new logg from sample logging process
+2022-11-22 12:36:44,846 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:44,846 INFO  [sample_logging_process.py:15] 25: new logg from sample logging process
+2022-11-22 12:36:45,051 INFO  [sample_logging_process.py:15] 26: new logg from sample logging process
+2022-11-22 12:36:45,052 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:45,051 INFO  [sample_logging_process.py:15] 26: new logg from sample logging process
+2022-11-22 12:36:45,257 INFO  [sample_logging_process.py:15] 27: new logg from sample logging process
+2022-11-22 12:36:45,258 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:45,257 INFO  [sample_logging_process.py:15] 27: new logg from sample logging process
+2022-11-22 12:36:45,458 INFO  [sample_logging_process.py:15] 28: new logg from sample logging process
+2022-11-22 12:36:45,459 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:45,458 INFO  [sample_logging_process.py:15] 28: new logg from sample logging process
+2022-11-22 12:36:45,664 INFO  [sample_logging_process.py:15] 29: new logg from sample logging process
+2022-11-22 12:36:45,665 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:45,664 INFO  [sample_logging_process.py:15] 29: new logg from sample logging process
+2022-11-22 12:36:45,865 INFO  [sample_logging_process.py:15] 30: new logg from sample logging process
+2022-11-22 12:36:45,867 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:45,865 INFO  [sample_logging_process.py:15] 30: new logg from sample logging process
+2022-11-22 12:36:46,067 INFO  [sample_logging_process.py:15] 31: new logg from sample logging process
+2022-11-22 12:36:46,068 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:46,067 INFO  [sample_logging_process.py:15] 31: new logg from sample logging process
+2022-11-22 12:36:46,269 INFO  [sample_logging_process.py:15] 32: new logg from sample logging process
+2022-11-22 12:36:46,271 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:46,269 INFO  [sample_logging_process.py:15] 32: new logg from sample logging process
+2022-11-22 12:36:46,473 INFO  [sample_logging_process.py:15] 33: new logg from sample logging process
+2022-11-22 12:36:46,474 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:46,473 INFO  [sample_logging_process.py:15] 33: new logg from sample logging process
+2022-11-22 12:36:46,676 INFO  [sample_logging_process.py:15] 34: new logg from sample logging process
+2022-11-22 12:36:46,677 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:46,676 INFO  [sample_logging_process.py:15] 34: new logg from sample logging process
+2022-11-22 12:36:46,878 INFO  [sample_logging_process.py:15] 35: new logg from sample logging process
+2022-11-22 12:36:46,879 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:46,878 INFO  [sample_logging_process.py:15] 35: new logg from sample logging process
+2022-11-22 12:36:47,083 INFO  [sample_logging_process.py:15] 36: new logg from sample logging process
+2022-11-22 12:36:47,085 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:47,083 INFO  [sample_logging_process.py:15] 36: new logg from sample logging process
+2022-11-22 12:36:47,284 INFO  [sample_logging_process.py:15] 37: new logg from sample logging process
+2022-11-22 12:36:47,286 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:47,284 INFO  [sample_logging_process.py:15] 37: new logg from sample logging process
+2022-11-22 12:36:47,486 INFO  [sample_logging_process.py:15] 38: new logg from sample logging process
+2022-11-22 12:36:47,487 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:47,486 INFO  [sample_logging_process.py:15] 38: new logg from sample logging process
+2022-11-22 12:36:47,687 INFO  [sample_logging_process.py:15] 39: new logg from sample logging process
+2022-11-22 12:36:47,688 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:47,687 INFO  [sample_logging_process.py:15] 39: new logg from sample logging process
+2022-11-22 12:36:47,890 INFO  [sample_logging_process.py:15] 40: new logg from sample logging process
+2022-11-22 12:36:47,891 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:47,890 INFO  [sample_logging_process.py:15] 40: new logg from sample logging process
+2022-11-22 12:36:48,095 INFO  [sample_logging_process.py:15] 41: new logg from sample logging process
+2022-11-22 12:36:48,096 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:48,095 INFO  [sample_logging_process.py:15] 41: new logg from sample logging process
+2022-11-22 12:36:48,300 INFO  [sample_logging_process.py:15] 42: new logg from sample logging process
+2022-11-22 12:36:48,301 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:48,300 INFO  [sample_logging_process.py:15] 42: new logg from sample logging process
+2022-11-22 12:36:48,502 INFO  [sample_logging_process.py:15] 43: new logg from sample logging process
+2022-11-22 12:36:48,503 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:48,502 INFO  [sample_logging_process.py:15] 43: new logg from sample logging process
+2022-11-22 12:36:48,707 INFO  [sample_logging_process.py:15] 44: new logg from sample logging process
+2022-11-22 12:36:48,709 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:48,707 INFO  [sample_logging_process.py:15] 44: new logg from sample logging process
+2022-11-22 12:36:48,908 INFO  [sample_logging_process.py:15] 45: new logg from sample logging process
+2022-11-22 12:36:48,909 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:48,908 INFO  [sample_logging_process.py:15] 45: new logg from sample logging process
+2022-11-22 12:36:49,109 INFO  [sample_logging_process.py:15] 46: new logg from sample logging process
+2022-11-22 12:36:49,110 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:49,109 INFO  [sample_logging_process.py:15] 46: new logg from sample logging process
+2022-11-22 12:36:49,310 INFO  [sample_logging_process.py:15] 47: new logg from sample logging process
+2022-11-22 12:36:49,312 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:49,310 INFO  [sample_logging_process.py:15] 47: new logg from sample logging process
+2022-11-22 12:36:49,511 INFO  [sample_logging_process.py:15] 48: new logg from sample logging process
+2022-11-22 12:36:49,512 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:49,511 INFO  [sample_logging_process.py:15] 48: new logg from sample logging process
+2022-11-22 12:36:49,717 INFO  [sample_logging_process.py:15] 49: new logg from sample logging process
+2022-11-22 12:36:49,718 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:49,717 INFO  [sample_logging_process.py:15] 49: new logg from sample logging process
+2022-11-22 12:36:49,922 INFO  [sample_logging_process.py:15] 50: new logg from sample logging process
+2022-11-22 12:36:49,924 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:49,922 INFO  [sample_logging_process.py:15] 50: new logg from sample logging process
+2022-11-22 12:36:50,128 INFO  [sample_logging_process.py:15] 51: new logg from sample logging process
+2022-11-22 12:36:50,129 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:50,128 INFO  [sample_logging_process.py:15] 51: new logg from sample logging process
+2022-11-22 12:36:50,330 INFO  [sample_logging_process.py:15] 52: new logg from sample logging process
+2022-11-22 12:36:50,331 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:50,330 INFO  [sample_logging_process.py:15] 52: new logg from sample logging process
+2022-11-22 12:36:50,530 INFO  [sample_logging_process.py:15] 53: new logg from sample logging process
+2022-11-22 12:36:50,531 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:50,530 INFO  [sample_logging_process.py:15] 53: new logg from sample logging process
+2022-11-22 12:36:50,736 INFO  [sample_logging_process.py:15] 54: new logg from sample logging process
+2022-11-22 12:36:50,737 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:50,736 INFO  [sample_logging_process.py:15] 54: new logg from sample logging process
+2022-11-22 12:36:50,941 INFO  [sample_logging_process.py:15] 55: new logg from sample logging process
+2022-11-22 12:36:50,943 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:50,941 INFO  [sample_logging_process.py:15] 55: new logg from sample logging process
+2022-11-22 12:36:51,142 INFO  [sample_logging_process.py:15] 56: new logg from sample logging process
+2022-11-22 12:36:51,143 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:51,142 INFO  [sample_logging_process.py:15] 56: new logg from sample logging process
+2022-11-22 12:36:51,347 INFO  [sample_logging_process.py:15] 57: new logg from sample logging process
+2022-11-22 12:36:51,349 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:51,347 INFO  [sample_logging_process.py:15] 57: new logg from sample logging process
+2022-11-22 12:36:51,550 INFO  [sample_logging_process.py:15] 58: new logg from sample logging process
+2022-11-22 12:36:51,551 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:51,550 INFO  [sample_logging_process.py:15] 58: new logg from sample logging process
+2022-11-22 12:36:51,756 INFO  [sample_logging_process.py:15] 59: new logg from sample logging process
+2022-11-22 12:36:51,757 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:51,756 INFO  [sample_logging_process.py:15] 59: new logg from sample logging process
+2022-11-22 12:36:51,958 INFO  [sample_logging_process.py:15] 60: new logg from sample logging process
+2022-11-22 12:36:51,959 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:51,958 INFO  [sample_logging_process.py:15] 60: new logg from sample logging process
+2022-11-22 12:36:52,163 INFO  [sample_logging_process.py:15] 61: new logg from sample logging process
+2022-11-22 12:36:52,165 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:52,163 INFO  [sample_logging_process.py:15] 61: new logg from sample logging process
+2022-11-22 12:36:52,364 INFO  [sample_logging_process.py:15] 62: new logg from sample logging process
+2022-11-22 12:36:52,366 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:52,364 INFO  [sample_logging_process.py:15] 62: new logg from sample logging process
+2022-11-22 12:36:52,566 INFO  [sample_logging_process.py:15] 63: new logg from sample logging process
+2022-11-22 12:36:52,567 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:52,566 INFO  [sample_logging_process.py:15] 63: new logg from sample logging process
+2022-11-22 12:36:52,767 INFO  [sample_logging_process.py:15] 64: new logg from sample logging process
+2022-11-22 12:36:52,768 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:52,767 INFO  [sample_logging_process.py:15] 64: new logg from sample logging process
+2022-11-22 12:36:52,968 INFO  [sample_logging_process.py:15] 65: new logg from sample logging process
+2022-11-22 12:36:52,969 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:52,968 INFO  [sample_logging_process.py:15] 65: new logg from sample logging process
+2022-11-22 12:36:53,169 INFO  [sample_logging_process.py:15] 66: new logg from sample logging process
+2022-11-22 12:36:53,170 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:53,169 INFO  [sample_logging_process.py:15] 66: new logg from sample logging process
+2022-11-22 12:36:53,370 INFO  [sample_logging_process.py:15] 67: new logg from sample logging process
+2022-11-22 12:36:53,371 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:53,370 INFO  [sample_logging_process.py:15] 67: new logg from sample logging process
+2022-11-22 12:36:53,571 INFO  [sample_logging_process.py:15] 68: new logg from sample logging process
+2022-11-22 12:36:53,572 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:53,571 INFO  [sample_logging_process.py:15] 68: new logg from sample logging process
+2022-11-22 12:36:53,772 INFO  [sample_logging_process.py:15] 69: new logg from sample logging process
+2022-11-22 12:36:53,773 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:53,772 INFO  [sample_logging_process.py:15] 69: new logg from sample logging process
+2022-11-22 12:36:53,977 INFO  [sample_logging_process.py:15] 70: new logg from sample logging process
+2022-11-22 12:36:53,979 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:53,977 INFO  [sample_logging_process.py:15] 70: new logg from sample logging process
+2022-11-22 12:36:54,183 INFO  [sample_logging_process.py:15] 71: new logg from sample logging process
+2022-11-22 12:36:54,184 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:54,183 INFO  [sample_logging_process.py:15] 71: new logg from sample logging process
+2022-11-22 12:36:54,388 INFO  [sample_logging_process.py:15] 72: new logg from sample logging process
+2022-11-22 12:36:54,390 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:54,388 INFO  [sample_logging_process.py:15] 72: new logg from sample logging process
+2022-11-22 12:36:54,592 INFO  [sample_logging_process.py:15] 73: new logg from sample logging process
+2022-11-22 12:36:54,593 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:54,592 INFO  [sample_logging_process.py:15] 73: new logg from sample logging process
+2022-11-22 12:36:54,797 INFO  [sample_logging_process.py:15] 74: new logg from sample logging process
+2022-11-22 12:36:54,798 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:54,797 INFO  [sample_logging_process.py:15] 74: new logg from sample logging process
+2022-11-22 12:36:54,998 INFO  [sample_logging_process.py:15] 75: new logg from sample logging process
+2022-11-22 12:36:54,999 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:54,998 INFO  [sample_logging_process.py:15] 75: new logg from sample logging process
+2022-11-22 12:36:55,203 INFO  [sample_logging_process.py:15] 76: new logg from sample logging process
+2022-11-22 12:36:55,204 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:55,203 INFO  [sample_logging_process.py:15] 76: new logg from sample logging process
+2022-11-22 12:36:55,408 INFO  [sample_logging_process.py:15] 77: new logg from sample logging process
+2022-11-22 12:36:55,409 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:55,408 INFO  [sample_logging_process.py:15] 77: new logg from sample logging process
+2022-11-22 12:36:55,613 INFO  [sample_logging_process.py:15] 78: new logg from sample logging process
+2022-11-22 12:36:55,615 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:55,613 INFO  [sample_logging_process.py:15] 78: new logg from sample logging process
+2022-11-22 12:36:55,819 INFO  [sample_logging_process.py:15] 79: new logg from sample logging process
+2022-11-22 12:36:55,820 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:55,819 INFO  [sample_logging_process.py:15] 79: new logg from sample logging process
+2022-11-22 12:36:56,022 INFO  [sample_logging_process.py:15] 80: new logg from sample logging process
+2022-11-22 12:36:56,023 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:56,022 INFO  [sample_logging_process.py:15] 80: new logg from sample logging process
+2022-11-22 12:36:56,223 INFO  [sample_logging_process.py:15] 81: new logg from sample logging process
+2022-11-22 12:36:56,224 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:56,223 INFO  [sample_logging_process.py:15] 81: new logg from sample logging process
+2022-11-22 12:36:56,429 INFO  [sample_logging_process.py:15] 82: new logg from sample logging process
+2022-11-22 12:36:56,430 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:56,429 INFO  [sample_logging_process.py:15] 82: new logg from sample logging process
+2022-11-22 12:36:56,634 INFO  [sample_logging_process.py:15] 83: new logg from sample logging process
+2022-11-22 12:36:56,636 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:56,634 INFO  [sample_logging_process.py:15] 83: new logg from sample logging process
+2022-11-22 12:36:56,838 INFO  [sample_logging_process.py:15] 84: new logg from sample logging process
+2022-11-22 12:36:56,839 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:56,838 INFO  [sample_logging_process.py:15] 84: new logg from sample logging process
+2022-11-22 12:36:57,043 INFO  [sample_logging_process.py:15] 85: new logg from sample logging process
+2022-11-22 12:36:57,044 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:57,043 INFO  [sample_logging_process.py:15] 85: new logg from sample logging process
+2022-11-22 12:36:57,247 INFO  [sample_logging_process.py:15] 86: new logg from sample logging process
+2022-11-22 12:36:57,248 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:57,247 INFO  [sample_logging_process.py:15] 86: new logg from sample logging process
+2022-11-22 12:36:57,451 INFO  [sample_logging_process.py:15] 87: new logg from sample logging process
+2022-11-22 12:36:57,453 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:57,451 INFO  [sample_logging_process.py:15] 87: new logg from sample logging process
+2022-11-22 12:36:57,656 INFO  [sample_logging_process.py:15] 88: new logg from sample logging process
+2022-11-22 12:36:57,656 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:57,656 INFO  [sample_logging_process.py:15] 88: new logg from sample logging process
+2022-11-22 12:36:57,858 INFO  [sample_logging_process.py:15] 89: new logg from sample logging process
+2022-11-22 12:36:57,859 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:57,858 INFO  [sample_logging_process.py:15] 89: new logg from sample logging process
+2022-11-22 12:36:58,062 INFO  [sample_logging_process.py:15] 90: new logg from sample logging process
+2022-11-22 12:36:58,063 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:58,062 INFO  [sample_logging_process.py:15] 90: new logg from sample logging process
+2022-11-22 12:36:58,263 INFO  [sample_logging_process.py:15] 91: new logg from sample logging process
+2022-11-22 12:36:58,264 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:58,263 INFO  [sample_logging_process.py:15] 91: new logg from sample logging process
+2022-11-22 12:36:58,465 INFO  [sample_logging_process.py:15] 92: new logg from sample logging process
+2022-11-22 12:36:58,467 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:58,465 INFO  [sample_logging_process.py:15] 92: new logg from sample logging process
+2022-11-22 12:36:58,669 INFO  [sample_logging_process.py:15] 93: new logg from sample logging process
+2022-11-22 12:36:58,671 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:58,669 INFO  [sample_logging_process.py:15] 93: new logg from sample logging process
+2022-11-22 12:36:58,872 INFO  [sample_logging_process.py:15] 94: new logg from sample logging process
+2022-11-22 12:36:58,873 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:58,872 INFO  [sample_logging_process.py:15] 94: new logg from sample logging process
+2022-11-22 12:36:59,073 INFO  [sample_logging_process.py:15] 95: new logg from sample logging process
+2022-11-22 12:36:59,075 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:59,073 INFO  [sample_logging_process.py:15] 95: new logg from sample logging process
+2022-11-22 12:36:59,275 INFO  [sample_logging_process.py:15] 96: new logg from sample logging process
+2022-11-22 12:36:59,277 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:59,275 INFO  [sample_logging_process.py:15] 96: new logg from sample logging process
+2022-11-22 12:36:59,476 INFO  [sample_logging_process.py:15] 97: new logg from sample logging process
+2022-11-22 12:36:59,477 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:59,476 INFO  [sample_logging_process.py:15] 97: new logg from sample logging process
+2022-11-22 12:36:59,680 INFO  [sample_logging_process.py:15] 98: new logg from sample logging process
+2022-11-22 12:36:59,681 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:59,680 INFO  [sample_logging_process.py:15] 98: new logg from sample logging process
+2022-11-22 12:36:59,885 INFO  [sample_logging_process.py:15] 99: new logg from sample logging process
+2022-11-22 12:36:59,887 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:36:59,885 INFO  [sample_logging_process.py:15] 99: new logg from sample logging process
+2022-11-22 12:37:00,205 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:37:50,715 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 12:37:50,723 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 12:37:54,068 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 12:37:54,073 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 12:39:12,893 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:39:12,898 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 12:39:12,899 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:39:12,899 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:39:12,903 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:39:12,913 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 12:39:12,945 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:39:13,034 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:39:13,035 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:13,034 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:39:13,239 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:39:13,241 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:13,239 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:39:13,445 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:39:13,446 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:13,445 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:39:13,646 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:39:13,646 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:13,646 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:39:13,851 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:39:13,852 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:13,851 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:39:13,903 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 12:39:13,903 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:39:13,904 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:39:13,911 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 12:39:16,921 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 12:39:16,921 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:39:16,922 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:39:16,922 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:39:16,925 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:16,922 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:39:16,930 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 12:39:17,123 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:39:17,125 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:17,123 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:39:17,329 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:39:17,330 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:17,329 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:39:17,535 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:39:17,536 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:17,535 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:39:17,740 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:39:17,742 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:17,740 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:39:17,941 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:39:17,942 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:17,941 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:39:18,144 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:39:18,145 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:18,144 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:39:18,347 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:39:18,348 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:18,347 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:39:18,553 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:39:18,554 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:18,553 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:39:18,754 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:39:18,756 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:39:18,754 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:39:18,925 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 12:39:18,926 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:39:18,927 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:39:18,944 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 12:39:19,032 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 12:45:05,560 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:45:05,565 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 12:45:05,566 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 12:45:05,566 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 12:45:05,577 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 12:45:05,621 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:45:05,631 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:45:05,634 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:45:05,634 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:45:05,637 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 12:45:05,649 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 12:45:05,719 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:45:05,719 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:05,719 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 12:45:05,924 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:45:05,925 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:05,924 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 12:45:06,130 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:45:06,131 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:06,130 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 12:45:06,335 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:45:06,336 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:06,335 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 12:45:06,539 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:45:06,541 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:06,539 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 12:45:06,564 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 12:45:06,564 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 12:45:06,565 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 12:45:06,571 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 12:45:09,582 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 12:45:09,583 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 12:45:09,584 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 12:45:09,584 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:45:09,586 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:09,584 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 12:45:09,590 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 12:45:09,786 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:45:09,788 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:09,786 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 12:45:09,992 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:45:09,993 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:09,992 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 12:45:10,194 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:45:10,195 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:10,194 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 12:45:10,399 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:45:10,401 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:10,399 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 12:45:10,601 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:45:10,601 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:10,601 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 12:45:10,801 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:45:10,802 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:10,801 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 12:45:11,007 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:45:11,008 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:11,007 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 12:45:11,209 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:45:11,210 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:11,209 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 12:45:11,414 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:45:11,416 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 12:45:11,414 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 12:45:11,588 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 12:45:11,589 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 12:45:11,589 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 12:45:11,601 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 12:45:11,696 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 14:16:16,530 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:16:16,538 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 14:16:16,539 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 14:16:16,539 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 14:16:16,546 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 14:16:16,564 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 14:16:16,591 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:16:16,596 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:16:16,597 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:16:16,678 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 14:16:16,679 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:16,678 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 14:16:16,884 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 14:16:16,885 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:16,884 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 14:16:17,088 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 14:16:17,089 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:17,088 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 14:16:17,290 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 14:16:17,291 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:17,290 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 14:16:17,490 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 14:16:17,492 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:17,490 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 14:16:17,540 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 14:16:17,540 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 14:16:17,541 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 14:16:17,547 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 14:16:20,553 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 14:16:20,554 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 14:16:20,555 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 14:16:20,555 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 14:16:20,557 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:20,555 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 14:16:20,560 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 14:16:20,759 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 14:16:20,761 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:20,759 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 14:16:20,965 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 14:16:20,966 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:20,965 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 14:16:21,170 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 14:16:21,171 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:21,170 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 14:16:21,375 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 14:16:21,376 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:21,375 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 14:16:21,577 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 14:16:21,578 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:21,577 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 14:16:21,783 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 14:16:21,784 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:21,783 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 14:16:21,987 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 14:16:21,989 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:21,987 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 14:16:22,193 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 14:16:22,195 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:22,193 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 14:16:22,399 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 14:16:22,400 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:16:22,399 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 14:16:22,560 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 14:16:22,560 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 14:16:22,561 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 14:16:22,572 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 14:16:22,667 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 14:18:48,948 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:03,905 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:03,920 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:03,920 INFO  [run_in_shell.py:32] Waiting for  /task/run_sample_python_process
+2022-11-22 14:21:06,783 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:07,796 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 14:21:07,802 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 14:21:10,808 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 14:21:10,814 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 14:21:10,840 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:10,840 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:10,849 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 14:21:10,852 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 14:21:12,815 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 14:21:12,821 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 14:21:17,898 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:17,902 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 14:21:17,903 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 14:21:17,903 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 14:21:17,907 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 14:21:17,917 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 14:21:17,937 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:18,037 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 14:21:18,037 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:18,037 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 14:21:18,242 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 14:21:18,243 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:18,242 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 14:21:18,444 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 14:21:18,445 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:18,444 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 14:21:18,649 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 14:21:18,650 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:18,649 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 14:21:18,854 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 14:21:18,855 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:18,854 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 14:21:18,906 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'pause'}
+2022-11-22 14:21:18,906 INFO  [run_in_shell.py:143] /task/run_sample_python_process:pausing process
+2022-11-22 14:21:18,906 INFO  [run_in_shell.py:150] /task/run_sample_python_process:pause succeded!
+2022-11-22 14:21:18,913 INFO  [run_in_shell.py:45] received meassge: {"status": "paused"}
+2022-11-22 14:21:21,914 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'resume'}
+2022-11-22 14:21:21,915 INFO  [run_in_shell.py:167] /task/run_sample_python_process:resuming process
+2022-11-22 14:21:21,916 INFO  [run_in_shell.py:176] /task/run_sample_python_process:resume succeded!
+2022-11-22 14:21:21,916 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 14:21:21,919 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:21,916 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 14:21:21,925 INFO  [run_in_shell.py:45] received meassge: {"status": "resumed"}
+2022-11-22 14:21:21,941 INFO  [rabbitmq_service.py:102] Pika connection established
+2022-11-22 14:21:22,119 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 14:21:22,121 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:22,119 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 14:21:22,323 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 14:21:22,324 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:22,323 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 14:21:22,525 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 14:21:22,526 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:22,525 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 14:21:22,727 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 14:21:22,729 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:22,727 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 14:21:22,928 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 14:21:22,929 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:22,928 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 14:21:23,133 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 14:21:23,135 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:23,133 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 14:21:23,337 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 14:21:23,337 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:23,337 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 14:21:23,542 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 14:21:23,543 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:23,542 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 14:21:23,744 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 14:21:23,745 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:23,744 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 14:21:23,925 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'terminate'}
+2022-11-22 14:21:23,925 INFO  [run_in_shell.py:117] /task/run_sample_python_process:terminating process
+2022-11-22 14:21:23,926 INFO  [run_in_shell.py:125] /task/run_sample_python_process:terminate succeded!
+2022-11-22 14:21:23,933 INFO  [run_in_shell.py:45] received meassge: {"status": "terminated"}
+2022-11-22 14:21:24,034 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}
+2022-11-22 14:21:47,018 INFO  [run_in_shell.py:45] received meassge: {'cmd': 'start'}
+2022-11-22 14:21:47,018 INFO  [run_in_shell.py:86] Subprocess: "python3 /Users/sidkas/workspace/dtcc/dtcc-modules/tests/sample_logging_process.py"
+2022-11-22 14:21:47,018 INFO  [run_in_shell.py:89] /task/run_sample_python_process:starting process
+2022-11-22 14:21:47,023 INFO  [run_in_shell.py:102] /task/run_sample_python_process:start succeded!
+2022-11-22 14:21:47,031 INFO  [run_in_shell.py:45] received meassge: {"status": "started"}
+2022-11-22 14:21:47,085 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 14:21:47,086 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:47,085 INFO  [sample_logging_process.py:15] 0: new logg from sample logging process
+2022-11-22 14:21:47,290 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 14:21:47,291 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:47,290 INFO  [sample_logging_process.py:15] 1: new logg from sample logging process
+2022-11-22 14:21:47,491 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 14:21:47,492 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:47,491 INFO  [sample_logging_process.py:15] 2: new logg from sample logging process
+2022-11-22 14:21:47,693 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 14:21:47,694 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:47,693 INFO  [sample_logging_process.py:15] 3: new logg from sample logging process
+2022-11-22 14:21:47,899 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 14:21:47,900 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:47,899 INFO  [sample_logging_process.py:15] 4: new logg from sample logging process
+2022-11-22 14:21:48,104 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 14:21:48,105 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:48,104 INFO  [sample_logging_process.py:15] 5: new logg from sample logging process
+2022-11-22 14:21:48,309 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 14:21:48,311 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:48,309 INFO  [sample_logging_process.py:15] 6: new logg from sample logging process
+2022-11-22 14:21:48,515 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 14:21:48,517 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:48,515 INFO  [sample_logging_process.py:15] 7: new logg from sample logging process
+2022-11-22 14:21:48,720 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 14:21:48,721 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:48,720 INFO  [sample_logging_process.py:15] 8: new logg from sample logging process
+2022-11-22 14:21:48,926 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 14:21:48,927 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:48,926 INFO  [sample_logging_process.py:15] 9: new logg from sample logging process
+2022-11-22 14:21:49,130 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 14:21:49,131 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:49,130 INFO  [sample_logging_process.py:15] 10: new logg from sample logging process
+2022-11-22 14:21:49,335 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 14:21:49,336 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:49,335 INFO  [sample_logging_process.py:15] 11: new logg from sample logging process
+2022-11-22 14:21:49,540 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 14:21:49,542 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:49,540 INFO  [sample_logging_process.py:15] 12: new logg from sample logging process
+2022-11-22 14:21:49,741 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 14:21:49,742 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:49,741 INFO  [sample_logging_process.py:15] 13: new logg from sample logging process
+2022-11-22 14:21:49,946 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 14:21:49,948 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:49,946 INFO  [sample_logging_process.py:15] 14: new logg from sample logging process
+2022-11-22 14:21:50,148 INFO  [sample_logging_process.py:15] 15: new logg from sample logging process
+2022-11-22 14:21:50,149 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:50,148 INFO  [sample_logging_process.py:15] 15: new logg from sample logging process
+2022-11-22 14:21:50,352 INFO  [sample_logging_process.py:15] 16: new logg from sample logging process
+2022-11-22 14:21:50,353 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:50,352 INFO  [sample_logging_process.py:15] 16: new logg from sample logging process
+2022-11-22 14:21:50,554 INFO  [sample_logging_process.py:15] 17: new logg from sample logging process
+2022-11-22 14:21:50,555 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:50,554 INFO  [sample_logging_process.py:15] 17: new logg from sample logging process
+2022-11-22 14:21:50,759 INFO  [sample_logging_process.py:15] 18: new logg from sample logging process
+2022-11-22 14:21:50,760 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:50,759 INFO  [sample_logging_process.py:15] 18: new logg from sample logging process
+2022-11-22 14:21:50,961 INFO  [sample_logging_process.py:15] 19: new logg from sample logging process
+2022-11-22 14:21:50,962 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:50,961 INFO  [sample_logging_process.py:15] 19: new logg from sample logging process
+2022-11-22 14:21:51,161 INFO  [sample_logging_process.py:15] 20: new logg from sample logging process
+2022-11-22 14:21:51,162 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:51,161 INFO  [sample_logging_process.py:15] 20: new logg from sample logging process
+2022-11-22 14:21:51,362 INFO  [sample_logging_process.py:15] 21: new logg from sample logging process
+2022-11-22 14:21:51,363 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:51,362 INFO  [sample_logging_process.py:15] 21: new logg from sample logging process
+2022-11-22 14:21:51,563 INFO  [sample_logging_process.py:15] 22: new logg from sample logging process
+2022-11-22 14:21:51,564 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:51,563 INFO  [sample_logging_process.py:15] 22: new logg from sample logging process
+2022-11-22 14:21:51,767 INFO  [sample_logging_process.py:15] 23: new logg from sample logging process
+2022-11-22 14:21:51,768 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:51,767 INFO  [sample_logging_process.py:15] 23: new logg from sample logging process
+2022-11-22 14:21:51,968 INFO  [sample_logging_process.py:15] 24: new logg from sample logging process
+2022-11-22 14:21:51,970 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:51,968 INFO  [sample_logging_process.py:15] 24: new logg from sample logging process
+2022-11-22 14:21:52,174 INFO  [sample_logging_process.py:15] 25: new logg from sample logging process
+2022-11-22 14:21:52,175 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:52,174 INFO  [sample_logging_process.py:15] 25: new logg from sample logging process
+2022-11-22 14:21:52,375 INFO  [sample_logging_process.py:15] 26: new logg from sample logging process
+2022-11-22 14:21:52,376 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:52,375 INFO  [sample_logging_process.py:15] 26: new logg from sample logging process
+2022-11-22 14:21:52,577 INFO  [sample_logging_process.py:15] 27: new logg from sample logging process
+2022-11-22 14:21:52,578 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:52,577 INFO  [sample_logging_process.py:15] 27: new logg from sample logging process
+2022-11-22 14:21:52,782 INFO  [sample_logging_process.py:15] 28: new logg from sample logging process
+2022-11-22 14:21:52,784 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:52,782 INFO  [sample_logging_process.py:15] 28: new logg from sample logging process
+2022-11-22 14:21:52,985 INFO  [sample_logging_process.py:15] 29: new logg from sample logging process
+2022-11-22 14:21:52,987 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:52,985 INFO  [sample_logging_process.py:15] 29: new logg from sample logging process
+2022-11-22 14:21:53,191 INFO  [sample_logging_process.py:15] 30: new logg from sample logging process
+2022-11-22 14:21:53,192 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:53,191 INFO  [sample_logging_process.py:15] 30: new logg from sample logging process
+2022-11-22 14:21:53,396 INFO  [sample_logging_process.py:15] 31: new logg from sample logging process
+2022-11-22 14:21:53,397 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:53,396 INFO  [sample_logging_process.py:15] 31: new logg from sample logging process
+2022-11-22 14:21:53,602 INFO  [sample_logging_process.py:15] 32: new logg from sample logging process
+2022-11-22 14:21:53,603 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:53,602 INFO  [sample_logging_process.py:15] 32: new logg from sample logging process
+2022-11-22 14:21:53,806 INFO  [sample_logging_process.py:15] 33: new logg from sample logging process
+2022-11-22 14:21:53,808 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:53,806 INFO  [sample_logging_process.py:15] 33: new logg from sample logging process
+2022-11-22 14:21:54,008 INFO  [sample_logging_process.py:15] 34: new logg from sample logging process
+2022-11-22 14:21:54,009 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:54,008 INFO  [sample_logging_process.py:15] 34: new logg from sample logging process
+2022-11-22 14:21:54,209 INFO  [sample_logging_process.py:15] 35: new logg from sample logging process
+2022-11-22 14:21:54,210 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:54,209 INFO  [sample_logging_process.py:15] 35: new logg from sample logging process
+2022-11-22 14:21:54,415 INFO  [sample_logging_process.py:15] 36: new logg from sample logging process
+2022-11-22 14:21:54,416 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:54,415 INFO  [sample_logging_process.py:15] 36: new logg from sample logging process
+2022-11-22 14:21:54,620 INFO  [sample_logging_process.py:15] 37: new logg from sample logging process
+2022-11-22 14:21:54,622 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:54,620 INFO  [sample_logging_process.py:15] 37: new logg from sample logging process
+2022-11-22 14:21:54,824 INFO  [sample_logging_process.py:15] 38: new logg from sample logging process
+2022-11-22 14:21:54,826 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:54,824 INFO  [sample_logging_process.py:15] 38: new logg from sample logging process
+2022-11-22 14:21:55,027 INFO  [sample_logging_process.py:15] 39: new logg from sample logging process
+2022-11-22 14:21:55,029 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:55,027 INFO  [sample_logging_process.py:15] 39: new logg from sample logging process
+2022-11-22 14:21:55,228 INFO  [sample_logging_process.py:15] 40: new logg from sample logging process
+2022-11-22 14:21:55,229 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:55,228 INFO  [sample_logging_process.py:15] 40: new logg from sample logging process
+2022-11-22 14:21:55,431 INFO  [sample_logging_process.py:15] 41: new logg from sample logging process
+2022-11-22 14:21:55,432 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:55,431 INFO  [sample_logging_process.py:15] 41: new logg from sample logging process
+2022-11-22 14:21:55,636 INFO  [sample_logging_process.py:15] 42: new logg from sample logging process
+2022-11-22 14:21:55,638 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:55,636 INFO  [sample_logging_process.py:15] 42: new logg from sample logging process
+2022-11-22 14:21:55,837 INFO  [sample_logging_process.py:15] 43: new logg from sample logging process
+2022-11-22 14:21:55,838 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:55,837 INFO  [sample_logging_process.py:15] 43: new logg from sample logging process
+2022-11-22 14:21:56,043 INFO  [sample_logging_process.py:15] 44: new logg from sample logging process
+2022-11-22 14:21:56,044 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:56,043 INFO  [sample_logging_process.py:15] 44: new logg from sample logging process
+2022-11-22 14:21:56,248 INFO  [sample_logging_process.py:15] 45: new logg from sample logging process
+2022-11-22 14:21:56,249 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:56,248 INFO  [sample_logging_process.py:15] 45: new logg from sample logging process
+2022-11-22 14:21:56,454 INFO  [sample_logging_process.py:15] 46: new logg from sample logging process
+2022-11-22 14:21:56,455 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:56,454 INFO  [sample_logging_process.py:15] 46: new logg from sample logging process
+2022-11-22 14:21:56,660 INFO  [sample_logging_process.py:15] 47: new logg from sample logging process
+2022-11-22 14:21:56,661 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:56,660 INFO  [sample_logging_process.py:15] 47: new logg from sample logging process
+2022-11-22 14:21:56,865 INFO  [sample_logging_process.py:15] 48: new logg from sample logging process
+2022-11-22 14:21:56,866 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:56,865 INFO  [sample_logging_process.py:15] 48: new logg from sample logging process
+2022-11-22 14:21:57,068 INFO  [sample_logging_process.py:15] 49: new logg from sample logging process
+2022-11-22 14:21:57,069 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:57,068 INFO  [sample_logging_process.py:15] 49: new logg from sample logging process
+2022-11-22 14:21:57,269 INFO  [sample_logging_process.py:15] 50: new logg from sample logging process
+2022-11-22 14:21:57,271 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:57,269 INFO  [sample_logging_process.py:15] 50: new logg from sample logging process
+2022-11-22 14:21:57,475 INFO  [sample_logging_process.py:15] 51: new logg from sample logging process
+2022-11-22 14:21:57,476 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:57,475 INFO  [sample_logging_process.py:15] 51: new logg from sample logging process
+2022-11-22 14:21:57,680 INFO  [sample_logging_process.py:15] 52: new logg from sample logging process
+2022-11-22 14:21:57,681 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:57,680 INFO  [sample_logging_process.py:15] 52: new logg from sample logging process
+2022-11-22 14:21:57,884 INFO  [sample_logging_process.py:15] 53: new logg from sample logging process
+2022-11-22 14:21:57,885 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:57,884 INFO  [sample_logging_process.py:15] 53: new logg from sample logging process
+2022-11-22 14:21:58,084 INFO  [sample_logging_process.py:15] 54: new logg from sample logging process
+2022-11-22 14:21:58,085 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:58,084 INFO  [sample_logging_process.py:15] 54: new logg from sample logging process
+2022-11-22 14:21:58,288 INFO  [sample_logging_process.py:15] 55: new logg from sample logging process
+2022-11-22 14:21:58,289 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:58,288 INFO  [sample_logging_process.py:15] 55: new logg from sample logging process
+2022-11-22 14:21:58,493 INFO  [sample_logging_process.py:15] 56: new logg from sample logging process
+2022-11-22 14:21:58,494 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:58,493 INFO  [sample_logging_process.py:15] 56: new logg from sample logging process
+2022-11-22 14:21:58,696 INFO  [sample_logging_process.py:15] 57: new logg from sample logging process
+2022-11-22 14:21:58,697 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:58,696 INFO  [sample_logging_process.py:15] 57: new logg from sample logging process
+2022-11-22 14:21:58,901 INFO  [sample_logging_process.py:15] 58: new logg from sample logging process
+2022-11-22 14:21:58,903 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:58,901 INFO  [sample_logging_process.py:15] 58: new logg from sample logging process
+2022-11-22 14:21:59,107 INFO  [sample_logging_process.py:15] 59: new logg from sample logging process
+2022-11-22 14:21:59,108 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:59,107 INFO  [sample_logging_process.py:15] 59: new logg from sample logging process
+2022-11-22 14:21:59,309 INFO  [sample_logging_process.py:15] 60: new logg from sample logging process
+2022-11-22 14:21:59,311 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:59,309 INFO  [sample_logging_process.py:15] 60: new logg from sample logging process
+2022-11-22 14:21:59,510 INFO  [sample_logging_process.py:15] 61: new logg from sample logging process
+2022-11-22 14:21:59,511 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:59,510 INFO  [sample_logging_process.py:15] 61: new logg from sample logging process
+2022-11-22 14:21:59,711 INFO  [sample_logging_process.py:15] 62: new logg from sample logging process
+2022-11-22 14:21:59,713 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:59,711 INFO  [sample_logging_process.py:15] 62: new logg from sample logging process
+2022-11-22 14:21:59,917 INFO  [sample_logging_process.py:15] 63: new logg from sample logging process
+2022-11-22 14:21:59,918 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:21:59,917 INFO  [sample_logging_process.py:15] 63: new logg from sample logging process
+2022-11-22 14:22:00,121 INFO  [sample_logging_process.py:15] 64: new logg from sample logging process
+2022-11-22 14:22:00,122 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:00,121 INFO  [sample_logging_process.py:15] 64: new logg from sample logging process
+2022-11-22 14:22:00,322 INFO  [sample_logging_process.py:15] 65: new logg from sample logging process
+2022-11-22 14:22:00,323 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:00,322 INFO  [sample_logging_process.py:15] 65: new logg from sample logging process
+2022-11-22 14:22:00,524 INFO  [sample_logging_process.py:15] 66: new logg from sample logging process
+2022-11-22 14:22:00,525 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:00,524 INFO  [sample_logging_process.py:15] 66: new logg from sample logging process
+2022-11-22 14:22:00,726 INFO  [sample_logging_process.py:15] 67: new logg from sample logging process
+2022-11-22 14:22:00,727 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:00,726 INFO  [sample_logging_process.py:15] 67: new logg from sample logging process
+2022-11-22 14:22:00,928 INFO  [sample_logging_process.py:15] 68: new logg from sample logging process
+2022-11-22 14:22:00,929 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:00,928 INFO  [sample_logging_process.py:15] 68: new logg from sample logging process
+2022-11-22 14:22:01,133 INFO  [sample_logging_process.py:15] 69: new logg from sample logging process
+2022-11-22 14:22:01,134 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:01,133 INFO  [sample_logging_process.py:15] 69: new logg from sample logging process
+2022-11-22 14:22:01,338 INFO  [sample_logging_process.py:15] 70: new logg from sample logging process
+2022-11-22 14:22:01,339 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:01,338 INFO  [sample_logging_process.py:15] 70: new logg from sample logging process
+2022-11-22 14:22:01,541 INFO  [sample_logging_process.py:15] 71: new logg from sample logging process
+2022-11-22 14:22:01,542 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:01,541 INFO  [sample_logging_process.py:15] 71: new logg from sample logging process
+2022-11-22 14:22:01,741 INFO  [sample_logging_process.py:15] 72: new logg from sample logging process
+2022-11-22 14:22:01,742 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:01,741 INFO  [sample_logging_process.py:15] 72: new logg from sample logging process
+2022-11-22 14:22:01,943 INFO  [sample_logging_process.py:15] 73: new logg from sample logging process
+2022-11-22 14:22:01,944 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:01,943 INFO  [sample_logging_process.py:15] 73: new logg from sample logging process
+2022-11-22 14:22:02,144 INFO  [sample_logging_process.py:15] 74: new logg from sample logging process
+2022-11-22 14:22:02,145 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:02,144 INFO  [sample_logging_process.py:15] 74: new logg from sample logging process
+2022-11-22 14:22:02,349 INFO  [sample_logging_process.py:15] 75: new logg from sample logging process
+2022-11-22 14:22:02,350 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:02,349 INFO  [sample_logging_process.py:15] 75: new logg from sample logging process
+2022-11-22 14:22:02,550 INFO  [sample_logging_process.py:15] 76: new logg from sample logging process
+2022-11-22 14:22:02,551 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:02,550 INFO  [sample_logging_process.py:15] 76: new logg from sample logging process
+2022-11-22 14:22:02,750 INFO  [sample_logging_process.py:15] 77: new logg from sample logging process
+2022-11-22 14:22:02,751 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:02,750 INFO  [sample_logging_process.py:15] 77: new logg from sample logging process
+2022-11-22 14:22:02,956 INFO  [sample_logging_process.py:15] 78: new logg from sample logging process
+2022-11-22 14:22:02,957 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:02,956 INFO  [sample_logging_process.py:15] 78: new logg from sample logging process
+2022-11-22 14:22:03,158 INFO  [sample_logging_process.py:15] 79: new logg from sample logging process
+2022-11-22 14:22:03,160 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:03,158 INFO  [sample_logging_process.py:15] 79: new logg from sample logging process
+2022-11-22 14:22:03,363 INFO  [sample_logging_process.py:15] 80: new logg from sample logging process
+2022-11-22 14:22:03,364 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:03,363 INFO  [sample_logging_process.py:15] 80: new logg from sample logging process
+2022-11-22 14:22:03,563 INFO  [sample_logging_process.py:15] 81: new logg from sample logging process
+2022-11-22 14:22:03,564 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:03,563 INFO  [sample_logging_process.py:15] 81: new logg from sample logging process
+2022-11-22 14:22:03,766 INFO  [sample_logging_process.py:15] 82: new logg from sample logging process
+2022-11-22 14:22:03,766 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:03,766 INFO  [sample_logging_process.py:15] 82: new logg from sample logging process
+2022-11-22 14:22:03,971 INFO  [sample_logging_process.py:15] 83: new logg from sample logging process
+2022-11-22 14:22:03,972 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:03,971 INFO  [sample_logging_process.py:15] 83: new logg from sample logging process
+2022-11-22 14:22:04,174 INFO  [sample_logging_process.py:15] 84: new logg from sample logging process
+2022-11-22 14:22:04,176 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:04,174 INFO  [sample_logging_process.py:15] 84: new logg from sample logging process
+2022-11-22 14:22:04,379 INFO  [sample_logging_process.py:15] 85: new logg from sample logging process
+2022-11-22 14:22:04,381 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:04,379 INFO  [sample_logging_process.py:15] 85: new logg from sample logging process
+2022-11-22 14:22:04,582 INFO  [sample_logging_process.py:15] 86: new logg from sample logging process
+2022-11-22 14:22:04,584 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:04,582 INFO  [sample_logging_process.py:15] 86: new logg from sample logging process
+2022-11-22 14:22:04,784 INFO  [sample_logging_process.py:15] 87: new logg from sample logging process
+2022-11-22 14:22:04,786 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:04,784 INFO  [sample_logging_process.py:15] 87: new logg from sample logging process
+2022-11-22 14:22:04,988 INFO  [sample_logging_process.py:15] 88: new logg from sample logging process
+2022-11-22 14:22:04,990 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:04,988 INFO  [sample_logging_process.py:15] 88: new logg from sample logging process
+2022-11-22 14:22:05,193 INFO  [sample_logging_process.py:15] 89: new logg from sample logging process
+2022-11-22 14:22:05,194 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:05,193 INFO  [sample_logging_process.py:15] 89: new logg from sample logging process
+2022-11-22 14:22:05,394 INFO  [sample_logging_process.py:15] 90: new logg from sample logging process
+2022-11-22 14:22:05,396 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:05,394 INFO  [sample_logging_process.py:15] 90: new logg from sample logging process
+2022-11-22 14:22:05,598 INFO  [sample_logging_process.py:15] 91: new logg from sample logging process
+2022-11-22 14:22:05,600 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:05,598 INFO  [sample_logging_process.py:15] 91: new logg from sample logging process
+2022-11-22 14:22:05,802 INFO  [sample_logging_process.py:15] 92: new logg from sample logging process
+2022-11-22 14:22:05,803 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:05,802 INFO  [sample_logging_process.py:15] 92: new logg from sample logging process
+2022-11-22 14:22:06,004 INFO  [sample_logging_process.py:15] 93: new logg from sample logging process
+2022-11-22 14:22:06,006 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:06,004 INFO  [sample_logging_process.py:15] 93: new logg from sample logging process
+2022-11-22 14:22:06,206 INFO  [sample_logging_process.py:15] 94: new logg from sample logging process
+2022-11-22 14:22:06,208 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:06,206 INFO  [sample_logging_process.py:15] 94: new logg from sample logging process
+2022-11-22 14:22:06,409 INFO  [sample_logging_process.py:15] 95: new logg from sample logging process
+2022-11-22 14:22:06,410 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:06,409 INFO  [sample_logging_process.py:15] 95: new logg from sample logging process
+2022-11-22 14:22:06,612 INFO  [sample_logging_process.py:15] 96: new logg from sample logging process
+2022-11-22 14:22:06,614 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:06,612 INFO  [sample_logging_process.py:15] 96: new logg from sample logging process
+2022-11-22 14:22:06,817 INFO  [sample_logging_process.py:15] 97: new logg from sample logging process
+2022-11-22 14:22:06,819 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:06,817 INFO  [sample_logging_process.py:15] 97: new logg from sample logging process
+2022-11-22 14:22:07,019 INFO  [sample_logging_process.py:15] 98: new logg from sample logging process
+2022-11-22 14:22:07,020 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:07,019 INFO  [sample_logging_process.py:15] 98: new logg from sample logging process
+2022-11-22 14:22:07,220 INFO  [sample_logging_process.py:15] 99: new logg from sample logging process
+2022-11-22 14:22:07,221 INFO  [run_in_shell.py:207] /task/run_sample_python_process: 2022-11-22 14:22:07,220 INFO  [sample_logging_process.py:15] 99: new logg from sample logging process
+2022-11-22 14:22:07,534 INFO  [run_in_shell.py:227] /task/run_sample_python_process{"status": "success", "data": "dummy result"}

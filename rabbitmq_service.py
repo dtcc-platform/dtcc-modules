@@ -4,7 +4,7 @@ import pika
 import aio_pika
 import os, pathlib, sys, json, uuid, time, asyncio
 
-project_dir = str(pathlib.Path(__file__)) #.resolve().parents[2])
+project_dir = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_dir)
 
 from utils import try_except
@@ -86,19 +86,21 @@ async def publish_async(channel:aio_pika.Channel, queue_name:str, msg:dict):
         routing_key=queue_name,
     )
 
-class PikaPublisher:
+class PikaPubSub:
 
     def __init__(self, queue_name):
-        self.publish_queue_name = queue_name
+        self.queue_name = queue_name
         self.creds = pika.PlainCredentials(rabbitmq_user, rabbitmq_password)
+        self.create_connection()
+        
+        
+    def create_connection(self):
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=rabbitmq_host,port=rabbitmq_port, credentials=self.creds )
         )
         self.channel = self.connection.channel()
+        logger.info('Pika connection established')
         
-        # self.channel = self.connection.channel()
-        logger.info('Pika connection initialized')
-
     def publish(self,message: dict):
 
         t = threading.Thread(target=self.___publish, args=(message,))
@@ -109,24 +111,36 @@ class PikaPublisher:
     def ___publish(self, message: dict):
         """Method to publish message to RabbitMQ"""
         try:
-            if self.channel.is_closed():
+            if self.channel.is_closed:
                 self.channel = self.connection.channel()
             self.channel.basic_publish(
                 exchange='',
-                routing_key=self.publish_queue_name,
+                routing_key=self.queue_name,
                 body=json.dumps(message).encode()
             )
         except:
-            self.connection = pika.BlockingConnection(
-                pika.ConnectionParameters(host=rabbitmq_host,port=rabbitmq_port, credentials=self.creds )
-            )
-            self.channel = self.connection.channel()
+            self.create_connection()
             self.channel.basic_publish(
                 exchange='',
-                routing_key=self.publish_queue_name,
+                routing_key=self.queue_name,
                 body=json.dumps(message).encode()
             )
-       
+
+    def subscribe(self, on_mesage_callback):
+        try:
+            if self.channel.is_closed:
+                print("creating channel!!")
+                self.channel = self.connection.channel()
+            self.channel.queue_declare(queue=self.queue_name)
+            self.channel.basic_qos(prefetch_count=1)
+            self.channel.basic_consume(queue=self.queue_name, on_message_callback=on_mesage_callback)
+
+            self.channel.start_consuming()
+        except KeyboardInterrupt:
+            self.close_connection()
+        except:
+            self.create_connection()
+            self.subscribe(on_mesage_callback)
 
     @try_except(logger=logger)
     def close_connection(self):
@@ -135,5 +149,12 @@ class PikaPublisher:
             self.connection.close()
 
 
+    def __example_callback(self, ch, method, properties, body):
+        print(" [x] Received %r" % body)
+        time.sleep(body.count(b'.'))
+        print(" [x] Done")
+        ch.basic_ack(delivery_tag=method.delivery_tag)
+
 if __name__=='__main__':
     asyncio.run(test_log_consumer(queue_name='/task/dtcc/generate-citymodel/logs'))
+    
