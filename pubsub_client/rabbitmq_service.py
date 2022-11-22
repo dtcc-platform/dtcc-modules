@@ -102,10 +102,13 @@ class PikaPubSub:
         logger.info('Pika connection established')
         
     def publish(self,message: dict):
+        try:
+            t = threading.Thread(target=self.___publish, args=(message,))
 
-        t = threading.Thread(target=self.___publish, args=(message,))
-
-        t.start()
+            t.start()
+            return True
+        except:
+            return False
 
     @try_except(logger=logger)
     def ___publish(self, message: dict):

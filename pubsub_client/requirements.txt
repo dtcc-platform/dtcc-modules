@@ -9,4 +9,5 @@ rocketry
 sse-starlette
 aio-pika
 pika
-fabric
+# fabric
+pydantic

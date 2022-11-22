@@ -8,25 +8,32 @@ sys.path.append(project_dir)
 from logger import getLogger
 from utils import try_except
 from rabbitmq_service import PikaPubSub
+from registry_manager import RegistryManager
 
 logger = getLogger(__file__)
 
 
 
 class RunInShell(ABC):
-    def __init__(self,task_name="test", publish=True,shell_command="ls") -> None:
-        self.channel = f"/task/{task_name}"
-        self.logs_channel = f"/task/{task_name}/logs"
+    def __init__(self,module, command, publish=True,shell_command="ls") -> None:
+        self.module = module
+        self.module_command = command
+        self.channel = f"/task/{module}/{command}"
+        self.logs_channel = f"/task/{module}/{command}/logs"
 
         self.publish = publish
         if publish: 
             self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
             self.pika_log_pub = PikaPubSub(queue_name=self.logs_channel)
+            self.registry_manager = RegistryManager()
         self.process = None
         self.shell_command = shell_command
+        self.is_process_running = False
 
     @try_except(logger=logger)
     def listen(self):
+        registry_scheduler = threading.Thread(target=self.register_on_schedule)
+        registry_scheduler.start()
         try:
             while True:
                 logger.info(f"Waiting for  {self.channel}")
@@ -34,6 +41,13 @@ class RunInShell(ABC):
         except BaseException:
             logger.exception("from RunInShell")
             sys.exit(1)
+
+
+    def register_on_schedule(self,minutes=1):
+        while True:
+            self.registry_manager.register_module(module=self.module,command=self.module_command, status="ok", is_running=self.is_process_running)
+            time.sleep(minutes*60)
+        
 
     def consume(self, ch, method, properties, body):
         print(" [x] Received %r" % body)
@@ -125,6 +139,7 @@ class RunInShell(ABC):
                 logger.info(self.channel + ":" +'terminate succeded!')
                 if self.publish:
                     self.pika_log_pub.publish( message={'info': 'terminate succeded!'})
+                self.is_process_running = False
                 return True
 
         except BaseException:
@@ -150,6 +165,7 @@ class RunInShell(ABC):
                     logger.info(self.channel + ":" +'pause succeded!')
                     if self.publish:
                         self.pika_log_pub.publish( message={'info': 'pause succeded!'})
+                    self.is_process_running = False
                     return True
         except BaseException:
             error = traceback.format_exc()
@@ -176,6 +192,7 @@ class RunInShell(ABC):
                     logger.info(self.channel + ":" +'resume succeded!')
                     if self.publish:
                         self.pika_log_pub.publish( message={'info': 'resume succeded!'})
+                    self.is_process_running = True
                     return True
 
         except BaseException:
@@ -196,6 +213,7 @@ class RunInShell(ABC):
             self.pika_pub_sub.close_connection()
         
     def __capture_stdout(self, process: subprocess.Popen):
+        self.is_process_running = True
        
         try:
             while process.poll() is None:
@@ -217,7 +235,8 @@ class RunInShell(ABC):
             self.on_failure()
             if self.publish:
                 self.pika_log_pub.publish( message={'error': 'Exception occured while capturing stdout from subprocess: \n  ' + error})
-    
+        finally:
+            self.is_process_running = False
 
     def on_success(self):
         return_data = self.process_return_data()
