@@ -73,16 +73,16 @@
 		    "parameters":
 		    [
 			{
-			    "name": "MeshResolution",
-			    "description": "Mesh resolution (size of triangles) [m]",
+			    "name": "GroundPercentile",
+			    "description": "Percentile of point cloud height to use for setting building ground height (a number between 0 and 1)",
 			    "type": "float",
-			    "required": true
+			    "required": false
 			},
 			{
-			    "name": "MinBuildingDistance",
-			    "description": "Minimum distance between buildings [m]",
+			    "name": "RoofPercentile",
+			    "description": "Percentile of point cloud height to use for setting building roof height (a number between 0 and 1)",
 			    "type": "float",
-			    "required": true
+			    "required": false
 			}
 		    ],
 		    "input":
@@ -100,6 +100,43 @@
 		    [
 			{
 			    "name": "CityModel (FIXME: How do we handle this???)",
+			    "type": "file"
+			}
+		    ]
+		},
+		{
+		    "name": "build-mesh",
+		    "description": "Build mesh from city model",
+		    "parameters":
+		    [
+			{
+			    "name": "MeshResolution",
+			    "description": "Mesh resolution (size of triangles) [m]",
+			    "type": "float",
+			    "required": false
+			},
+			{
+			    "name": "MinBuildingDistance",
+			    "description": "Minimum distance between buildings [m]",
+			    "type": "float",
+			    "required": false
+			}
+		    ],
+		    "input":
+		    [
+			{
+			    "name": "CityModel (FIXME: How do we handle this???)",
+			    "type": "file (FIXME: How do we handle this???)"
+			},
+			{
+			    "name": "DTM (FIXME: How do we handle this???)",
+			    "type": "file (FIXME: How do we handle this???)"
+			}
+		    ],
+		    "output":
+		    [
+			{
+			    "name": "CitySurface (FIXME: How do we handle this???)",
 			    "type": "file"
 			}
 		    ]
