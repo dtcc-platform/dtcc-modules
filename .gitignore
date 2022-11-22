@@ -6,3 +6,5 @@ logs
 .vscode
 
 .DS_Store
+pubsub_client/__pycache__/
+pubsub_client/logs/

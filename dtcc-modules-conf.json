@@ -88,18 +88,18 @@
 		    "input":
 		    [
 			{
-			    "name": "PointCloud (FIXME: How do we handle this???)",
-			    "type": "file (FIXME: How do we handle this???)"
+			    "name": "PointCloud.pb",
+			    "type": "file"
 			},
 			{
-			    "name": "PropertyMap (FIXME: How do we handle this???)",
-			    "type": "file (FIXME: How do we handle this???)"
+			    "name": "PropertyMap.pb",
+			    "type": "file"
 			}
 		    ],
 		    "output":
 		    [
 			{
-			    "name": "CityModel (FIXME: How do we handle this???)",
+			    "name": "CityModel.pb",
 			    "type": "file"
 			}
 		    ]
@@ -125,18 +125,14 @@
 		    "input":
 		    [
 			{
-			    "name": "CityModel (FIXME: How do we handle this???)",
-			    "type": "file (FIXME: How do we handle this???)"
-			},
-			{
-			    "name": "DTM (FIXME: How do we handle this???)",
-			    "type": "file (FIXME: How do we handle this???)"
+			    "name": "CityModel.pb",
+			    "type": "file"
 			}
 		    ],
 		    "output":
 		    [
 			{
-			    "name": "CitySurface (FIXME: How do we handle this???)",
+			    "name": "CitySurface.pb",
 			    "type": "file"
 			}
 		    ]
