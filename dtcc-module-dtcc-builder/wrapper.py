@@ -12,6 +12,17 @@ class DtccBuilder(RunInShell):
     def __init__(self, publish=True) -> None:
         RunInShell.__init__(self, 'dtcc-module-dtcc-builder', publish)
 
+    # Suggested new interface
+
+    def run_command(self, message:dict):
+        pass
+
+    def process_input(self):
+        pass
+
+    def process_output(self):
+        pass
+
     def process_arguments_on_start(self, message:dict):
         self.message = message
         # FIXME: Need path to data directory (and the actual data...)
