@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y locales  sudo
 RUN ./install_dependencies.sh
 
 # Install tool
-RUN git clone -b develop git@gitlab.com:dtcc-platform/dtcc-builder.git
+RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git
+RUN cd dtcc-builder && git submodule update --init --recursive
 RUN cd dtcc-builder && mkdir build && cd build && cmake .. && make -j && make install
 
 # Install wrapper

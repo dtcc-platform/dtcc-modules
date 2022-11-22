@@ -68,8 +68,8 @@
 	    "commands":
 	    [
 		{
-		    "name": "generate-citymodel",
-		    "description": "Generate city model from point cloud and property map",
+		    "name": "build-citymodel",
+		    "description": "Build city model from point cloud and property map",
 		    "parameters":
 		    [
 			{
