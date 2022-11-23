@@ -22,9 +22,9 @@ class DtccHelloWorld(RunInShell):
 
     def process_arguments_on_start(self, message:dict):
         self.message = message
-        tool = message['tool']
-        lang = message['lang']
-        sleep_time = message['sleep_time']
+        self.tool = message.get('tool', 'hello-world')
+        lang = message.get('lang', 'en')
+        sleep_time = message.get('sleep_time', 0.1)
         if tool == "hello-world":
             return f"python3 dtcc_hello_world.py --lang={lang} --sleep_time={sleep_time} --output-file={self.output_file.name}"
         elif tool == "hello-world-2":
@@ -33,7 +33,7 @@ class DtccHelloWorld(RunInShell):
     def process_return_data(self):
         with open(self.output_file.name, 'r') as src:
             return_data = src.read()
-        if self.message['tool'] == "hello-world-2":
+        if self.tool == "hello-world-2":
             return_data += "from hello-world-2"
         os.remove(self.output_file.name)
         return json.dumps({"hello_world": return_data})
