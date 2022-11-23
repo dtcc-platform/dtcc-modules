@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os, pathlib, sys, datetime, time, re, asyncio, logging, json
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, StreamingResponse
@@ -46,6 +48,7 @@ def load_module_config():
     if file_exists(modules_config_storage_path):
         modules_config_storage = json.load(open(modules_config_storage_path,'r'))
     else:
+        sys.exit(1)
         modules_config_storage = {}
     
     if len(modules_config_storage)>0:

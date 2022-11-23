@@ -12,7 +12,7 @@ ENV USER dtcc
 ENV HOME /home/$USER
 
 # Install libraries used by other repos
-COPY install_scripts/ /
+COPY dtcc-module-dtcc-builder/install_scripts/ /
 #COPY docker/createbanner.sh /
 
 RUN apt-get update && apt-get install -y locales  sudo 
@@ -63,7 +63,7 @@ RUN chown $USER:$USER /home/$USER
 
 
 # Install wrapper
-COPY wrapper.py /wrapper.py
+COPY dtcc-module-dtcc-builder/wrapper.py /wrapper.py
 RUN ["chmod", "+x", "wrapper.py"]
 
 # Install client
@@ -76,7 +76,7 @@ RUN chown $USER:$USER /wrapper.py
 FROM base as dev
 USER $USER
 
-# Start client
-#ENTRYPOINT ["/wrapper.py"]
-ENTRYPOINT ["/bin/bash", "-l", "-c"]
-CMD ["/bin/bash", "-i"]
+Start client
+ENTRYPOINT ["/wrapper.py"]
+# ENTRYPOINT ["/bin/bash", "-l", "-c"]
+# CMD ["/bin/bash", "-i"]

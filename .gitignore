@@ -4,6 +4,7 @@ logs
 ## IDEs and editors
 .idea
 .vscode
+LASzip
 
 .DS_Store
 pubsub_client/__pycache__/

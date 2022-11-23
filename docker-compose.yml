@@ -1,0 +1,80 @@
+version: '3.9'
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: dtcc-rabbitmq
+    restart: unless-stopped
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbit-data:/var/lib/rabbitmq/
+        - rabbit-logs:/var/log/rabbitmq
+    networks:
+        - default
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+
+  dtcc-module-dtcc-builder:
+    build:
+      context: .
+      dockerfile: 'dtcc-module-dtcc-builder/Dockerfile'
+      target: dev
+      args:
+        - _uid=${_UID}
+        - gid=${GID}
+    working_dir: ${WORKING_DIR}
+    container_name: dtcc-module-dtcc-builder
+    image: dtcc-module-dtcc-builder-image
+    restart: unless-stopped
+    volumes:
+      - ../:${WORKING_DIR}:rw
+      - dtcc-modules-shared-data:${SHARED_DATA_DIR}:rw
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_PTRACE
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+
+  dtcc-hello-word:
+    build:
+      context: .
+      dockerfile: 'dtcc-module-hello-world/Dockerfile'
+    container_name: dtcc-module-hello-world
+    image: dtcc-module-hello-world-image
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+
+
+  dtcc-api:
+    build:
+      context: .
+      dockerfile: 'Dockerfile'
+    container_name: dtcc-module-api
+    image: dtcc-module-api-image
+    restart: unless-stopped
+    ports:
+        - 8080:8080
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOST=${RABBITMQ_HOST}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - FASTAPI_PORT=${FASTAPI_PORT}
+
+volumes:
+  rabbit-data:
+  rabbit-logs:
+  dtcc-modules-shared-data:
+
