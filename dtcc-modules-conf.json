@@ -4,7 +4,7 @@
 	{
 		"name": "run_sample_python_process",
 		"description": "Tests the api and module registry",
-		"commands":
+		"tools":
 		[
 			{
 				"name": "test",

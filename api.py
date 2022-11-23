@@ -36,22 +36,34 @@ app = FastAPI(
 
 registry_manager = RegistryManager()
 
-modules_config_storage_path = os.path.join(project_dir,"dtcc-modules-conf.json")
-if file_exists(modules_config_storage_path):
-    modules_config_storage = json.load(open(modules_config_storage_path,'r'))
-else:
-    modules_config_storage = {}
 
-def check_if_module_exists(module_name, command):
+
+
+
+def load_module_config():
+    modules_config = {}
+    modules_config_storage_path = os.path.join(project_dir,"dtcc-modules-conf.json")
+    if file_exists(modules_config_storage_path):
+        modules_config_storage = json.load(open(modules_config_storage_path,'r'))
+    else:
+        modules_config_storage = {}
+    
     if len(modules_config_storage)>0:
         modules_list = modules_config_storage.get("modules")
         for module_info in modules_list:
-            if module_info["name"] == module_name:
-                command_info_list = module_info.get("commands")
-                for command_info in command_info_list:
-                    if command_info["name"] == command:
-                        return True, module_info
+            command_info_list = module_info.get("tools")
+            for command_info in command_info_list:
+                modules_config[f"{module_info['name']}/{command_info['name']}"] = command_info
+                
+    return modules_config
 
+modules_config = load_module_config()
+
+
+def check_if_module_exists(module_name, command):
+    key = f"{module_name}/{command}"
+    if key in modules_config.keys():
+        return True, modules_config[key]
     return False, {}
 
 def get_time_diff_in_minutes(iso_timestamp:str):
@@ -128,23 +140,29 @@ async def get_tasks():
 
     return available_modules_info
 
-@router_task.post("/task/{name}/{command}/start", response_model=ReturnMessage)
-async def start_task(name, command):
-    module_name = f"{name}/{command}"
-    channel = f"/task/{name}/{command}"
+class Request(BaseModel):
+    name:str
+    command:str
+    parameters:Optional[str] = Field("",description="Parameters needed for start command")
+
+@router_task.post("/task/start", response_model=ReturnMessage)
+async def start_task(start_request:Request):
+    module_name = f"{start_request.name}/{start_request.command}"
+    channel = f"/task/{start_request.name}/{start_request.command}"
     if registry_manager.check_if_module_is_registered(module_name=module_name):
         module = registry_manager.get_module_data(module_name=module_name)
         if module.is_running:
             return ReturnMessage(success=False, info="task is already running")
         else:
             rps = PikaPubSub(queue_name=channel)
-            message = {'cmd': "start" }
+            message = {'cmd': "start" } 
+            message.update(json.loads(start_request.parameters))
             
             if rps.publish(message=message):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, command=command)
+        module_exists, _ = check_if_module_exists(module_name=start_request.name, command=start_request.command)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
