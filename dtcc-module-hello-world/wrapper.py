@@ -21,9 +21,9 @@ class DtccHelloWorld(RunInShell):
             shell_command=""
         )
         self.message = {}
-        self.output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
-
+        
     def process_arguments_on_start(self, message:dict):
+        self.output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
         self.message = message
         self.tool = message.get('tool', 'hello-world')
         lang = message.get('lang', 'en')
