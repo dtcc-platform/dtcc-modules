@@ -6,6 +6,9 @@ import os
 import json
 
 from pubsub_client.run_in_shell import RunInShell
+from logger import getLogger
+logger = getLogger("dtcc-module-hello-world")
+
 from dtcc_hello_world import hello_world
 
 
@@ -25,6 +28,7 @@ class DtccHelloWorld(RunInShell):
         self.tool = message.get('tool', 'hello-world')
         lang = message.get('lang', 'en')
         sleep_time = message.get('sleep_time', 0.1)
+        logger.info(f"Running {self.tool} with lang={lang} and sleep_time={sleep_time}")
         if tool == "hello-world":
             return f"python3 dtcc_hello_world.py --lang={lang} --sleep_time={sleep_time} --output-file={self.output_file.name}"
         elif tool == "hello-world-2":
@@ -40,4 +44,5 @@ class DtccHelloWorld(RunInShell):
 
 
 if __name__ == "__main__":
+    logger.info("Starting dtcc-module-hello-world")
     DtccHelloWorld(publish=True).listen()
