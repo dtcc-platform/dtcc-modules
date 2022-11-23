@@ -19,6 +19,14 @@ RUN apt-get update && apt-get install -y locales  sudo
 
 RUN ./install_dependencies.sh
 
+RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git
+RUN cd dtcc-builder && git submodule update --init --recursive
+RUN cd dtcc-builder && mkdir build && cd build && cmake .. && make -j && make install
+
+#RUN curl --output build.zip --location https://gitlab.com/dtcc-platform/dtcc-builder/-/jobs/artifacts/develop/download?job=build
+#ADD build.zip /build.zip
+#RUN unzip /build.zip
+
 # Add /usr/local/lib into LD
 RUN ldconfig /usr/local/lib
 
@@ -69,6 +77,6 @@ FROM base as dev
 USER $USER
 
 # Start client
-ENTRYPOINT ["/wrapper.py"]
-#ENTRYPOINT ["/bin/bash", "-l", "-c"]
-#CMD ["/bin/bash", "-i"]
+#ENTRYPOINT ["/wrapper.py"]
+ENTRYPOINT ["/bin/bash", "-l", "-c"]
+CMD ["/bin/bash", "-i"]
