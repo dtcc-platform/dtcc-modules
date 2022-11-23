@@ -76,7 +76,7 @@ RUN chown $USER:$USER /wrapper.py
 FROM base as dev
 USER $USER
 
-Start client
+# Start client
 ENTRYPOINT ["/wrapper.py"]
 # ENTRYPOINT ["/bin/bash", "-l", "-c"]
 # CMD ["/bin/bash", "-i"]

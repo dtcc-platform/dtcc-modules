@@ -15,7 +15,7 @@ logger = getLogger(__file__)
 
 class ModuleRegistry(BaseModel):
     module: str
-    command: str
+    tool: str
     is_running:bool
     last_seen: str
     status: Optional[str]
@@ -28,10 +28,10 @@ class RegistryManager():
         self.module_registry = {}
         self.isListening = False
     
-    def register_module(self, module:str, command:str,is_running:bool,status="ok" ):
+    def register_module(self, module:str, tool:str,is_running:bool,status="ok" ):
 
         self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
-        message = ModuleRegistry(module=module, command=command, last_seen=datetime.datetime.now().isoformat(), is_running=is_running, status=status)
+        message = ModuleRegistry(module=module, tool=tool, last_seen=datetime.datetime.now().isoformat(), is_running=is_running, status=status)
         self.pika_pub_sub.publish(message=message.dict())
     
     def get_available_modules(self):
@@ -69,7 +69,7 @@ class RegistryManager():
             module_data = ModuleRegistry.parse_obj(message)
             self.module_registry.update(
                 {
-                    module_data.module+'/'+module_data.command: module_data
+                    module_data.module+'/'+module_data.tool: module_data
                 }
             )
 

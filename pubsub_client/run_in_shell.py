@@ -15,11 +15,11 @@ logger = getLogger(__file__)
 
 
 class RunInShell(ABC):
-    def __init__(self,module, command, publish=True,shell_command="ls") -> None:
+    def __init__(self,module, tool, publish=True,shell_command="ls") -> None:
         self.module = module
-        self.module_command = command
-        self.channel = f"/task/{module}/{command}"
-        self.logs_channel = f"/task/{module}/{command}/logs"
+        self.tool = tool
+        self.channel = f"/task/{module}/{tool}"
+        self.logs_channel = f"/task/{module}/{tool}/logs"
 
         self.publish = publish
         if publish: 
@@ -52,7 +52,7 @@ class RunInShell(ABC):
     def register_on_schedule(self,minutes=1):
         while self.is_waiting:
             try:
-                self.registry_manager.register_module(module=self.module,command=self.module_command, status="ok", is_running=self.is_process_running)
+                self.registry_manager.register_module(module=self.module,tool=self.tool, status="ok", is_running=self.is_process_running)
                 time.sleep(30)
             except KeyboardInterrupt:
                 self.is_waiting = False
@@ -241,7 +241,7 @@ class RunInShell(ABC):
             error = traceback.format_exc()
             logger.exception(self.channel + ":" +'Exception occured while capturing stdout from subprocess')
 
-            self.on_failure()
+            self.on_failure(error=error)
             if self.publish:
                 self.pika_log_pub.publish( message={'error': 'Exception occured while capturing stdout from subprocess: \n  ' + error})
         finally:
@@ -288,7 +288,7 @@ class SamplePythonProcessRunner(RunInShell):
 
         RunInShell.__init__(self,
             module="run_sample_python_process",
-            command="test",
+            tool="test",
             publish=publish,
             shell_command=command
         )

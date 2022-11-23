@@ -2,8 +2,11 @@
 
 import subprocess
 import tempfile
-import os
+import os, sys, pathlib
 import json
+
+project_dir = str(pathlib.Path(__file__).resolve().parents[1])
+sys.path.append(project_dir)
 
 from pubsub_client.run_in_shell import RunInShell
 from pubsub_client.logger import getLogger
@@ -16,7 +19,7 @@ class DtccHelloWorld(RunInShell):
     def __init__(self, publish=True) -> None:
         RunInShell.__init__(self,
             module="dtcc-module-hello-world",
-            command="hello-world",
+            tool="hello-world",
             publish=publish,
             shell_command=""
         )

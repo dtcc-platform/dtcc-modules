@@ -54,17 +54,17 @@ def load_module_config():
     if len(modules_config_storage)>0:
         modules_list = modules_config_storage.get("modules")
         for module_info in modules_list:
-            command_info_list = module_info.get("tools")
-            for command_info in command_info_list:
-                modules_config[f"{module_info['name']}/{command_info['name']}"] = command_info
+            tool_info_list = module_info.get("tools")
+            for tool_info in tool_info_list:
+                modules_config[f"{module_info['name']}/{tool_info['name']}"] = module_info
                 
     return modules_config
 
 modules_config = load_module_config()
 
 
-def check_if_module_exists(module_name, command):
-    key = f"{module_name}/{command}"
+def check_if_module_exists(module_name, tool):
+    key = f"{module_name}/{tool}"
     if key in modules_config.keys():
         return True, modules_config[key]
     return False, {}
@@ -93,9 +93,10 @@ class Parameters(BaseModel):
     required:bool
 
 
-class Command(BaseModel):
+class Tool(BaseModel):
     name: str
     description: Optional[str]
+    category:str
     input: List[Input]
     output: List[Output]
     parameters: List[Parameters]
@@ -104,7 +105,7 @@ class Command(BaseModel):
 class ModuleConfig(BaseModel):
     name: str
     description: Optional[str]
-    commands: List[Command]
+    tools: List[Tool]
 
 
 # Enable CORS 
@@ -137,21 +138,22 @@ async def get_tasks():
         time_diff_minutes = get_time_diff_in_minutes(registered_module.last_seen)
         if time_diff_minutes<5:
             print(registered_module)
-            module_exists, module_info = check_if_module_exists(registered_module.module, registered_module.command)
+            module_exists, module_info = check_if_module_exists(registered_module.module, registered_module.tool)
             if module_exists:
+                print(module_info)
                 available_modules_info.append(ModuleConfig.parse_obj(module_info))
 
     return available_modules_info
 
 class Request(BaseModel):
     name:str
-    command:str
-    parameters:Optional[str] = Field("",description="Parameters needed for start command")
+    tool:str
+    parameters:Optional[str] = Field("",description="Parameters needed for start tool")
 
 @router_task.post("/task/start", response_model=ReturnMessage)
 async def start_task(start_request:Request):
-    module_name = f"{start_request.name}/{start_request.command}"
-    channel = f"/task/{start_request.name}/{start_request.command}"
+    module_name = f"{start_request.name}/{start_request.tool}"
+    channel = f"/task/{start_request.name}/{start_request.tool}"
     if registry_manager.check_if_module_is_registered(module_name=module_name):
         module = registry_manager.get_module_data(module_name=module_name)
         if module.is_running:
@@ -159,13 +161,19 @@ async def start_task(start_request:Request):
         else:
             rps = PikaPubSub(queue_name=channel)
             message = {'cmd': "start" } 
-            message.update(json.loads(start_request.parameters))
+            if len(start_request.parameters)>0:
+                try:
+                    parameters = json.loads(start_request.parameters.encode())
+                    ## TODO Validate parameters here
+                    message.update(parameters)
+                except:
+                    logger.exception("from parsing parameter json from start!!")
             
             if rps.publish(message=message):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=start_request.name, command=start_request.command)
+        module_exists, _ = check_if_module_exists(module_name=start_request.name, tool=start_request.tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
@@ -174,10 +182,10 @@ async def start_task(start_request:Request):
 
     
 
-@router_task.post("/task/{name}/{command}/pause", response_model=ReturnMessage)
-async def pause_task(name, command):
-    module_name = f"{name}/{command}"
-    channel = f"/task/{name}/{command}"
+@router_task.post("/task/{name}/{tool}/pause", response_model=ReturnMessage)
+async def pause_task(name, tool):
+    module_name = f"{name}/{tool}"
+    channel = f"/task/{name}/{tool}"
     if registry_manager.check_if_module_is_registered(module_name=module_name):
         module = registry_manager.get_module_data(module_name=module_name)
         if not module.is_running:
@@ -190,16 +198,16 @@ async def pause_task(name, command):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, command=command)
+        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
             return ReturnMessage(success=False, info="module does not exist")
 
-@router_task.post("/task/{name}/{command}/resume", response_model=ReturnMessage)
-async def resume_task(name, command):
-    module_name = f"{name}/{command}"
-    channel = f"/task/{name}/{command}"
+@router_task.post("/task/{name}/{tool}/resume", response_model=ReturnMessage)
+async def resume_task(name, tool):
+    module_name = f"{name}/{tool}"
+    channel = f"/task/{name}/{tool}"
     if registry_manager.check_if_module_is_registered(module_name=module_name):
         module = registry_manager.get_module_data(module_name=module_name)
         if module.is_running:
@@ -213,16 +221,16 @@ async def resume_task(name, command):
             
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, command=command)
+        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
             return ReturnMessage(success=False, info="module does not exist")
 
-@router_task.post("/task/{name}/{command}/terminate", response_model=ReturnMessage)
-async def terminate_task(name, command):
-    module_name = f"{name}/{command}"
-    channel = f"/task/{name}/{command}"
+@router_task.post("/task/{name}/{tool}/terminate", response_model=ReturnMessage)
+async def terminate_task(name, tool):
+    module_name = f"{name}/{tool}"
+    channel = f"/task/{name}/{tool}"
     if registry_manager.check_if_module_is_registered(module_name=module_name):
         module = registry_manager.get_module_data(module_name=module_name)
         if not module.is_running:
@@ -235,7 +243,7 @@ async def terminate_task(name, command):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, command=command)
+        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
@@ -244,21 +252,21 @@ async def terminate_task(name, command):
 
 
 
-@router_task.get("/task/{name}/{command}/stream-logs")
-async def stream_task_logs(name, command,request: Request):
-    module_name = f"{name}/{command}"
-    channel = f"/task/{name}/{command}"
+@router_task.get("/task/{name}/{tool}/stream-logs")
+async def stream_task_logs(name, tool,request: Request):
+    module_name = f"{name}/{tool}"
+    channel = f"/task/{name}/{tool}"
     if registry_manager.check_if_module_is_registered(module_name=module_name):
         module = registry_manager.get_module_data(module_name=module_name)
         if not module.is_running:
             return ReturnMessage(success=False, info="task is not running")
         else:
-            channel = f"/task/{name}/{command}/logs"
+            channel = f"/task/{name}/{tool}/logs"
             event_generator = log_consumer(request, channel) 
             return EventSourceResponse(event_generator)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, command=command)
+        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
