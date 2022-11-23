@@ -18,26 +18,29 @@ class DtccBuilder(RunInShell):
         pass
 
     def process_input(self):
-        pass
+        self.data_directory = "/"
+        # Read point cloud from .las
+        # Write point cloud to .pb
 
     def process_output(self):
         pass
 
+    # Old interface
+
     def process_arguments_on_start(self, message:dict):
         self.message = message
-        # FIXME: Need path to data directory (and the actual data...)
-        if message['command_name'] == 'build-citymodel':
-            return f'dtcc-generate-citymodel <path_to_data_directory>'
-        elif message['command_name'] == 'build-mesh':
-            return f'dtcc-generate-mesh <path_to_data_directory>'
+        if message['tool'] == 'build-citymodel':
+            return f'dtcc-generate-citymodel {self.data_directory}'
+        elif message['tool'] == 'build-mesh':
+            return f'dtcc-generate-mesh {self.data_directory}'
 
     def process_return_data(self):
-        # FIXME: Need to store the data on the file server
         if self.message['command_name'] == 'build-citymodel':
             data = 'CityModel.pb'
         elif self.message['command_name'] == 'build-mesh':
             data = 'CitySurface.pb'
         return json.dumps({"data": data})
+
 
 if __name__ == "__main__":
     DtccBuilder(publish=True).listen()

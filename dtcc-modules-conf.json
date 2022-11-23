@@ -4,11 +4,12 @@
 	{
 	    "name": "dtcc-module-hello-world",
 	    "description": "DTCC Hello World Module",
-	    "commands":
+	    "tools":
 	    [
 		{
 		    "name": "hello-world",
 		    "description": "Returns Hello World in different languages",
+		    "category": "simulation",
 		    "parameters":
 		    [
 			{
@@ -36,6 +37,7 @@
 		{
 		    "name": "hello-world-2",
 		    "description": "Also returns Hello World in different languages",
+		    "category": "analysis",
 		    "parameters":
 		    [
 			{
@@ -65,11 +67,12 @@
 	{
 	    "name": "dtcc-module-dtcc-builder",
 	    "description": "DTCC Builder Module",
-	    "commands":
+	    "tools":
 	    [
 		{
 		    "name": "build-citymodel",
 		    "description": "Build city model from point cloud and property map",
+		    "category": "generation",
 		    "parameters":
 		    [
 			{
@@ -107,6 +110,7 @@
 		{
 		    "name": "build-mesh",
 		    "description": "Build mesh from city model",
+		    "category": "simulation",
 		    "parameters":
 		    [
 			{
