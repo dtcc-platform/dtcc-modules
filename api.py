@@ -17,11 +17,11 @@ logging.getLogger("pika").setLevel(logging.WARNING)
 project_dir = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_dir)
 
-from logger import getLogger
-from utils import try_except
-from rabbitmq_service import PikaPubSub, log_consumer
-from registry_manager import RegistryManager
-from registry_manager import RegistryManager, ModuleRegistry
+from pubsub_client.logger import getLogger
+from pubsub_client.utils import try_except, DictStorage, file_exists
+from pubsub_client.rabbitmq_service import PikaPubSub, log_consumer
+from pubsub_client.registry_manager import RegistryManager
+from pubsub_client.registry_manager import RegistryManager, ModuleRegistry
 
 logger = getLogger(__file__)
 
@@ -29,16 +29,68 @@ pub_sub = PikaPubSub(queue_name="/task/run_sample_python_process")
 pub_sub.publish(message={"cmd":"start"})
 
 app = FastAPI(
-    title="DTCC Core demo API",
-    description="API for db access and communication",
+    title="DTCC Core API",
+    description="API for controlling modules",
     version="1.0"
 )
 
 registry_manager = RegistryManager()
 
+modules_config_storage_path = os.path.join(project_dir,"dtcc-modules-conf.json")
+if file_exists(modules_config_storage_path):
+    modules_config_storage = json.load(open(modules_config_storage_path,'r'))
+else:
+    modules_config_storage = {}
+
+def check_if_module_exists(module_name, command):
+    if len(modules_config_storage)>0:
+        modules_list = modules_config_storage.get("modules")
+        for module_info in modules_list:
+            if module_info["name"] == module_name:
+                command_info_list = module_info.get("commands")
+                for command_info in command_info_list:
+                    if command_info["name"] == command:
+                        return True, module_info
+
+    return False, {}
+
+def get_time_diff_in_minutes(iso_timestamp:str):
+    diff = datetime.datetime.now() - datetime.datetime.fromisoformat(iso_timestamp)
+    minutes, seconds = divmod(diff.total_seconds(), 60) 
+    return int(minutes)
+
 class ReturnMessage(BaseModel):
     success: bool = False
     info:Optional[str] 
+
+class Input(BaseModel):
+    name:str
+    type:str
+
+class Output(BaseModel):
+    name:str
+    type:str
+
+class Parameters(BaseModel):
+    name: str
+    description: Optional[str]
+    type:str
+    required:bool
+
+
+class Command(BaseModel):
+    name: str
+    description: Optional[str]
+    input: List[Input]
+    output: List[Output]
+    parameters: List[Parameters]
+    
+
+class ModuleConfig(BaseModel):
+    name: str
+    description: Optional[str]
+    commands: List[Command]
+
 
 # Enable CORS 
 app.add_middleware(
@@ -61,20 +113,27 @@ async def shutdown():
 
 router_task = APIRouter(tags=["task"])
 
-@router_task.get("/tasks", response_model=List[ModuleRegistry])
+@router_task.get("/tasks", response_model=List[ModuleConfig])
 async def get_tasks():
-    ## Check with module conf if module exists 
-    data = registry_manager.get_available_modules().items()
-    return data
+    available_modules_info = []
+    registered_modules = list(registry_manager.get_available_modules().values())
+   
+    for registered_module in registered_modules:
+        time_diff_minutes = get_time_diff_in_minutes(registered_module.last_seen)
+        if time_diff_minutes<5:
+            print(registered_module)
+            module_exists, module_info = check_if_module_exists(registered_module.module, registered_module.command)
+            if module_exists:
+                available_modules_info.append(ModuleConfig.parse_obj(module_info))
+
+    return available_modules_info
 
 @router_task.post("/task/{name}/{command}/start", response_model=ReturnMessage)
 async def start_task(name, command):
-    modules = registry_manager.get_available_modules()
-    module_names = modules.keys()
     module_name = f"{name}/{command}"
     channel = f"/task/{name}/{command}"
-    if module_name in module_names:
-        module = modules[module_name]
+    if registry_manager.check_if_module_is_registered(module_name=module_name):
+        module = registry_manager.get_module_data(module_name=module_name)
         if module.is_running:
             return ReturnMessage(success=False, info="task is already running")
         else:
@@ -85,23 +144,21 @@ async def start_task(name, command):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists = True
+        module_exists, _ = check_if_module_exists(module_name=name, command=command)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
-            return ReturnMessage(success=False, info="module is not online")
+            return ReturnMessage(success=False, info="module does not exist")
 
 
     
 
 @router_task.post("/task/{name}/{command}/pause", response_model=ReturnMessage)
 async def pause_task(name, command):
-    modules = registry_manager.get_available_modules()
-    module_names = modules.keys()
     module_name = f"{name}/{command}"
     channel = f"/task/{name}/{command}"
-    if module_name in module_names:
-        module = modules[module_name]
+    if registry_manager.check_if_module_is_registered(module_name=module_name):
+        module = registry_manager.get_module_data(module_name=module_name)
         if not module.is_running:
             return ReturnMessage(success=False, info="task is not running")
         else:
@@ -112,20 +169,18 @@ async def pause_task(name, command):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists = True
+        module_exists, _ = check_if_module_exists(module_name=name, command=command)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
-            return ReturnMessage(success=False, info="module is not online")
+            return ReturnMessage(success=False, info="module does not exist")
 
 @router_task.post("/task/{name}/{command}/resume", response_model=ReturnMessage)
 async def resume_task(name, command):
-    modules = registry_manager.get_available_modules()
-    module_names = modules.keys()
     module_name = f"{name}/{command}"
     channel = f"/task/{name}/{command}"
-    if module_name in module_names:
-        module = modules[module_name]
+    if registry_manager.check_if_module_is_registered(module_name=module_name):
+        module = registry_manager.get_module_data(module_name=module_name)
         if module.is_running:
             rps = PikaPubSub(queue_name=channel)
             message = {'cmd': "resume" }
@@ -137,20 +192,18 @@ async def resume_task(name, command):
             
     else:
         ## Check with module conf if module exists 
-        module_exists = True
+        module_exists, _ = check_if_module_exists(module_name=name, command=command)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
-            return ReturnMessage(success=False, info="module is not online")
+            return ReturnMessage(success=False, info="module does not exist")
 
 @router_task.post("/task/{name}/{command}/terminate", response_model=ReturnMessage)
 async def terminate_task(name, command):
-    modules = registry_manager.get_available_modules()
-    module_names = modules.keys()
     module_name = f"{name}/{command}"
     channel = f"/task/{name}/{command}"
-    if module_name in module_names:
-        module = modules[module_name]
+    if registry_manager.check_if_module_is_registered(module_name=module_name):
+        module = registry_manager.get_module_data(module_name=module_name)
         if not module.is_running:
             return ReturnMessage(success=False, info="task is not running")
         else:
@@ -161,23 +214,35 @@ async def terminate_task(name, command):
                 return ReturnMessage(success=True)
     else:
         ## Check with module conf if module exists 
-        module_exists = True
+        module_exists, _ = check_if_module_exists(module_name=name, command=command)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
-            return ReturnMessage(success=False, info="module is not online")
+            return ReturnMessage(success=False, info="module does not exist")
 
 
 
 
 @router_task.get("/task/{name}/{command}/stream-logs")
 async def stream_task_logs(name, command,request: Request):
-    modules = registry_manager.get_available_modules()
-    module_names = modules.keys()
     module_name = f"{name}/{command}"
-    channel = f"/task/{name}/{command}/logs"
-    event_generator = log_consumer(request, channel) 
-    return EventSourceResponse(event_generator)
+    channel = f"/task/{name}/{command}"
+    if registry_manager.check_if_module_is_registered(module_name=module_name):
+        module = registry_manager.get_module_data(module_name=module_name)
+        if not module.is_running:
+            return ReturnMessage(success=False, info="task is not running")
+        else:
+            channel = f"/task/{name}/{command}/logs"
+            event_generator = log_consumer(request, channel) 
+            return EventSourceResponse(event_generator)
+    else:
+        ## Check with module conf if module exists 
+        module_exists, _ = check_if_module_exists(module_name=name, command=command)
+        if module_exists:
+            return ReturnMessage(success=False, info="module is not online")
+        else:
+            return ReturnMessage(success=False, info="module does not exist")
+    
 
 app.include_router(router_task)
 
@@ -185,14 +250,11 @@ fastapi_port = int(os.environ.get("FASTAPI_PORT", "8070"))
 
 class Server(uvicorn.Server):
     """Customized uvicorn.Server
-    
-    Uvicorn server overrides signals and we need to include
-    Rocketry to the signals."""
+    Uvicorn server overrides signals"""
     def handle_exit(self, sig: int, frame) -> None:
         return super().handle_exit(sig, frame)
 
 async def main():
-    "Run Rocketry and FastAPI"
     server = Server(config=uvicorn.Config(app, workers=2, loop="asyncio", port=fastapi_port, host="0.0.0.0",log_level='info'))
 
     api = asyncio.create_task(server.serve())

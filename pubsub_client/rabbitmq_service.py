@@ -141,9 +141,12 @@ class PikaPubSub:
             self.channel.start_consuming()
         except KeyboardInterrupt:
             self.close_connection()
-        except:
+        except pika.exceptions.ConnectionWrongStateError:
             self.create_connection()
             self.subscribe(on_mesage_callback)
+        except:
+            logger.exception("from pubsub subscribe!!!!!!")
+            
 
     @try_except(logger=logger)
     def close_connection(self):

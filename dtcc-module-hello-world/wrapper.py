@@ -13,7 +13,8 @@ from dtcc_hello_world import hello_world
 class DtccHelloWorld(RunInShell):
     def __init__(self, publish=True) -> None:
         RunInShell.__init__(self,
-            task_name="dtcc-module-hello-world.hello-world",
+            module="dtcc-module-hello-world",
+            command="hello-world",
             publish=publish,
             shell_command=""
         )

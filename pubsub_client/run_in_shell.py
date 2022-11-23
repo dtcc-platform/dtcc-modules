@@ -29,25 +29,34 @@ class RunInShell(ABC):
         self.process = None
         self.shell_command = shell_command
         self.is_process_running = False
+        self.is_waiting = False
 
     @try_except(logger=logger)
     def listen(self):
+        self.is_waiting = True
         registry_scheduler = threading.Thread(target=self.register_on_schedule)
         registry_scheduler.start()
-        try:
-            while True:
+
+        while self.is_waiting:
+            try:
                 logger.info(f"Waiting for  {self.channel}")
                 self.pika_pub_sub.subscribe(self.consume)
-        except BaseException:
-            logger.exception("from RunInShell")
-            sys.exit(1)
-
-
+            except KeyboardInterrupt:
+                self.is_waiting = False
+                break
+            except BaseException:
+                logger.exception("from RunInShell")
+                self.is_waiting = False
+                break
+                
     def register_on_schedule(self,minutes=1):
-        while True:
-            self.registry_manager.register_module(module=self.module,command=self.module_command, status="ok", is_running=self.is_process_running)
-            time.sleep(minutes*60)
-        
+        while self.is_waiting:
+            try:
+                self.registry_manager.register_module(module=self.module,command=self.module_command, status="ok", is_running=self.is_process_running)
+                time.sleep(30)
+            except KeyboardInterrupt:
+                self.is_waiting = False
+                break
 
     def consume(self, ch, method, properties, body):
         print(" [x] Received %r" % body)
@@ -278,7 +287,8 @@ class SamplePythonProcessRunner(RunInShell):
         command=f'python3 {sample_logger_path}'
 
         RunInShell.__init__(self,
-            task_name="run_sample_python_process",
+            module="run_sample_python_process",
+            command="test",
             publish=publish,
             shell_command=command
         )

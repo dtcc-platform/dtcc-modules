@@ -17,7 +17,7 @@ class ModuleRegistry(BaseModel):
     module: str
     command: str
     is_running:bool
-    last_seen: datetime.datetime
+    last_seen: str
     status: Optional[str]
     
 
@@ -31,11 +31,17 @@ class RegistryManager():
     def register_module(self, module:str, command:str,is_running:bool,status="ok" ):
 
         self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
-        message = ModuleRegistry(module=module, command=command, last_seen=datetime.datetime.now(), is_running=is_running, status=status)
+        message = ModuleRegistry(module=module, command=command, last_seen=datetime.datetime.now().isoformat(), is_running=is_running, status=status)
         self.pika_pub_sub.publish(message=message.dict())
     
     def get_available_modules(self):
         return self.module_registry
+
+    def check_if_module_is_registered(self, module_name) -> bool:
+        return True if module_name in self.module_registry.keys() else False
+
+    def get_module_data(self, module_name) -> ModuleRegistry:
+        return self.module_registry.get(module_name)
     
     def listen_for_modules(self):
         self.isListening = True
@@ -60,7 +66,7 @@ class RegistryManager():
 
         if body is not None: 
             message = json.loads(body)
-            module_data = ModuleRegistry(**message)
+            module_data = ModuleRegistry.parse_obj(message)
             self.module_registry.update(
                 {
                     module_data.module+'/'+module_data.command: module_data
