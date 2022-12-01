@@ -23,7 +23,7 @@ from pubsub_client.logger import getLogger
 from pubsub_client.utils import try_except, DictStorage, file_exists
 from pubsub_client.rabbitmq_service import PikaPubSub, log_consumer
 from pubsub_client.registry_manager import RegistryManager
-from pubsub_client.registry_manager import RegistryManager, ModuleRegistry
+from pubsub_client.data_models import ModuleConfig, RequestMessage, ReturnMessage, ModuleRegistry
 
 logger = getLogger(__file__)
 
@@ -74,38 +74,6 @@ def get_time_diff_in_minutes(iso_timestamp:str):
     minutes, seconds = divmod(diff.total_seconds(), 60) 
     return int(minutes)
 
-class ReturnMessage(BaseModel):
-    success: bool = False
-    info:Optional[str] 
-
-class Input(BaseModel):
-    name:str
-    type:str
-
-class Output(BaseModel):
-    name:str
-    type:str
-
-class Parameters(BaseModel):
-    name: str
-    description: Optional[str]
-    type:str
-    required:bool
-
-
-class Tool(BaseModel):
-    name: str
-    description: Optional[str]
-    category:str
-    input: List[Input]
-    output: List[Output]
-    parameters: List[Parameters]
-    
-
-class ModuleConfig(BaseModel):
-    name: str
-    description: Optional[str]
-    tools: List[Tool]
 
 
 # Enable CORS 
@@ -129,11 +97,10 @@ async def shutdown():
 
 router_task = APIRouter(tags=["task"])
 
-@router_task.get("/tasks", response_model=List[ModuleConfig])
+@router_task.get("/tasks", response_model=List[ModuleRegistry])
 async def get_tasks():
     available_modules_info = []
     registered_modules = list(registry_manager.get_available_modules().values())
-   
     for registered_module in registered_modules:
         time_diff_minutes = get_time_diff_in_minutes(registered_module.last_seen)
         if time_diff_minutes<5:
@@ -141,39 +108,56 @@ async def get_tasks():
             module_exists, module_info = check_if_module_exists(registered_module.module, registered_module.tool)
             if module_exists:
                 print(module_info)
-                available_modules_info.append(ModuleConfig.parse_obj(module_info))
+                module_config = ModuleConfig.parse_obj(module_info)
+                registered_module.config =module_config
+                print(registered_module)
+                available_modules_info.append(registered_module)
 
     return available_modules_info
 
-class Request(BaseModel):
-    name:str
-    tool:str
-    parameters:Optional[str] = Field("",description="Parameters needed for start tool")
+
+
+def get_channel(msg:RequestMessage):
+    channel = f"/task/{msg.task_id}"
+    return channel
+
+def get_logs_channel(msg:RequestMessage):
+    channel = f"/task/{msg.task_id}/logs"
+    return channel
+
+
+def on_response_from_pubsub_listener(ch, method, properties, body):
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+    if body is not None: 
+        message = json.loads(body)
+        print("####################", message)
+    return ReturnMessage(success=True)
 
 @router_task.post("/task/start", response_model=ReturnMessage)
-async def start_task(start_request:Request):
-    module_name = f"{start_request.name}/{start_request.tool}"
-    channel = f"/task/{start_request.name}/{start_request.tool}"
-    if registry_manager.check_if_module_is_registered(module_name=module_name):
-        module = registry_manager.get_module_data(module_name=module_name)
+async def start_task(msg:RequestMessage):
+    if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
+        module = registry_manager.get_module_data(task_id=msg.task_id)
         if module.is_running:
             return ReturnMessage(success=False, info="task is already running")
         else:
+            channel = get_channel(msg)
             rps = PikaPubSub(queue_name=channel)
             message = {'cmd': "start" } 
-            if len(start_request.parameters)>0:
+            if len(msg.parameters)>0:
                 try:
-                    parameters = json.loads(start_request.parameters.encode())
+                    parameters = json.loads(msg.parameters.encode())
                     ## TODO Validate parameters here
                     message.update(parameters)
                 except:
                     logger.exception("from parsing parameter json from start!!")
             
             if rps.publish(message=message):
-                return ReturnMessage(success=True)
+                time.sleep(1)
+                module_registry_data = registry_manager.get_module_data(msg.task_id)
+                return ReturnMessage(success=True, status=module_registry_data)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=start_request.name, tool=start_request.tool)
+        module_exists, _ = check_if_module_exists(module_name=msg.name, tool=msg.tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
@@ -182,95 +166,128 @@ async def start_task(start_request:Request):
 
     
 
-@router_task.post("/task/{name}/{tool}/pause", response_model=ReturnMessage)
-async def pause_task(name, tool):
-    module_name = f"{name}/{tool}"
-    channel = f"/task/{name}/{tool}"
-    if registry_manager.check_if_module_is_registered(module_name=module_name):
-        module = registry_manager.get_module_data(module_name=module_name)
-        if not module.is_running:
-            return ReturnMessage(success=False, info="task is not running")
-        else:
+@router_task.post("/task/pause", response_model=ReturnMessage)
+async def pause_task(msg:RequestMessage):
+    if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
+        module = registry_manager.get_module_data(task_id=msg.task_id)
+        if module.is_running:
+            channel = get_channel(msg)
             rps = PikaPubSub(queue_name=channel)
             message = {'cmd': "pause" }
             
             if rps.publish(message=message):
-                return ReturnMessage(success=True)
+                time.sleep(1)
+                module_registry_data = registry_manager.get_module_data(msg.task_id)
+                return ReturnMessage(success=True, status=module_registry_data)
+        else:
+            return ReturnMessage(success=False, info="task is not running")
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
+        module_exists, _ = check_if_module_exists(module_name=msg.name, tool=msg.tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
             return ReturnMessage(success=False, info="module does not exist")
 
-@router_task.post("/task/{name}/{tool}/resume", response_model=ReturnMessage)
-async def resume_task(name, tool):
-    module_name = f"{name}/{tool}"
-    channel = f"/task/{name}/{tool}"
-    if registry_manager.check_if_module_is_registered(module_name=module_name):
-        module = registry_manager.get_module_data(module_name=module_name)
+   
+   
+
+@router_task.post("/task/resume", response_model=ReturnMessage)
+async def resume_task(msg:RequestMessage):
+    if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
+        module = registry_manager.get_module_data(task_id=msg.task_id)
         if module.is_running:
+            return ReturnMessage(success=False, info="task is already running")
+        else:
+            channel = get_channel(msg)
             rps = PikaPubSub(queue_name=channel)
             message = {'cmd': "resume" }
-            
+
             if rps.publish(message=message):
-                return ReturnMessage(success=True)
-        else:
-            return ReturnMessage(success=False, info="task is not running")
-            
+                time.sleep(1)
+                module_registry_data = registry_manager.get_module_data(msg.task_id)
+                return ReturnMessage(success=True, status=module_registry_data)
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
+        module_exists, _ = check_if_module_exists(module_name=msg.name, tool=msg.tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
             return ReturnMessage(success=False, info="module does not exist")
 
-@router_task.post("/task/{name}/{tool}/terminate", response_model=ReturnMessage)
-async def terminate_task(name, tool):
-    module_name = f"{name}/{tool}"
-    channel = f"/task/{name}/{tool}"
-    if registry_manager.check_if_module_is_registered(module_name=module_name):
-        module = registry_manager.get_module_data(module_name=module_name)
-        if not module.is_running:
-            return ReturnMessage(success=False, info="task is not running")
-        else:
+@router_task.post("/task/terminate", response_model=ReturnMessage)
+async def terminate_task(msg:RequestMessage):
+    if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
+        module = registry_manager.get_module_data(task_id=msg.task_id)
+        if module.is_running:
+            channel = get_channel(msg)
             rps = PikaPubSub(queue_name=channel)
             message = {'cmd': "terminate" }
-            
+
             if rps.publish(message=message):
-                return ReturnMessage(success=True)
+                time.sleep(1)
+                module_registry_data = registry_manager.get_module_data(msg.task_id)
+                return ReturnMessage(success=True, status=module_registry_data)
+        else:
+            return ReturnMessage(success=False, info="task is not running")
+            
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
+        module_exists, _ = check_if_module_exists(module_name=msg.name, tool=msg.tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
             return ReturnMessage(success=False, info="module does not exist")
 
 
+@router_task.post("/task/status", response_model=ReturnMessage)
+async def get_status(msg: RequestMessage):
+    if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
+        module = registry_manager.get_module_data(task_id=msg.task_id)
+        if module.is_running:
+            channel = get_channel(msg)
+            rps = PikaPubSub(queue_name=channel)
+            message = {'cmd': "status" }
 
-
-@router_task.get("/task/{name}/{tool}/stream-logs")
-async def stream_task_logs(name, tool,request: Request):
-    module_name = f"{name}/{tool}"
-    channel = f"/task/{name}/{tool}"
-    if registry_manager.check_if_module_is_registered(module_name=module_name):
-        module = registry_manager.get_module_data(module_name=module_name)
-        if not module.is_running:
-            return ReturnMessage(success=False, info="task is not running")
+            if rps.publish(message=message):
+                time.sleep(1)
+                module_registry_data = registry_manager.get_module_data(msg.task_id)
+                return ReturnMessage(success=True, status=module_registry_data)
         else:
-            channel = f"/task/{name}/{tool}/logs"
+            module_registry_data = registry_manager.get_module_data(msg.task_id)
+            return ReturnMessage(success=True, info="task is not running",status=module_registry_data)
+            
+    else:
+        ## Check with module conf if module exists 
+        module_exists, _ = check_if_module_exists(module_name=msg.name, tool=msg.tool)
+        if module_exists:
+            return ReturnMessage(success=False, info="module is not online")
+        else:
+            return ReturnMessage(success=False, info="module does not exist")
+    
+
+
+
+@router_task.get("/task/stream-logs")
+async def stream_task_logs(msg:RequestMessage, request: Request):
+    if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
+        module = registry_manager.get_module_data(task_id=msg.task_id)
+        if module.is_running:
+            channel = get_logs_channel(msg)
             event_generator = log_consumer(request, channel) 
             return EventSourceResponse(event_generator)
+        else:
+            return ReturnMessage(success=False, info="task is not running")
+            
     else:
         ## Check with module conf if module exists 
-        module_exists, _ = check_if_module_exists(module_name=name, tool=tool)
+        module_exists, _ = check_if_module_exists(module_name=msg.name, tool=msg.tool)
         if module_exists:
             return ReturnMessage(success=False, info="module is not online")
         else:
             return ReturnMessage(success=False, info="module does not exist")
+
+   
     
 
 app.include_router(router_task)

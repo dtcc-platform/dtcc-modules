@@ -1,14 +1,17 @@
-import subprocess, shlex, logging, time, pathlib, sys, os, threading, signal, traceback, json
+import subprocess, shlex, logging, time, pathlib, sys, os, threading, signal, traceback, json, datetime
 
 from abc import ABC, abstractmethod
+from typing import Union
 
 project_dir = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_dir)
 
 from logger import getLogger
-from utils import try_except
+from utils import try_except, get_uuid, DictStorage
 from rabbitmq_service import PikaPubSub
 from registry_manager import RegistryManager
+from data_models import ModuleStatus, ModuleRegistry, Stdout
+from mogodb_service import MongodbService
 
 logger = getLogger(__file__)
 
@@ -16,20 +19,56 @@ logger = getLogger(__file__)
 
 class RunInShell(ABC):
     def __init__(self,module, tool, publish=True,shell_command="ls") -> None:
+
+        ## Set instance parameters
         self.module = module
         self.tool = tool
-        self.channel = f"/task/{module}/{tool}"
-        self.logs_channel = f"/task/{module}/{tool}/logs"
-
+        self.shell_command = shell_command
         self.publish = publish
+
+         ## Initialize runtime parameters
+        self.reset()
+
+        
+        self.channel = f"/task/{self.task_id}"
+        self.logs_channel = f"/task/{self.task_id}/logs"
+
+        
         if publish: 
             self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
             self.pika_log_pub = PikaPubSub(queue_name=self.logs_channel)
             self.registry_manager = RegistryManager()
         self.process = None
-        self.shell_command = shell_command
-        self.is_process_running = False
         self.is_waiting = False
+        
+
+        # Storage
+        self.mongodb_client = MongodbService(table_name="tasks")
+        self.local_storage = DictStorage("task_storage.json")
+        
+       
+
+        
+    def reset(self):
+        self.task_id = get_uuid(size=8)
+        self.is_process_running = False
+        self.register_event = threading.Event()
+        self.status = self.update_status(status=ModuleStatus.waiting)
+        self.run_parameters = {}
+        self.stdout_storage = []
+        self.process = None
+
+    def save(self):
+        task_data = {}
+        task_data["stdout"] = self.stdout_storage
+        task_data["parameters"] = self.run_parameters
+        task_data.update(self.status)
+        try:
+            self.mongodb_client.insert(data=task_data)
+        except:
+            logger.exception("mongodb inserting task data")
+            self.local_storage.update(key=self.task_id, value=task_data)
+            self.local_storage.save()
 
     @try_except(logger=logger)
     def listen(self):
@@ -37,26 +76,35 @@ class RunInShell(ABC):
         registry_scheduler = threading.Thread(target=self.register_on_schedule)
         registry_scheduler.start()
 
-        while self.is_waiting:
+        while True:
             try:
                 logger.info(f"Waiting for  {self.channel}")
                 self.pika_pub_sub.subscribe(self.consume)
             except KeyboardInterrupt:
+                self.register_event.set()
                 self.is_waiting = False
                 break
             except BaseException:
                 logger.exception("from RunInShell")
+                self.register_event.set()
                 self.is_waiting = False
                 break
                 
-    def register_on_schedule(self,minutes=1):
-        while self.is_waiting:
+    def register_on_schedule(self,seconds=30):
+        while True:
+            if self.register_event.is_set():
+                break
             try:
-                self.registry_manager.register_module(module=self.module,tool=self.tool, status="ok", is_running=self.is_process_running)
-                time.sleep(30)
+                self.__register_status()
+                time.sleep(seconds)
             except KeyboardInterrupt:
                 self.is_waiting = False
                 break
+
+    def __register_status(self):
+        ## Update just the timestamp
+        self.update_status(status=self.status["status"])
+        self.registry_manager.register_module(module_registry_message=self.status)
 
     def consume(self, ch, method, properties, body):
         print(" [x] Received %r" % body)
@@ -70,38 +118,58 @@ class RunInShell(ABC):
                 command = message.get("cmd","")
 
                 if command == 'start':
-                    self.shell_command = self.process_arguments_on_start(message=message)
+                    self.run_parameters.update(message)
+                    self.shell_command = self.run_command(parameters=message)
                     self.start()
-                    message = {'status':'started'}
-                    self.pika_log_pub.publish(message=json.dumps(message))
-                    self.pika_pub_sub.publish(message=json.dumps(message))
+                    message = self.update_status(status=ModuleStatus.started)
+                    self.__register_status()
+                    self.pika_log_pub.publish(message=message)
 
                 elif command == 'pause':
                     self.pause()
-                    message = {'status':'paused'}
-                    self.pika_log_pub.publish(message=json.dumps(message))
-                    self.pika_pub_sub.publish(message=json.dumps(message))
+                    message = self.update_status(status=ModuleStatus.paused)
+                    self.__register_status()
+                    self.pika_log_pub.publish(message=message)
 
                 elif command == 'resume':
                     self.resume()
-                    message = {'status':'resumed'}
-                    self.pika_log_pub.publish(message=json.dumps(message))
-                    self.pika_pub_sub.publish(message=json.dumps(message))
+                    message = self.update_status(status=ModuleStatus.resumed)
+                    self.__register_status()
+                    self.pika_log_pub.publish(message=message)
 
                 elif command == 'terminate':
                     self.terminate()
-                    message = {'status':'terminated'}
-                    self.pika_log_pub.publish(message=json.dumps(message))
-                    self.pika_pub_sub.publish(message=json.dumps(message))
+                    message = self.update_status(status=ModuleStatus.terminated)
+                    self.__register_status()
+                    self.pika_log_pub.publish(message=message)
 
-                elif command == "close_client_loop":   
-                    message = {'status':'closed_client_loop'}
-                    self.pika_log_pub.publish(message=json.dumps(message))
-                    self.pika_pub_sub.publish(message=json.dumps(message))
+                elif command == 'status':
+                    message = self.status
+                    self.__register_status()
+                    self.pika_log_pub.publish(message=message)
+
+                elif command == "close_client":   
+                    message = {'status':'closed_client'}
+                    self.pika_log_pub.publish(message=message)
                     self.close()
                     sys.exit(0)
 
         return
+
+    def update_status(self, status:ModuleStatus, info="", result="") -> dict:
+        self.status = ModuleRegistry(
+            task_id=self.task_id, 
+            module=self.module, 
+            tool=self.tool, 
+            last_seen=datetime.datetime.now().isoformat(), 
+            is_running=self.is_process_running, 
+            status=status if type(status) == str else status.value,
+            info=info,
+            result=result
+        ).dict()
+        return self.status
+
+   
 
     def start(self):
         shell_command_args = shlex.split(self.shell_command)
@@ -112,7 +180,8 @@ class RunInShell(ABC):
             logger.info(self.channel + ":" +'starting process')
     
             if self.publish:
-                self.pika_log_pub.publish( message={'info': 'starting process'})
+                self.update_status(status=ModuleStatus.running, info='starting process')
+                self.pika_log_pub.publish( message=self.status)
 
             self.process = subprocess.Popen(
                 shell_command_args,
@@ -124,15 +193,15 @@ class RunInShell(ABC):
             stdout_thread.start()
             logger.info(self.channel + ":" +'start succeded!')
             if self.publish:
-                self.pika_log_pub.publish( message={'info': 'start succeded!'})
+                self.update_status(status=ModuleStatus.running, info='start succeded!')
+                self.pika_log_pub.publish( message={'info': self.status})
             return True
        
         except BaseException:
             error = traceback.format_exc()
-            logger.exception(self.channel + ":" +'Exception occured while starting subprocess')
-            if self.publish:
-                self.pika_log_pub.publish( message={'error': 'Exception occured while starting subprocess: \n' + str(error)})
-            return False
+            self.on_failure(error=error, process_name="starting")
+
+        return False
        
     def terminate(self):
         try:
@@ -153,10 +222,7 @@ class RunInShell(ABC):
 
         except BaseException:
             error = traceback.format_exc()
-            logger.exception(self.channel + ":" +'Exception occured while terminating subprocess')
-    
-            if self.publish:
-                self.pika_log_pub.publish( message={'error': 'Exception occured while terminating subprocess: \n  ' + error})
+            self.on_failure(error=error, process_name="terminating")
        
         return False
 
@@ -178,10 +244,7 @@ class RunInShell(ABC):
                     return True
         except BaseException:
             error = traceback.format_exc()
-            logger.exception(self.channel + ":" +'Exception occured while pausing subprocess')
-    
-            if self.publish:
-                self.pika_log_pub.publish( message={'error': 'Exception occured while pausing subprocess: \n  ' + error})
+            self.on_failure(error=error, process_name="pausing")
        
         return False
 
@@ -206,11 +269,7 @@ class RunInShell(ABC):
 
         except BaseException:
             error = traceback.format_exc()
-            logger.exception(self.channel + ":" +'Exception occured while resuming subprocess')
-    
-            if self.publish:
-                self.pika_log_pub.publish( message={'error': 'Exception occured while resuming subprocess: \n  ' + error})
-        
+            self.on_failure(error=error, process_name="resuming")
        
         return False
         
@@ -228,57 +287,92 @@ class RunInShell(ABC):
             while process.poll() is None:
                 output = process.stdout.read1().decode('utf-8')
                 for i, line in enumerate(output.strip().split('\n')):
+                    self.stdout_storage.append(line)
                     if len(line.strip())>0:
                         if self.publish:
-                            self.pika_log_pub.publish( message={'log':line})
-                        logger.info(self.channel + ": " +line)
+                            message = self.make_stdout(line_number=i,line=line)
+                            self.pika_log_pub.publish( message=message)
+                        logger.info(str(message))
+                    # TODO save on interval here - update mongodb task storage
+                    # ---------------
+
                 time.sleep(0.1)
             if self.publish:
-                self.pika_log_pub.publish( message={'info': 'Task succeded!'})
+                status = self.update_status(status=ModuleStatus.success, info='Task succeded!')
+                self.pika_log_pub.publish( message=status)
             self.on_success()
 
         except BaseException:
             error = traceback.format_exc()
-            logger.exception(self.channel + ":" +'Exception occured while capturing stdout from subprocess')
-
-            self.on_failure(error=error)
-            if self.publish:
-                self.pika_log_pub.publish( message={'error': 'Exception occured while capturing stdout from subprocess: \n  ' + error})
+            self.on_failure(error=error, process_name="capturing stdout from")
         finally:
             self.is_process_running = False
 
     def on_success(self):
-        return_data = self.process_return_data()
+        return_data = self.process_output(self.run_parameters)
         # NOTE maybe handle results here?
         
-        message = json.dumps({'status':'success', 'data':return_data})
-        logger.info(self.channel + message)
+        message = self.update_status(status=ModuleStatus.success, info="result available", result=return_data)
+        logger.info(str(message))
 
         if self.publish:
             time.sleep(0.5)
             self.pika_log_pub.publish( message=message)
-    
 
-  
-    def on_failure(self, error):
-        logger.info(self.channel + ": Failed!")
-        message = json.dumps({'status':'failed', "error":error})
+        self.save()
+        self.reset()
+
+    def on_failure(self, error, process_name):
+        info = f'Exception occured while {process_name} subprocess: \n' + str(error)
+        status = self.update_status(status=ModuleStatus.failed, info=info)
+        logger.exception((str(status)))
         if self.publish:
-            time.sleep(0.5)
-            self.pika_log_pub.publish( message=message)
+            self.pika_log_pub.publish( message=status)
+        
+        self.save()
+        self.reset()
+        
 
-    @abstractmethod    
-    def process_return_data(self):
-        return "dummy result"
+    def make_stdout(self, line_number, line ):
+        percent, loglevel, message = self.parse_stdout(line)
+        return Stdout(
+            task_id=self.task_id, 
+            percent=percent, level=loglevel,
+            line_number=line_number,
+            message=message
+        ).dict()
 
-    
-    @abstractmethod
-    def process_arguments_on_start(self, message:dict) -> str:
+    @abstractmethod 
+    def run_command(self, parameters:dict) -> str:
         """
-        Pass in arguments based on the recived message if needed
+        Pass in arguments based on the recived parameters if needed
         Otherwise just return the original shell command
         """
         return self.shell_command
+
+    @abstractmethod  
+    def parse_stdout(self, line:str) -> Union[int, str, str]:
+        """
+        Parse to the stdout line to extract 
+        1) progress percentage
+        2) log level
+        3) clean message
+        """
+        percent = 10
+        loglevel = "info"
+        message = line
+        return percent, loglevel, message
+    
+    @abstractmethod
+    def process_input(self, parameters:dict) -> str:
+        self.data_directory = "/"
+        # Read point cloud from .las
+        # Write point cloud to .pb
+
+    @abstractmethod    
+    def process_output(self, parameters) -> str:
+        output = self.stdout_storage[-1]
+        return output
 
 
 class SamplePythonProcessRunner(RunInShell):
@@ -293,11 +387,27 @@ class SamplePythonProcessRunner(RunInShell):
             shell_command=command
         )
 
-    def process_arguments_on_start(self, message:dict):
+    def run_command(self, parameters:dict) -> str:
+        """
+        Pass in arguments based on the recived parameters if needed
+        Otherwise just return the original shell command
+        """
         return self.shell_command
 
-    def process_return_data(self):
-        return "dummy result"
+    def parse_stdout(self, line:str) -> Union[int, str, str]:
+        percent = 10
+        loglevel = "info"
+        message = line
+        return percent, loglevel, message
+    
+    def process_input(self, parameters:dict) -> str:
+        self.data_directory = "/"
+        # Read point cloud from .las
+        # Write point cloud to .pb
+  
+    def process_output(self, parameters) -> str:
+        output = self.stdout_storage[-1]
+        return output
 
 def test_run_in_shell(publish=False):
     sample_logger_path = os.path.join(project_dir, "src/tests/sample_logging_process.py")

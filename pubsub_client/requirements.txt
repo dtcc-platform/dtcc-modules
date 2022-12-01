@@ -11,3 +11,4 @@ aio-pika
 pika
 # fabric
 pydantic
+pymongo

@@ -210,6 +210,9 @@ class DictStorage():
     def __init__(self,file_name) -> None:
         self.file_name = file_name
         self.data = self.load()
+
+    def exists(self,key):
+        return True if key in self.data.keys() else False
         
     def update(self, key, value):
         self.data.update({key:value})
@@ -218,7 +221,10 @@ class DictStorage():
         self.data.update(data_dict)
     
     def retreive(self,key):
-        return self.data[key]
+        if self.exists(key):
+            return self.data[key]
+        else:
+            return None
 
     def load(self):
         data = {}

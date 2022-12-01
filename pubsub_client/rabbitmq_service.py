@@ -108,6 +108,7 @@ class PikaPubSub:
             t.start()
             return True
         except:
+            logger.exception(f"from publish {message.__str__()}")
             return False
 
     @try_except(logger=logger)
@@ -122,6 +123,7 @@ class PikaPubSub:
                 body=json.dumps(message).encode()
             )
         except:
+            logger.exception(str(message))
             self.create_connection()
             self.channel.basic_publish(
                 exchange='',
