@@ -268,8 +268,8 @@ async def get_status(msg: RequestMessage):
 
 
 
-@router_task.get("/task/stream-logs")
-async def stream_task_logs(msg:RequestMessage, request: Request):
+@router_task.get("/task/stream-stdout")
+async def stream_task_stdout(msg:RequestMessage, request: Request):
     if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
         module = registry_manager.get_module_data(task_id=msg.task_id)
         if module.is_running:
@@ -288,7 +288,7 @@ async def stream_task_logs(msg:RequestMessage, request: Request):
             return ReturnMessage(success=False, info="module does not exist")
 
    
-    
+
 
 app.include_router(router_task)
 

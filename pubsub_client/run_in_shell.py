@@ -25,23 +25,22 @@ class RunInShell(ABC):
         self.tool = tool
         self.shell_command = shell_command
         self.publish = publish
+        self.pika_pub_sub = None
+        self.pika_log_pub = None
+        self.process = None
+
+        self.listen_event = threading.Event()
+        self.register_event = threading.Event()
+        self.registry_manager = RegistryManager()
+        
+        
 
          ## Initialize runtime parameters
         self.reset()
-
+            
         
-        self.channel = f"/task/{self.task_id}"
-        self.logs_channel = f"/task/{self.task_id}/logs"
-
-        
-        if publish: 
-            self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
-            self.pika_log_pub = PikaPubSub(queue_name=self.logs_channel)
-            self.registry_manager = RegistryManager()
-        self.process = None
         self.is_waiting = False
         
-
         # Storage
         self.mongodb_client = MongodbService(table_name="tasks")
         self.local_storage = DictStorage("task_storage.json")
@@ -50,13 +49,28 @@ class RunInShell(ABC):
 
         
     def reset(self):
+        
         self.task_id = get_uuid(size=8)
         self.is_process_running = False
-        self.register_event = threading.Event()
+        
         self.status = self.update_status(status=ModuleStatus.waiting)
         self.run_parameters = {}
         self.stdout_storage = []
         self.process = None
+        self.channel = f"/task/{self.task_id}"
+        self.logs_channel = f"/task/{self.task_id}/logs"
+        if self.publish: 
+            if self.pika_pub_sub is not None:
+                self.pika_pub_sub.close_connection()
+            self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
+
+            if self.pika_log_pub is not None:
+                self.pika_log_pub.close_connection()
+            self.pika_log_pub = PikaPubSub(queue_name=self.logs_channel)
+            
+            
+
+            
 
     def save(self):
         task_data = {}
@@ -73,20 +87,21 @@ class RunInShell(ABC):
     @try_except(logger=logger)
     def listen(self):
         self.is_waiting = True
+        
         registry_scheduler = threading.Thread(target=self.register_on_schedule)
         registry_scheduler.start()
 
         while True:
+            if self.listen_event.is_set():
+                break
             try:
                 logger.info(f"Waiting for  {self.channel}")
                 self.pika_pub_sub.subscribe(self.consume)
             except KeyboardInterrupt:
-                self.register_event.set()
                 self.is_waiting = False
                 break
             except BaseException:
                 logger.exception("from RunInShell")
-                self.register_event.set()
                 self.is_waiting = False
                 break
                 
@@ -103,7 +118,11 @@ class RunInShell(ABC):
 
     def __register_status(self):
         ## Update just the timestamp
-        self.update_status(status=self.status["status"])
+        self.update_status(
+            status=self.status["status"],
+            info=self.status["info"],
+            result=self.status["result"]
+        )
         self.registry_manager.register_module(module_registry_message=self.status)
 
     def consume(self, ch, method, properties, body):
@@ -149,7 +168,8 @@ class RunInShell(ABC):
                     self.pika_log_pub.publish(message=message)
 
                 elif command == "close_client":   
-                    message = {'status':'closed_client'}
+                    message = self.update_status(status=ModuleStatus.terminated)
+                    self.__register_status()
                     self.pika_log_pub.publish(message=message)
                     self.close()
                     sys.exit(0)
@@ -279,6 +299,8 @@ class RunInShell(ABC):
             self.pika_log_pub.close_connection()
         if self.pika_pub_sub is not None:
             self.pika_pub_sub.close_connection()
+        self.listen_event.set()
+        self.register_event.set()
         
     def __capture_stdout(self, process: subprocess.Popen):
         self.is_process_running = True
@@ -298,7 +320,7 @@ class RunInShell(ABC):
 
                 time.sleep(0.1)
             if self.publish:
-                status = self.update_status(status=ModuleStatus.success, info='Task succeded!')
+                status = self.update_status(status=ModuleStatus.success, info='Task succeded! Now processing the output...')
                 self.pika_log_pub.publish( message=status)
             self.on_success()
 
@@ -316,22 +338,30 @@ class RunInShell(ABC):
         logger.info(str(message))
 
         if self.publish:
-            time.sleep(0.5)
+            self.__register_status()
             self.pika_log_pub.publish( message=message)
 
         self.save()
+        self.listen_event.set()
         self.reset()
+        time.sleep(1)
+        self.listen_event.clear()
+        self.listen()
 
     def on_failure(self, error, process_name):
         info = f'Exception occured while {process_name} subprocess: \n' + str(error)
         status = self.update_status(status=ModuleStatus.failed, info=info)
         logger.exception((str(status)))
         if self.publish:
+            self.__register_status()
             self.pika_log_pub.publish( message=status)
         
         self.save()
+        self.listen_event.set()
         self.reset()
-        
+        time.sleep(1)
+        self.listen_event.clear()
+        self.listen()
 
     def make_stdout(self, line_number, line ):
         percent, loglevel, message = self.parse_stdout(line)
