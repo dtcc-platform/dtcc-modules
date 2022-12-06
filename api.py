@@ -23,7 +23,7 @@ from pubsub_client.logger import getLogger
 from pubsub_client.utils import try_except, DictStorage, file_exists
 from pubsub_client.rabbitmq_service import PikaPubSub, log_consumer
 from pubsub_client.registry_manager import RegistryManager
-from pubsub_client.data_models import ModuleConfig, RequestMessage, ReturnMessage, ModuleRegistry
+from pubsub_client.data_models import ModuleConfig, RequestMessage, ReturnMessage, ModuleRegistry, ModuleStatus
 
 logger = getLogger(__file__)
 
@@ -103,7 +103,7 @@ async def get_tasks():
     registered_modules = list(registry_manager.get_available_modules().values())
     for registered_module in registered_modules:
         time_diff_minutes = get_time_diff_in_minutes(registered_module.last_seen)
-        if time_diff_minutes<2:
+        if time_diff_minutes<2 and registered_module.status == ModuleStatus.waiting.value:
             print(registered_module)
             module_exists, module_info = check_if_module_exists(registered_module.module, registered_module.tool)
             if module_exists:

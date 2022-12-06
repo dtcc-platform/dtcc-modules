@@ -47,7 +47,14 @@ def test():
                 
                 pub_sub.publish(message={"cmd":"start"})
 
-                time.sleep(1)
+                time.sleep(5)
+
+                module_registry_data = registry_manager.get_module_data(registered_module.task_id)
+                print(module_registry_data)
+
+                if module_registry_data.status == ModuleStatus.success.value:
+                    print(f"{i}: success!!!!!!!")
+                    break
 
                 pub_sub.publish(message={"cmd":"pause"})
                 for i in range(3):

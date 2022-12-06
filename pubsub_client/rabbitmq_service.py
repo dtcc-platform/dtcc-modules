@@ -1,5 +1,5 @@
-import os, pathlib, sys, json, uuid, time, asyncio, logging
-import threading
+import os, pathlib, sys, json, uuid, time, asyncio, logging, datetime
+import multiprocessing, threading
 import pika
 import aio_pika
 
@@ -104,9 +104,8 @@ class PikaPubSub:
         
     def publish(self,message: dict):
         try:
-            t = threading.Thread(target=self.___publish, args=(message,))
-
-            t.start()
+            pub = threading.Thread(target=self.___publish, args=(message,))
+            pub.start()
             return True
         except:
             logger.exception(f"from publish {message.__str__()}")
@@ -118,6 +117,7 @@ class PikaPubSub:
         try:
             if self.channel.is_closed:
                 self.channel = self.connection.channel()
+            message['timestamp'] = datetime.datetime.now().isoformat()
             self.channel.basic_publish(
                 exchange='',
                 routing_key=self.queue_name,
@@ -138,7 +138,7 @@ class PikaPubSub:
                 print("creating channel!!")
                 self.channel = self.connection.channel()
             self.channel.queue_declare(queue=self.queue_name)
-            self.channel.basic_qos(prefetch_count=1)
+            # self.channel.basic_qos(prefetch_count=1)
             self.channel.basic_consume(queue=self.queue_name, on_message_callback=on_mesage_callback)
 
             self.channel.start_consuming()
@@ -149,7 +149,10 @@ class PikaPubSub:
             self.subscribe(on_mesage_callback)
         except:
             logger.exception("from pubsub subscribe!!!!!!")
-            
+            # self.create_connection()
+            # self.subscribe(on_mesage_callback)
+
+    ## TODO subscribe one using consume, cancel consume method
 
     @try_except(logger=logger)
     def close_connection(self):

@@ -1,5 +1,5 @@
 import os, sys, pathlib, errno, time, functools, json, uuid, subprocess, shutil
-import traceback
+import traceback, datetime
 from urllib.request import urlretrieve
 from types import ModuleType
 from tqdm import tqdm
@@ -41,6 +41,10 @@ def file_exists(path, min_size_mb=None):
     except:
         return False
 
+def get_time_diff(iso_timestamp:str):
+    diff = datetime.datetime.now() - datetime.datetime.fromisoformat(iso_timestamp)
+    minutes, seconds = divmod(diff.total_seconds(), 60) 
+    return int(minutes), int(seconds)
 
 def get_size_mb(path = '.'):
     total_size = 0

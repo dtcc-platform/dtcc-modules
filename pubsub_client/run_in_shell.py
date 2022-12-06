@@ -1,5 +1,5 @@
-import subprocess, shlex, logging, time, pathlib, sys, os, threading, signal, traceback, json, datetime, tempfile, pickle
-
+import subprocess, shlex, logging, time, pathlib, sys, os, signal, traceback, json, datetime, tempfile, pickle
+import threading
 from abc import ABC, abstractmethod
 from typing import Union
 
@@ -7,7 +7,7 @@ project_dir = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_dir)
 
 from logger import getLogger
-from utils import try_except, get_uuid, DictStorage
+from utils import try_except, get_uuid, DictStorage, get_time_diff
 from rabbitmq_service import PikaPubSub
 from registry_manager import RegistryManager
 from data_models import ModuleStatus, ModuleRegistry, Stdout
@@ -33,7 +33,7 @@ class RunInShell(ABC):
         self.pika_pub_sub = None
         self.pika_log_pub = None
         self.process = None
-
+      
         self.listen_event = threading.Event()
         self.register_event = threading.Event()
         self.registry_manager = RegistryManager()
@@ -93,7 +93,7 @@ class RunInShell(ABC):
     def listen(self):
         self.is_waiting = True
         
-        registry_scheduler = threading.Thread(target=self.register_on_schedule)
+        registry_scheduler =threading.Thread(target=self.register_on_schedule)
         registry_scheduler.start()
 
         while True:
@@ -110,7 +110,7 @@ class RunInShell(ABC):
                 self.is_waiting = False
                 break
                 
-    def register_on_schedule(self,seconds=30):
+    def register_on_schedule(self,seconds=10):
         while True:
             if self.register_event.is_set():
                 break
@@ -139,46 +139,50 @@ class RunInShell(ABC):
             message = json.loads(body)
             logger.info("received meassge: "+ str(message))
             if type(message) is dict:
-                command = message.get("cmd","")
+                timestamp = message.get("timestamp","")
+                minutes, secs = get_time_diff(timestamp)
+                if int(minutes)==0 and secs<2:
+                    command = message.get("cmd","")
 
-                if command == 'start':
-                    self.run_parameters.update(message)
-                    self.shell_command = self.run_command(parameters=message)
-                    self.start()
-                    message = self.update_status(status=ModuleStatus.started)
-                    self.__register_status()
-                    self.pika_log_pub.publish(message=message)
+                    if command == 'start':
+                        self.run_parameters.update(message)
+                        self.shell_command = self.run_command(parameters=message)
+                        self.start()
+                        message = self.update_status(status=ModuleStatus.started)
+                        self.__register_status()
+                        self.pika_log_pub.publish(message=message)
 
-                elif command == 'pause':
-                    self.pause()
-                    message = self.update_status(status=ModuleStatus.paused)
-                    self.__register_status()
-                    self.pika_log_pub.publish(message=message)
+                    elif command == 'pause':
+                        self.pause()
+                        message = self.update_status(status=ModuleStatus.paused)
+                        self.__register_status()
+                        self.pika_log_pub.publish(message=message)
 
-                elif command == 'resume':
-                    self.resume()
-                    message = self.update_status(status=ModuleStatus.resumed)
-                    self.__register_status()
-                    self.pika_log_pub.publish(message=message)
+                    elif command == 'resume':
+                        self.resume()
+                        message = self.update_status(status=ModuleStatus.resumed)
+                        self.__register_status()
+                        self.pika_log_pub.publish(message=message)
 
-                elif command == 'terminate':
-                    self.terminate()
-                    message = self.update_status(status=ModuleStatus.terminated)
-                    self.__register_status()
-                    self.pika_log_pub.publish(message=message)
+                    elif command == 'terminate':
+                        self.terminate()
+                        message = self.update_status(status=ModuleStatus.terminated)
+                        self.__register_status()
+                        self.pika_log_pub.publish(message=message)
 
-                elif command == 'status':
-                    message = self.status
-                    self.__register_status()
-                    self.pika_log_pub.publish(message=message)
+                    elif command == 'status':
+                        message = self.status
+                        self.__register_status()
+                        self.pika_log_pub.publish(message=message)
 
-                elif command == "close_client":   
-                    message = self.update_status(status=ModuleStatus.terminated)
-                    self.__register_status()
-                    self.pika_log_pub.publish(message=message)
-                    self.close()
-                    sys.exit(0)
-
+                    elif command == "close_client":   
+                        message = self.update_status(status=ModuleStatus.terminated)
+                        self.__register_status()
+                        self.pika_log_pub.publish(message=message)
+                        self.close()
+                        sys.exit(0)
+                else:
+                    logger.info(f"Message obsolete {str(message)}")
         return
 
     def update_status(self, status:ModuleStatus, info="", result="") -> dict:
@@ -326,6 +330,7 @@ class RunInShell(ABC):
                     # ---------------
 
                 time.sleep(0.1)
+            self.is_process_running = False
             if self.publish:
                 status = self.update_status(status=ModuleStatus.success, info='Task succeded! Now processing the output...')
                 self.pika_log_pub.publish( message=status)
@@ -333,6 +338,7 @@ class RunInShell(ABC):
 
         except BaseException:
             error = traceback.format_exc()
+            self.is_process_running = False
             self.on_failure(error=error, process_name="capturing stdout from")
         finally:
             self.is_process_running = False

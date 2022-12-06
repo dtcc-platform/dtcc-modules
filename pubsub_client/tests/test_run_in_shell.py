@@ -40,7 +40,6 @@ class SamplePythonProcessRunner(RunInShell):
         return percent, loglevel, message
     
     def process_input(self, parameters:dict) -> str:
-        self.up
         data_directory = self.local_file_handler.get_data_dir()
         # Read point cloud from .las
         # ....
