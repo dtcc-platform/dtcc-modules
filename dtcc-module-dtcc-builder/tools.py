@@ -69,8 +69,4 @@ class DtccBuilderCityModel(RunInShell):
         return json.dumps({"data": data})
 
 if __name__ == "__main__":
-    import importlib, inspect
-    file_path = pathlib.Path(__file__).resolve().__str__() + '.py'
-    for name, cls in inspect.getmembers(importlib.import_module(file_path), inspect.isclass):
-        print(name)
-    # DtccBuilderCityModel(publish=True).listen()
+    DtccBuilderCityModel(publish=True).listen()

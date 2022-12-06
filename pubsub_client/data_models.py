@@ -11,6 +11,8 @@ class ModuleStatus(Enum):
     success = "success"
     failed = "failed"
     waiting = "waiting"
+    processing_input = "processing_input"
+    processing_output = "processing_output"
 
 class Stdout(BaseModel):
     task_id:str
@@ -51,6 +53,7 @@ class ModuleConfig(BaseModel):
     tools: List[Tool]
     
 class ModuleRegistry(BaseModel):
+    token:str
     task_id:str
     module: str
     tool: str

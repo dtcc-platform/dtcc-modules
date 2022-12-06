@@ -103,7 +103,7 @@ async def get_tasks():
     registered_modules = list(registry_manager.get_available_modules().values())
     for registered_module in registered_modules:
         time_diff_minutes = get_time_diff_in_minutes(registered_module.last_seen)
-        if time_diff_minutes<5:
+        if time_diff_minutes<2:
             print(registered_module)
             module_exists, module_info = check_if_module_exists(registered_module.module, registered_module.tool)
             if module_exists:
@@ -118,7 +118,8 @@ async def get_tasks():
 
 
 def get_channel(msg:RequestMessage):
-    channel = f"/task/{msg.task_id}"
+    module = registry_manager.get_module_data(task_id=msg.task_id)
+    channel = f"/task/{module.token}"
     return channel
 
 def get_logs_channel(msg:RequestMessage):

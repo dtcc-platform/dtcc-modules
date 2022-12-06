@@ -1,4 +1,4 @@
-import subprocess, shlex, logging, time, pathlib, sys, os, threading, signal, traceback, json, datetime
+import subprocess, shlex, logging, time, pathlib, sys, os, threading, signal, traceback, json, datetime, tempfile, pickle
 
 from abc import ABC, abstractmethod
 from typing import Union
@@ -12,6 +12,7 @@ from rabbitmq_service import PikaPubSub
 from registry_manager import RegistryManager
 from data_models import ModuleStatus, ModuleRegistry, Stdout
 from mogodb_service import MongodbService
+from file_handlers import LocalFileHandler
 
 logger = getLogger(__file__)
 
@@ -19,6 +20,10 @@ logger = getLogger(__file__)
 
 class RunInShell(ABC):
     def __init__(self,module, tool, publish=True,shell_command="ls") -> None:
+
+        self.token = get_uuid(size=8)
+        self.channel = f"/task/{self.token}"
+        self.logs_channel = f"/task/{self.token}/logs"
 
         ## Set instance parameters
         self.module = module
@@ -42,8 +47,8 @@ class RunInShell(ABC):
         self.is_waiting = False
         
         # Storage
-        self.mongodb_client = MongodbService(table_name="tasks")
-        self.local_storage = DictStorage("task_storage.json")
+        self.mongodb_client = MongodbService(table_name="tasks")        
+        self.local_file_handler = LocalFileHandler(destination_prefix=self.file_storage_prefix)
         
        
 
@@ -57,8 +62,9 @@ class RunInShell(ABC):
         self.run_parameters = {}
         self.stdout_storage = []
         self.process = None
-        self.channel = f"/task/{self.task_id}"
-        self.logs_channel = f"/task/{self.task_id}/logs"
+        
+
+        self.file_storage_prefix = f"{self.module}/{self.tool}/{self.task_id}"
         if self.publish: 
             if self.pika_pub_sub is not None:
                 self.pika_pub_sub.close_connection()
@@ -67,9 +73,6 @@ class RunInShell(ABC):
             if self.pika_log_pub is not None:
                 self.pika_log_pub.close_connection()
             self.pika_log_pub = PikaPubSub(queue_name=self.logs_channel)
-            
-            
-
             
 
     def save(self):
@@ -81,8 +84,10 @@ class RunInShell(ABC):
             self.mongodb_client.insert(data=task_data)
         except:
             logger.exception("mongodb inserting task data")
-            self.local_storage.update(key=self.task_id, value=task_data)
-            self.local_storage.save()
+            dir_path = os.path.join(self.local_file_handler.get_data_dir(), self.file_storage_prefix)
+            os.makedirs(dir_path, exist_ok=True)
+            file_path = os.path.join(dir_path, "session_data.pickle")
+            pickle.dump(task_data, open(file_path,mode='wb'))
 
     @try_except(logger=logger)
     def listen(self):
@@ -178,6 +183,7 @@ class RunInShell(ABC):
 
     def update_status(self, status:ModuleStatus, info="", result="") -> dict:
         self.status = ModuleRegistry(
+            token=self.token,
             task_id=self.task_id, 
             module=self.module, 
             tool=self.tool, 
@@ -301,6 +307,7 @@ class RunInShell(ABC):
             self.pika_pub_sub.close_connection()
         self.listen_event.set()
         self.register_event.set()
+        self.registry_manager.close()
         
     def __capture_stdout(self, process: subprocess.Popen):
         self.is_process_running = True
@@ -395,73 +402,25 @@ class RunInShell(ABC):
     
     @abstractmethod
     def process_input(self, parameters:dict) -> str:
-        self.data_directory = "/"
+        self.up
+        data_directory = self.local_file_handler.get_data_dir()
         # Read point cloud from .las
+        # ....
         # Write point cloud to .pb
+        # .....
+        temp = tempfile.NamedTemporaryFile(suffix='.pb')
+        temp.write("test content .....")
+
+        ## copy to local / shared  storage
+        input_file_path = self.local_file_handler.copy_to_shared_folder(source_file_path=temp.name)
+
+        temp.close()
+
+        return input_file_path
+        
 
     @abstractmethod    
-    def process_output(self, parameters) -> str:
+    def process_output(self, parameters:dict) -> str:
+        # Return path to the result extracted from stdout or parameters
         output = self.stdout_storage[-1]
         return output
-
-
-class SamplePythonProcessRunner(RunInShell):
-    def __init__(self, publish=False) -> None:
-        sample_logger_path = os.path.join(project_dir, "tests/sample_logging_process.py")
-        command=f'python3 {sample_logger_path}'
-
-        RunInShell.__init__(self,
-            module="run_sample_python_process",
-            tool="test",
-            publish=publish,
-            shell_command=command
-        )
-
-    def run_command(self, parameters:dict) -> str:
-        """
-        Pass in arguments based on the recived parameters if needed
-        Otherwise just return the original shell command
-        """
-        return self.shell_command
-
-    def parse_stdout(self, line:str) -> Union[int, str, str]:
-        percent = 10
-        loglevel = "info"
-        message = line
-        return percent, loglevel, message
-    
-    def process_input(self, parameters:dict) -> str:
-        self.data_directory = "/"
-        # Read point cloud from .las
-        # Write point cloud to .pb
-  
-    def process_output(self, parameters) -> str:
-        output = self.stdout_storage[-1]
-        return output
-
-def test_run_in_shell(publish=False):
-    sample_logger_path = os.path.join(project_dir, "src/tests/sample_logging_process.py")
-    command=f'python3 {sample_logger_path}'
-
-    run_in_shell = SamplePythonProcessRunner(publish=publish)
-
-    run_in_shell.start(command=command)
-    time.sleep(1)
-
-    if run_in_shell.pause():
-        for i in range(3):
-            print(i)
-            time.sleep(1)
-
-    if run_in_shell.resume():
-        for i in range(2):
-            print(i)
-            time.sleep(1)
-
-    run_in_shell.terminate()
-
-
-if __name__=="__main__":
-    # test_run_in_shell(publish=False)
-    sample_process = SamplePythonProcessRunner(publish=True)
-    sample_process.listen()

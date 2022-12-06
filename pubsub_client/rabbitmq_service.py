@@ -1,13 +1,14 @@
-import queue
+import os, pathlib, sys, json, uuid, time, asyncio, logging
 import threading
 import pika
 import aio_pika
-import os, pathlib, sys, json, uuid, time, asyncio
+
+logging.getLogger("pika").setLevel(logging.WARNING)
 
 project_dir = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_dir)
 
-from utils import try_except
+from utils import try_except, ProgressBar
 from logger import getLogger
 
 logger = getLogger(__file__)
@@ -162,6 +163,29 @@ class PikaPubSub:
         time.sleep(body.count(b'.'))
         print(" [x] Done")
         ch.basic_ack(delivery_tag=method.delivery_tag)
+
+class PikaProgressBar(ProgressBar):
+    """Extends ProgressBar to allow you to use it straighforward on a script.
+    Accepts an extra keyword argument named `stdout` (by default use sys.stdout)
+    and may be any file-object to which send the progress status.
+    """
+    def __init__(self, module, tool, task_id, channel, *args, **kwargs):
+        super(PikaProgressBar, self).__init__(*args, **kwargs)
+        self.stdout = kwargs.get('stdout', sys.stdout)
+        self.module = module
+        self.tool = tool
+        self.task_id = task_id
+        self.client = PikaPubSub(queue_name=channel)
+
+    def show_progress(self):
+        if hasattr(self.stdout, 'isatty') and self.stdout.isatty():
+            self.stdout.write('\r')
+        else:
+            self.stdout.write('\n')
+        self.stdout.write(str(self))
+        message = {"module": self.module, "tool": self.tool, "task_id":self.task_id, "progress":self.progress }
+        self.client.publish(message=message)
+        self.stdout.flush()
 
 if __name__=='__main__':
     asyncio.run(test_log_consumer(queue_name='/task/dtcc/generate-citymodel/logs'))

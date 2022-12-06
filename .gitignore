@@ -1,6 +1,7 @@
 __pycache__
 *.pyc
 logs
+data
 ## IDEs and editors
 .idea
 .vscode

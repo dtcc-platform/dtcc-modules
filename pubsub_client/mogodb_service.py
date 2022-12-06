@@ -27,8 +27,8 @@ class MongodbService():
         tasks = list(self.database[self.table].find(limit=100))
         return tasks
 
-    def get_item(self, id: str):
-        if (item := self.database[self.table].find_one({"_id": id})) is not None:
+    def find(self, query:dict):
+        if (item := self.database[self.table].find(query)) is not None:
             return item
         return {}
 

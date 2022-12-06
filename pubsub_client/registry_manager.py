@@ -20,6 +20,7 @@ class RegistryManager():
         self.channel = "/tasks/registry"
         self.module_registry = DictStorage(file_name="pubsub_module_registry")
         self.isListening = False
+        self.listening_event = threading.Event()
     
     def register_module(self,module_registry_message:dict ):
         self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
@@ -36,6 +37,7 @@ class RegistryManager():
     
     def listen_for_modules(self):
         self.isListening = True
+        self.listening_event.clear()
         listener = threading.Thread(target=self.__listen_handler, args=())
         listener.start()
 
@@ -43,6 +45,8 @@ class RegistryManager():
         self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
         try:
             while self.isListening:
+                if self.listening_event.is_set():
+                    break
                 logger.info(f"Waiting for  {self.channel}")
                 self.pika_pub_sub.subscribe(self.__update_module_registry)
                 time.sleep(0.5)
@@ -71,6 +75,7 @@ class RegistryManager():
 
     def close(self):
         self.isListening = False
+        self.listening_event.set()
         
 
 
