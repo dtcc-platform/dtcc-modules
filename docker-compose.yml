@@ -31,6 +31,7 @@ services:
       - mongoconfig:/data/configdb
     networks:
       - default
+    restart: unless-stopped
 
   minio:
     container_name: Minio
@@ -85,7 +86,7 @@ services:
       - rabbitmq
     environment: *common-variables
 
-  dtcc-hello-word:
+  dtcc-module-hello-word:
     build:
       context: .
       dockerfile: 'dtcc-module-hello-world/Dockerfile'
@@ -94,6 +95,8 @@ services:
     restart: unless-stopped
     depends_on:
       - rabbitmq
+      - dtcc-mongodb
+
     environment: *common-variables
 
 

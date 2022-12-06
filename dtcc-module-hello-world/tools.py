@@ -5,8 +5,8 @@ import tempfile
 import os, sys, pathlib
 import json
 
-project_dir = str(pathlib.Path(__file__).resolve().parents[1])
-sys.path.append(project_dir)
+# project_dir = str(pathlib.Path(__file__).resolve().parents[1])
+# sys.path.append(project_dir)
 
 from pubsub_client.run_in_shell import RunInShell
 from pubsub_client.logger import getLogger

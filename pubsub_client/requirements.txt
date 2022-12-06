@@ -12,3 +12,5 @@ pika
 # fabric
 pydantic
 pymongo
+minio
+wget

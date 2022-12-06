@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import importlib, inspect
 import multiprocessing, threading
 from multiprocessing.pool import ThreadPool, Pool
