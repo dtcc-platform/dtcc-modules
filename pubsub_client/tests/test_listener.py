@@ -66,7 +66,7 @@ def test():
                     print(i)
                     time.sleep(1)
 
-                pub_sub.publish(message={"cmd":"terminate"})
+                pub_sub.publish(message={"cmd":"stop"})
                 
 
         

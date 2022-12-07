@@ -217,14 +217,14 @@ async def resume_task(msg:RequestMessage):
         else:
             return ReturnMessage(success=False, info="module does not exist")
 
-@router_task.post("/task/terminate", response_model=ReturnMessage)
-async def terminate_task(msg:RequestMessage):
+@router_task.post("/task/stop", response_model=ReturnMessage)
+async def stop_task(msg:RequestMessage):
     if registry_manager.check_if_module_is_registered(task_id=msg.task_id):
         module = registry_manager.get_module_data(task_id=msg.task_id)
         if module.is_running:
             channel = get_channel(msg)
             rps = PikaPubSub(queue_name=channel)
-            message = {'cmd': "terminate" }
+            message = {'cmd': "stop" }
 
             if rps.publish(message=message):
                 time.sleep(1)

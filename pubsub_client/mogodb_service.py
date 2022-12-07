@@ -1,5 +1,8 @@
 import os
 from pymongo import MongoClient
+from logger import getLogger
+
+logger = getLogger(__file__)
 
 host =   os.environ.get("MONGODB_HOST", "localhost")
 user = os.environ.get("MONGODB_USER", "dtcc_admin" )
@@ -10,10 +13,13 @@ URI = f"mongodb://{user}:{password}@{host}:27017/"
 
 class MongodbService():
     def __init__(self, table_name="tasks") -> None:
-        self.mongodb_client = MongoClient(URI)
-        self.database = self.mongodb_client[db_name]
-        self.table = table_name
-        print("Connected to the MongoDB database!")
+        try:
+            self.mongodb_client = MongoClient(URI)
+            self.database = self.mongodb_client[db_name]
+            self.table = table_name
+            logger.info("Connected to the MongoDB database!")
+        except:
+            logger.exception("from starting mongodb service")
 
     def insert(self, data:dict):
         new_task = self.database[self.table].insert_one(data)
