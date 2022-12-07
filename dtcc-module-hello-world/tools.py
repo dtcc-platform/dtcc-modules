@@ -52,7 +52,8 @@ class DtccHelloWorld(RunInShell):
         message = line
         return percent, loglevel, message
     
-    def process_input(self, parameters:dict) -> str:
+    def process_input(self, parameters:dict) -> None:
+        parameters
         data_directory = self.local_file_handler.get_data_dir()
         # Read point cloud from .las
         # ....
@@ -63,10 +64,10 @@ class DtccHelloWorld(RunInShell):
 
         ## copy to local / shared  storage
         input_file_path = self.local_file_handler.copy_to_shared_folder(source_file_path=temp.name)
+        parameters['input_file_path'] = input_file_path
 
         temp.close()
 
-        return input_file_path
         
    
     def process_output(self, parameters:dict) -> str:
@@ -74,6 +75,8 @@ class DtccHelloWorld(RunInShell):
         ## example: output = ",".join(self.stdout_storage[-3:])
         with open(self.output_file.name, 'r') as src:
             return_data = src.read()
+
+        # print(parameters['input_file_path'])
  
         os.remove(self.output_file.name)
         return json.dumps({"hello_world": return_data})

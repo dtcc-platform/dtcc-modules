@@ -146,7 +146,8 @@ class RunInShell(ABC):
 
                     if command == 'start':
                         self.run_parameters.update(message)
-                        self.shell_command = self.run_command(parameters=message)
+                        self.process_input(parameters=self.run_parameters)
+                        self.shell_command = self.run_command(parameters=self.run_parameters)
                         self.start()
                         message = self.update_status(status=ModuleStatus.started)
                         self.__register_status()
@@ -407,8 +408,8 @@ class RunInShell(ABC):
         return percent, loglevel, message
     
     @abstractmethod
-    def process_input(self, parameters:dict) -> str:
-        self.up
+    def process_input(self, parameters:dict) -> None:
+        ## TODO update status here to processing input
         data_directory = self.local_file_handler.get_data_dir()
         # Read point cloud from .las
         # ....
@@ -419,14 +420,15 @@ class RunInShell(ABC):
 
         ## copy to local / shared  storage
         input_file_path = self.local_file_handler.copy_to_shared_folder(source_file_path=temp.name)
+        parameters['input_file_path'] = input_file_path
 
         temp.close()
-
-        return input_file_path
         
 
     @abstractmethod    
     def process_output(self, parameters:dict) -> str:
         # Return path to the result extracted from stdout or parameters
+        ## example: output = ",".join(self.stdout_storage[-3:])
+        # print(parameters['input_file_path'])
         output = self.stdout_storage[-1]
         return output
