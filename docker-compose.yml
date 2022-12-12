@@ -67,7 +67,6 @@ services:
     build:
       context: .
       dockerfile: 'dtcc-module-dtcc-builder/Dockerfile'
-      target: dev
       args:
         - _uid=${_UID}
         - gid=${GID}
@@ -108,7 +107,7 @@ services:
     image: dtcc-module-api-image
     restart: unless-stopped
     ports:
-        - 8080:8080
+        - 8081:8081
     depends_on:
       - rabbitmq
     environment: *common-variables
