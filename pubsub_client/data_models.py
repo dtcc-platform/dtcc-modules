@@ -6,6 +6,7 @@ class ModuleStatus(Enum):
     started = "started"
     paused = "paused"
     resumed = "resumed"
+    stopped = "stopped"
     terminated = "terminated"
     running = "running"
     success = "success"

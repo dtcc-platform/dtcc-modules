@@ -87,6 +87,7 @@ async def publish_async(channel:aio_pika.Channel, queue_name:str, msg:dict):
         routing_key=queue_name,
     )
 
+## TODO Make new pubsub asynchronous class
 class PikaPubSub:
 
     def __init__(self, queue_name):
@@ -114,17 +115,17 @@ class PikaPubSub:
     @try_except(logger=logger)
     def ___publish(self, message: dict):
         """Method to publish message to RabbitMQ"""
+        message['timestamp'] = datetime.datetime.now().isoformat()
         try:
             if self.channel.is_closed:
                 self.channel = self.connection.channel()
-            message['timestamp'] = datetime.datetime.now().isoformat()
             self.channel.basic_publish(
                 exchange='',
                 routing_key=self.queue_name,
                 body=json.dumps(message).encode()
             )
         except:
-            logger.exception(str(message))
+            # logger.exception(str(message))
             self.create_connection()
             self.channel.basic_publish(
                 exchange='',
@@ -137,6 +138,7 @@ class PikaPubSub:
             if self.channel.is_closed:
                 print("creating channel!!")
                 self.channel = self.connection.channel()
+            # self.channel.exchange_declare(exchange="dtcc", exchange_type="direct", passive=False, durable=True, auto_delete=False)
             self.channel.queue_declare(queue=self.queue_name)
             # self.channel.basic_qos(prefetch_count=1)
             self.channel.basic_consume(queue=self.queue_name, on_message_callback=on_mesage_callback)
@@ -148,17 +150,26 @@ class PikaPubSub:
             self.create_connection()
             self.subscribe(on_mesage_callback)
         except:
-            logger.exception("from pubsub subscribe!!!!!!")
+            # logger.exception("from pubsub subscribe!!!!!!")
+            pass
             # self.create_connection()
             # self.subscribe(on_mesage_callback)
 
     ## TODO subscribe one using consume, cancel consume method
 
+    
     @try_except(logger=logger)
     def close_connection(self):
-        if (self.connection is not None):
-            self.channel.close()
-            self.connection.close()
+        try:
+            if (self.connection is not None):
+                if self.channel.is_open:
+                    self.channel.close()
+                if self.connection.is_open:
+                    self.connection.close()
+        except pika.exceptions.StreamLostError:
+            logger.info("pika error")
+        except:
+            logger.info("pika error")
 
 
     def __example_callback(self, ch, method, properties, body):
