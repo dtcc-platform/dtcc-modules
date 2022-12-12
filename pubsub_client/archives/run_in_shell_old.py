@@ -327,7 +327,7 @@ class RunInShell(ABC):
                             message = self.make_stdout(line_number=i,line=line)
                             self.pika_log_pub.publish( message=message)
                         logger.info(str(message))
-                    # TODO save on interval here - update mongodb task storage
+                    # save on interval here - update mongodb task storage
                     # ---------------
 
                 time.sleep(0.1)
@@ -409,7 +409,6 @@ class RunInShell(ABC):
     
     @abstractmethod
     def process_input(self, parameters:dict) -> None:
-        ## TODO update status here to processing input
         data_directory = self.local_file_handler.get_data_dir()
         # Read point cloud from .las
         # ....

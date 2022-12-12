@@ -201,7 +201,6 @@ class RunInShell(PubSubBase):
     
     @abstractmethod
     def process_input(self, parameters:dict) -> None:
-        ## TODO update status here to processing input
         data_directory = self.local_file_handler.get_data_dir()
         # Read point cloud from .las
         # ....

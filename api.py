@@ -291,6 +291,9 @@ async def stream_task_stdout(msg:RequestMessage, request: Request):
 
    
 
+## TODO api for querying mongodb logs
+## get task logs Maybe filter on status and timestamp 
+## get task logs per module/tool/taskid
 
 app.include_router(router_task)
 
