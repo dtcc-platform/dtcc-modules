@@ -27,14 +27,14 @@ class RunInShell(PubSubBase):
    
 
     def start(self):
-        self.update_status(status=ModuleStatus.processing_input)
-        self.process_input(parameters=self.run_parameters)
-        self.shell_command = self.run_command(parameters=self.run_parameters)
-        shell_command_args = shlex.split(self.shell_command)
-
-        logger.info('Subprocess: "' + self.shell_command + '"')
-
+        
         try:
+            self.update_status(status=ModuleStatus.processing_input)
+            self.process_input(parameters=self.run_parameters)
+            self.shell_command = self.run_command(parameters=self.run_parameters)
+            shell_command_args = shlex.split(self.shell_command)
+
+            logger.info('Subprocess: "' + self.shell_command + '"')
             logger.info(self.channel + ":" +'starting process')
     
             if self.publish:
