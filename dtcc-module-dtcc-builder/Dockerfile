@@ -19,9 +19,13 @@ RUN apt-get update && apt-get install -y locales  sudo
 
 RUN ./install_dependencies.sh
 
-RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git
-RUN cd dtcc-builder && git submodule update --init --recursive
-RUN cd dtcc-builder && mkdir build && cd build && cmake .. && make -j && make install
+
+RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git && cd dtcc-builder
+RUN git submodule update --init --recursive
+RUN mkdir build 
+RUN cd build 
+RUN cmake .. && make -j && make install
+
 
 #RUN curl --output build.zip --location https://gitlab.com/dtcc-platform/dtcc-builder/-/jobs/artifacts/develop/download?job=build
 #ADD build.zip /build.zip
@@ -34,10 +38,10 @@ RUN ldconfig /usr/local/lib
 RUN useradd -m $USER -G sudo && \
     echo "$USER:$USER" | chpasswd && \
     echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-ARG _uid
-ARG gid
-RUN usermod -u ${_uid} dtcc
-RUN groupmod -g ${gid} dtcc
+# ARG _uid
+# ARG gid
+# RUN usermod -u ${_uid} dtcc
+# RUN groupmod -g ${gid} dtcc
 
 #RUN touch banner
 #RUN ./createbanner.sh
@@ -51,9 +55,13 @@ RUN groupmod -g ${gid} dtcc
 #COPY *docker/Welcome $HOME/.welcome
 #RUN echo "cat $HOME/.welcome" >> $HOME/.bashrc
 
-RUN mkdir /shared_data
-RUN chown $USER:$USER /shared_data
+RUN mkdir /shared_data && cd /shared_data
+RUN wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz
+RUN tar zxfv dtcc-demo-data-public.tar.gz
+RUN chown -R $USER:$USER /shared_data
 RUN chown $USER:$USER /home/$USER
+
+
 
 # Image setup
 #FROM base as dev
@@ -63,20 +71,19 @@ RUN chown $USER:$USER /home/$USER
 
 
 # Install wrapper
-COPY dtcc-module-dtcc-builder/wrapper.py /wrapper.py
-RUN ["chmod", "+x", "wrapper.py"]
+
+# Install wrapper
+COPY dtcc-module-dtcc-builder/tools.py /tools.py
+COPY dtcc-module-dtcc-builder/run.py /run.py
+RUN ["chmod", "+x", "/run.py"]
 
 # Install client
-#COPY pubsub_client /pubsub_client
-ADD pubsub_client /pubsub_client
+COPY pubsub_client /pubsub_client
 RUN pip install -r /pubsub_client/requirements.txt
-RUN chown $USER:$USER /pubsub_client
-RUN chown $USER:$USER /wrapper.py
-
-FROM base as dev
-USER $USER
 
 # Start client
-ENTRYPOINT ["/wrapper.py"]
+ENTRYPOINT ["/run.py"]
+
 # ENTRYPOINT ["/bin/bash", "-l", "-c"]
 # CMD ["/bin/bash", "-i"]
+
