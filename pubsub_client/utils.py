@@ -25,7 +25,7 @@ def mkdir_p(path, folder_name = None):
             raise
     return abs_folder_path   
 
-def file_exists(path, min_size_mb=None):
+def file_exists(path, min_size_mb=None, allow_empty_files=False):
     try:
         exists = os.path.exists(path)
         if exists:
@@ -36,6 +36,8 @@ def file_exists(path, min_size_mb=None):
                         return True
                 else:
                     return True
+            elif allow_empty_files:
+                return True
         
         return False
     except:
