@@ -20,12 +20,12 @@ RUN apt-get update && apt-get install -y locales  sudo
 RUN ./install_dependencies.sh
 
 
-RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git
-RUN cd dtcc-builder
+RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git && cd dtcc-builder
 RUN git submodule update --init --recursive
 RUN mkdir build 
 RUN cd build 
 RUN cmake .. && make -j && make install
+
 
 #RUN curl --output build.zip --location https://gitlab.com/dtcc-platform/dtcc-builder/-/jobs/artifacts/develop/download?job=build
 #ADD build.zip /build.zip
@@ -55,9 +55,13 @@ RUN useradd -m $USER -G sudo && \
 #COPY *docker/Welcome $HOME/.welcome
 #RUN echo "cat $HOME/.welcome" >> $HOME/.bashrc
 
-RUN mkdir /shared_data
-RUN chown $USER:$USER /shared_data
+RUN mkdir /shared_data && cd /shared_data
+RUN wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz
+RUN tar zxfv dtcc-demo-data-public.tar.gz
+RUN chown -R $USER:$USER /shared_data
 RUN chown $USER:$USER /home/$USER
+
+
 
 # Image setup
 #FROM base as dev
