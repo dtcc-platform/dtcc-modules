@@ -67,9 +67,6 @@ services:
     build:
       context: .
       dockerfile: 'dtcc-module-dtcc-builder/Dockerfile'
-      args:
-        - _uid=${_UID}
-        - gid=${GID}
     working_dir: ${WORKING_DIR}
     container_name: dtcc-module-dtcc-builder
     image: dtcc-module-dtcc-builder-image
@@ -83,6 +80,7 @@ services:
       - SYS_PTRACE
     depends_on:
       - rabbitmq
+      - dtcc-mongodb
     environment: *common-variables
 
   dtcc-module-hello-word:

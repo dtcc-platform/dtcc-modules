@@ -27,7 +27,7 @@ class DtccHelloWorld(RunInShell):
     def run_command(self, parameters:dict) -> str:
         """
         Pass in arguments based on the recived parameters if needed
-        Otherwise just return the original shell command
+        Otherwise just return the default shell command
         """
         self.output_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
         self.tool = parameters.get('tool', 'hello-world')

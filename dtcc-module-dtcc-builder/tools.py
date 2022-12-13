@@ -24,7 +24,7 @@ class DtccCalcBuildingHeights(RunInShell):
     def run_command(self, parameters:dict) -> str:
         """
         Pass in arguments based on the recived parameters if needed
-        Otherwise just return the original shell command
+        Otherwise just return the default shell command
         """
         data_dir = parameters.get("data_dir", None)
         if data_dir is None or not os.path.isdir(data_dir):
@@ -66,15 +66,14 @@ class DtccGenerateSurfaceMesh(RunInShell):
         RunInShell.__init__(self,
             module="dtcc-module-dtcc-builder",
             tool="generate-surface-mesh",
-            publish=publish,
-            shell_command=""
+            publish=publish
         )
 
 
     def run_command(self, parameters:dict) -> str:
         """
         Pass in arguments based on the recived parameters if needed
-        Otherwise just return the original shell command
+        Otherwise just return the default shell command
         """
         data_dir = parameters.get("data_dir", None)
         if data_dir is None or not os.path.isdir(data_dir):
@@ -107,7 +106,7 @@ class DtccGenerateSurfaceMesh(RunInShell):
         if data_dir is None or not os.path.isdir(data_dir):
             return json.dumps({"data_url": "ERROR"})
         citysurface = os.path.join(data_dir, "CitySurface.pb")
-        if not os.path.isfile(citymodel):
+        if not os.path.isfile(citysurface):
             return json.dumps({"data_url": "ERROR"})
         return json.dumps({"data_url": citysurface})
 

@@ -79,7 +79,104 @@
 		    ]
 		}
 	    ]
+	},
+
+	{
+	    "name": "dtcc-module-dtcc-builder",
+	    "description": "DTCC Builder Module",
+	    "tools":
+	    [
+		{
+		    "name": "set-building-heights",
+		    "description": "Calculate heights of buildings from footprints and pointcloud",
+		    "category": "gemoetry",
+		    "parameters":
+		    [
+			{
+			    "name": "data_dir",
+			    "description": "Directory on the server containing the necessary data",
+			    "type": "string",
+			    "required": true
+			},
+			{
+			    "name": "min_building_size",
+			    "description": "smallets buildings to include",
+			    "type": "float",
+			    "required": false
+			}
+		    ],
+		    "input": [],
+		    "output":
+		    [
+			{
+			    "name": "data_url",
+			    "description": "URL to download the completed city model",
+				"type": "string"
+			}
+		    ]
+		},
+		{
+		    "name": "generate-surface-mesh",
+		    "description": "Generate a surface mesh from a point cloud and building footprints",
+		    "category": "gemoetry",
+		    "parameters":
+		    [
+				{
+					"name": "data_dir",
+					"description": "Directory on the server containing the necessary data",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "min_building_size",
+					"description": "smallets buildings to include",
+					"type": "float",
+					"required": false
+				}
+		    ],
+		    "input": [],
+		    "output":
+		    [
+			{
+			    "name": "data_url",
+			    "description": "URL to download the surface mesh",
+				"type": "string"
+			}
+		    ]
+		},
+		{
+		    "name": "generate-volume-mesh",
+		    "description": "Generate a volume mesh from a point cloud and building footprints",
+		    "category": "gemoetry",
+		    "parameters":
+		    [
+				{
+					"name": "data_dir",
+					"description": "Directory on the server containing the necessary data",
+					"type": "string",
+					"required": true
+				},
+				{
+					"name": "min_building_size",
+					"description": "smallets buildings to include",
+					"type": "float",
+					"required": false
+				}
+		    ],
+		    "input": [],
+		    "output":
+		    [
+			{
+			    "name": "data_url",
+			    "description": "URL to download the volume mesh",
+				"type": "string"
+			}
+		    ]
+		}
+	    ]
 	}
+
+
 	]
 	
 	

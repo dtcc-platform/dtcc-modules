@@ -4,10 +4,10 @@ import importlib, inspect
 import multiprocessing, threading
 from multiprocessing.pool import ThreadPool, Pool
 
-def get_available_tools():
+def get_available_tools(module_name="tools"):
     tools = []
-    for name, cls in inspect.getmembers(importlib.import_module("tools"), inspect.isclass):
-        if cls.__module__ == "tools":
+    for name, cls in inspect.getmembers(importlib.import_module(module_name), inspect.isclass):
+        if cls.__module__ == module_name:
             tools.append((name,cls))
     return tools
 

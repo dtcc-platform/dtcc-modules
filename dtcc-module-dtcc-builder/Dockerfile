@@ -11,6 +11,7 @@ FROM phusion/baseimage:master as base
 ENV USER dtcc
 ENV HOME /home/$USER
 
+
 # Install libraries used by other repos
 COPY dtcc-module-dtcc-builder/install_scripts/ /
 #COPY docker/createbanner.sh /
@@ -19,12 +20,13 @@ RUN apt-get update && apt-get install -y locales  sudo
 
 RUN ./install_dependencies.sh
 
+WORKDIR /
+RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git 
+WORKDIR /dtcc-builder
 
-RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git && cd dtcc-builder
 RUN git submodule update --init --recursive
 RUN mkdir build 
-RUN cd build 
-RUN cmake .. && make -j && make install
+RUN cd build && cmake .. && make -j && make install
 
 
 #RUN curl --output build.zip --location https://gitlab.com/dtcc-platform/dtcc-builder/-/jobs/artifacts/develop/download?job=build
@@ -38,22 +40,7 @@ RUN ldconfig /usr/local/lib
 RUN useradd -m $USER -G sudo && \
     echo "$USER:$USER" | chpasswd && \
     echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-# ARG _uid
-# ARG gid
-# RUN usermod -u ${_uid} dtcc
-# RUN groupmod -g ${gid} dtcc
 
-#RUN touch banner
-#RUN ./createbanner.sh
-#USER $USER
-
-# Generate welcome message printed at login
-#RUN touch banner
-#RUN ./createbanner.sh
-#COPY banner /
-#COPY banner $HOME/.welcome
-#COPY *docker/Welcome $HOME/.welcome
-#RUN echo "cat $HOME/.welcome" >> $HOME/.bashrc
 
 RUN mkdir /shared_data && cd /shared_data
 RUN wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz
@@ -61,29 +48,16 @@ RUN tar zxfv dtcc-demo-data-public.tar.gz
 RUN chown -R $USER:$USER /shared_data
 RUN chown $USER:$USER /home/$USER
 
-
-
-# Image setup
-#FROM base as dev
-#USER $USER
-#ENTRYPOINT ["/bin/bash", "-l", "-c"]
-#CMD ["/bin/bash", "-i"]
-
-
-# Install wrapper
-
 # Install wrapper
 COPY dtcc-module-dtcc-builder/tools.py /tools.py
 COPY dtcc-module-dtcc-builder/run.py /run.py
 RUN ["chmod", "+x", "/run.py"]
 
-# Install client
+# Install pubsub client
 COPY pubsub_client /pubsub_client
 RUN pip install -r /pubsub_client/requirements.txt
 
 # Start client
 ENTRYPOINT ["/run.py"]
 
-# ENTRYPOINT ["/bin/bash", "-l", "-c"]
-# CMD ["/bin/bash", "-i"]
 
