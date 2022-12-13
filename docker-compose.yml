@@ -105,7 +105,7 @@ services:
     image: dtcc-module-api-image
     restart: unless-stopped
     ports:
-        - 8081:8081
+        - ${FASTAPI_PORT}:${FASTAPI_PORT}
     depends_on:
       - rabbitmq
     environment: *common-variables
