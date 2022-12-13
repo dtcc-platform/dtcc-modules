@@ -21,7 +21,6 @@ class DtccHelloWorld(RunInShell):
             module="dtcc-module-hello-world",
             tool="hello-world",
             publish=publish,
-            shell_command=""
         )
 
 

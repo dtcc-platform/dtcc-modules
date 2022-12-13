@@ -17,8 +17,7 @@ class DtccCalcBuildingHeights(RunInShell):
         RunInShell.__init__(self,
             module="dtcc-module-dtcc-builder",
             tool="set-building-heights",
-            publish=publish,
-            shell_command=""
+            publish=publish
         )
 
 
