@@ -62,3 +62,6 @@ class SamplePythonProcessRunner(RunInShell):
 if __name__=='__main__':
     sample_process = SamplePythonProcessRunner(publish=True)
     sample_process.listen()
+
+    # sample_process = SamplePythonProcessRunner(publish=False)
+    # sample_process.start()

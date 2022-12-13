@@ -59,7 +59,8 @@ class DtccHelloWorld(RunInShell):
         # Write point cloud to .pb
         # .....
         temp = tempfile.NamedTemporaryFile(suffix='.pb')
-        temp.write("test content .....")
+        temp.write("test content .....".encode())
+        temp.flush()
 
         ## copy to local / shared  storage
         input_file_path = self.local_file_handler.copy_to_shared_folder(source_file_path=temp.name)

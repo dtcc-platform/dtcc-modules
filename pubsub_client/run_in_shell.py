@@ -139,15 +139,17 @@ class RunInShell(PubSubBase):
         self.is_process_running = True
        
         try:
+            line_number = 0
             while process.poll() is None:
                 output = process.stdout.read1().decode('utf-8')
                 for i, line in enumerate(output.strip().split('\n')):
                     self.stdout_storage.append(line)
                     if len(line.strip())>0:
+                        message = self.make_stdout(line_number=line_number,line=line)
                         if self.publish:
-                            message = self.make_stdout(line_number=i,line=line)
                             self.pika_log_pub.publish( message=message)
                         logger.info(str(message))
+                        line_number += 1
                     # TODO save on interval here - update mongodb task storage
                     # ---------------
 
