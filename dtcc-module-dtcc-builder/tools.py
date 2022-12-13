@@ -31,7 +31,7 @@ class DtccCalcBuildingHeights(RunInShell):
             raise Exception(f"Missing data directory: {data_dir}")
         logger.info(f"Running {self.tool} on data_dir: {data_dir}")
   
-        shell_command = f"dtcc/builder/bin/dtcc-builder --citymodel-only {data_dir}"
+        shell_command = f"/dtcc-builder/bin/dtcc-build  --citymodel-only {data_dir}"
  
         return shell_command
  
@@ -80,7 +80,7 @@ class DtccGenerateSurfaceMesh(RunInShell):
             raise Exception(f"Missing data directory: {data_dir}")
         logger.info(f"Running {self.tool} on data_dir: {data_dir}")
   
-        shell_command = f"dtcc/builder/bin/dtcc-builder {data_dir}"
+        shell_command = f"/dtcc-builder/bin/dtcc-build {data_dir}"
  
         return shell_command
  

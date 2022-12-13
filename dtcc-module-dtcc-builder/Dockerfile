@@ -42,9 +42,9 @@ RUN useradd -m $USER -G sudo && \
     echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
-RUN mkdir /shared_data && cd /shared_data
-RUN wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz
-RUN tar zxfv dtcc-demo-data-public.tar.gz
+RUN mkdir /shared_data
+RUN cd /shared_data && wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz && tar zxfv dtcc-demo-data-public.tar.gz
+RUN rm /shared_data/dtcc-demo-data-public.tar.gz
 RUN chown -R $USER:$USER /shared_data
 RUN chown $USER:$USER /home/$USER
 
