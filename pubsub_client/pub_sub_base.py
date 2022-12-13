@@ -36,7 +36,8 @@ class PubSubBase(ABC):
       
         self.listen_event = threading.Event()
         self.register_event = threading.Event()
-        self.registry_manager = RegistryManager()
+        if publish:
+            self.registry_manager = RegistryManager()
         
         
 
@@ -215,7 +216,8 @@ class PubSubBase(ABC):
         self.reset()
         time.sleep(1)
         self.listen_event.clear()
-        self.listen()
+        if self.publish:
+            self.listen()
 
     def on_failure(self, error, process_name):
         info = f'Exception occured while {process_name} subprocess: \n' + str(error)
@@ -230,7 +232,8 @@ class PubSubBase(ABC):
         self.reset()
         time.sleep(1)
         self.listen_event.clear()
-        self.listen()
+        if self.publish:
+            self.listen()
 
     @abstractmethod
     def start(self):
