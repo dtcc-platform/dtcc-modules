@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y locales  sudo
 RUN ./install_dependencies.sh
 
 WORKDIR /
-RUN git clone -b develop https://gitlab.com/dtcc-platform/dtcc-builder.git 
+RUN git clone -b develop --single-branch https://gitlab.com/dtcc-platform/dtcc-builder.git 
 WORKDIR /dtcc-builder
 
 RUN git submodule update --init --recursive
@@ -43,8 +43,7 @@ RUN useradd -m $USER -G sudo && \
 
 
 RUN mkdir /shared_data
-RUN cd /shared_data && wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz && tar zxfv dtcc-demo-data-public.tar.gz
-RUN rm /shared_data/dtcc-demo-data-public.tar.gz
+RUN cd /shared_data && wget http://data.dtcc.chalmers.se:5001/demo-data-public -v -O dtcc-demo-data-public.tar.gz && tar zxfv dtcc-demo-data-public.tar.gz && rm /shared_data/dtcc-demo-data-public.tar.gz
 RUN chown -R $USER:$USER /shared_data
 RUN chown $USER:$USER /home/$USER
 
