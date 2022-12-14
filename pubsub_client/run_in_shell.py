@@ -153,7 +153,7 @@ class RunInShell(PubSubBase):
                     # TODO save on interval here - update mongodb task storage
                     # ---------------
 
-                time.sleep(0.1)
+                time.sleep(0.01)
             self.is_process_running = False
             if self.publish:
                 status = self.update_status(status=ModuleStatus.success, info='Task succeded! Now processing the output...')

@@ -1,7 +1,8 @@
 FROM python:3.8-slim-buster
 
 # Install api
-COPY dtcc-modules-conf.json /dtcc-modules-conf.json
+COPY **/*module-config.json /
+#COPY dtcc-modules-conf.json /dtcc-modules-conf.json
 COPY api.py /api.py
 RUN ["chmod", "+x", "/api.py"]
 
