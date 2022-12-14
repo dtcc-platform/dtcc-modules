@@ -1,5 +1,5 @@
 import os, pathlib, sys, json, uuid, time, asyncio, logging, datetime
-import multiprocessing, threading
+import multiprocessing, threading, functools
 import pika
 import aio_pika
 
@@ -81,9 +81,11 @@ async def get_publish_channel():
     channel = await connection.channel()
     return channel
 
-async def publish_async(channel:aio_pika.Channel, queue_name:str, msg:dict):
+async def publish_async(queue_name:str, message:dict):
+    message['timestamp'] = datetime.datetime.now().isoformat()
+    channel = await get_publish_channel()
     await channel.default_exchange.publish(
-        aio_pika.Message(body=json.dumps(msg).encode()),
+        aio_pika.Message(body=json.dumps(message).encode()),
         routing_key=queue_name,
     )
 
@@ -95,65 +97,58 @@ class PikaPubSub:
         self.creds = pika.PlainCredentials(rabbitmq_user, rabbitmq_password)
         self.create_connection()
         
-        
+    @try_except(logger=logger)
     def create_connection(self):
         self.connection = pika.BlockingConnection(
             pika.ConnectionParameters(host=rabbitmq_host,port=rabbitmq_port, credentials=self.creds )
         )
         self.channel = self.connection.channel()
         logger.info('Pika connection established')
+        return self.connection, self.channel
         
     def publish(self,message: dict):
         try:
-            pub = threading.Thread(target=self.___publish, args=(message,))
+            connection, channel = self.create_connection()
+            pub = threading.Thread(target=self.callback_publish, args=(channel,message))
             pub.start()
+            
+            # cb = functools.partial(self.callback_publish, channel, message)
+            # connection.add_callback_threadsafe(cb)
+
             return True
         except:
             logger.exception(f"from publish {message.__str__()}")
             return False
 
-    @try_except(logger=logger)
-    def ___publish(self, message: dict):
+    def callback_publish(self, channel, message: dict):
         """Method to publish message to RabbitMQ"""
         message['timestamp'] = datetime.datetime.now().isoformat()
         try:
-            if self.channel.is_closed:
-                self.channel = self.connection.channel()
-            self.channel.basic_publish(
+           channel.basic_publish(
                 exchange='',
                 routing_key=self.queue_name,
                 body=json.dumps(message).encode()
             )
         except:
-            # logger.exception(str(message))
-            self.create_connection()
-            self.channel.basic_publish(
-                exchange='',
-                routing_key=self.queue_name,
-                body=json.dumps(message).encode()
-            )
+            logger.exception(str(message))
 
     def subscribe(self, on_mesage_callback):
-        try:
-            if self.channel.is_closed:
-                print("creating channel!!")
-                self.channel = self.connection.channel()
-            # self.channel.exchange_declare(exchange="dtcc", exchange_type="direct", passive=False, durable=True, auto_delete=False)
-            self.channel.queue_declare(queue=self.queue_name)
-            # self.channel.basic_qos(prefetch_count=1)
-            self.channel.basic_consume(queue=self.queue_name, on_message_callback=on_mesage_callback)
+        connection, channel = self.create_connection()
 
-            self.channel.start_consuming()
+        try:
+            # channel.exchange_declare(exchange="dtcc", exchange_type="direct", passive=False, durable=True, auto_delete=False)
+            channel.queue_declare(queue=self.queue_name)
+            # self.channel.basic_qos(prefetch_count=1)
+            channel.basic_consume(queue=self.queue_name, on_message_callback=on_mesage_callback)
+
+            channel.start_consuming()
         except KeyboardInterrupt:
-            self.close_connection()
+            channel.close()
+            connection.close()
         except pika.exceptions.ConnectionWrongStateError:
-            self.create_connection()
             self.subscribe(on_mesage_callback)
         except:
-            # logger.exception("from pubsub subscribe!!!!!!")
-            pass
-            # self.create_connection()
-            # self.subscribe(on_mesage_callback)
+            logger.exception("from pubsub subscribe!!!!!!")
 
     ## TODO subscribe one using consume, cancel consume method
 

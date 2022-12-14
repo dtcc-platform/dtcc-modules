@@ -67,12 +67,7 @@ class PubSubBase(ABC):
 
         self.file_storage_prefix = f"{self.module}/{self.tool}/{self.task_id}"
         if self.publish: 
-            if self.pika_pub_sub is not None:
-                self.pika_pub_sub.close_connection()
             self.pika_pub_sub = PikaPubSub(queue_name=self.channel)
-
-            if self.pika_log_pub is not None:
-                self.pika_log_pub.close_connection()
             self.pika_log_pub = PikaPubSub(queue_name=self.logs_channel)
             
 
