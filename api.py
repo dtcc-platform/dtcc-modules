@@ -20,7 +20,7 @@ project_dir = str(pathlib.Path(__file__).resolve().parents[0])
 sys.path.append(project_dir)
 
 from pubsub_client.logger import getLogger
-from pubsub_client.utils import try_except, DictStorage, file_exists
+from pubsub_client.utils import try_except, DictStorage, file_exists, find_all_files_in_folder
 from pubsub_client.rabbitmq_service import PikaPubSub, log_consumer
 from pubsub_client.registry_manager import RegistryManager
 from pubsub_client.data_models import ModuleConfig, RequestMessage, ReturnMessage, ModuleRegistry, ModuleStatus
@@ -43,22 +43,22 @@ registry_manager = RegistryManager()
 
 
 def load_module_config():
-    modules_config = {}
-    modules_config_storage_path = os.path.join(project_dir,"dtcc-modules-conf.json")
-    if file_exists(modules_config_storage_path):
-        modules_config_storage = json.load(open(modules_config_storage_path,'r'))
-    else:
-        sys.exit(1)
-        modules_config_storage = {}
-    
-    if len(modules_config_storage)>0:
-        modules_list = modules_config_storage.get("modules")
+    indexed_modules_config = {}
+    modules_list = []
+    config_file_paths = find_all_files_in_folder(project_dir,"module-config.json")
+
+    for config_file_path in config_file_paths:
+        modules_list.append(json.load(open(config_file_path,'r')))
+
+    if len(modules_list)>0:
         for module_info in modules_list:
             tool_info_list = module_info.get("tools")
             for tool_info in tool_info_list:
-                modules_config[f"{module_info['name']}/{tool_info['name']}"] = module_info
+                indexed_modules_config[f"{module_info['name']}/{tool_info['name']}"] = module_info
+    else:
+        raise Exception("No modules and module configs found!!")
                 
-    return modules_config
+    return indexed_modules_config
 
 modules_config = load_module_config()
 
@@ -291,9 +291,12 @@ async def stream_task_stdout(msg:RequestMessage, request: Request):
 
    
 
-## TODO api for querying mongodb logs
-## get task logs Maybe filter on status and timestamp 
-## get task logs per module/tool/taskid
+"""
+ TODO api for querying mongodb logs
+1) get task logs Maybe filter on status and timestamp 
+2) get task logs per module/tool/taskid
+""" 
+
 
 app.include_router(router_task)
 

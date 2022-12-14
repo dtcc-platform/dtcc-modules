@@ -9,4 +9,5 @@ from rabbitmq_service import test_log_consumer
 
 
 if __name__=='__main__':
-    asyncio.run(test_log_consumer(queue_name='/task/run_sample_python_process/logs'))
+    token = "b8a7ced7"
+    asyncio.run(test_log_consumer(queue_name=f"/task/{token}/logs"))
