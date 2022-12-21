@@ -13,8 +13,7 @@ ENV HOME /home/$USER
 
 
 # Install libraries used by other repos
-COPY dtcc-module-dtcc-builder/install_scripts/ /
-#COPY docker/createbanner.sh /
+COPY install_scripts/ /
 
 RUN apt-get update && apt-get install -y locales  sudo 
 
@@ -47,16 +46,22 @@ RUN cd /shared_data && wget http://data.dtcc.chalmers.se:5001/demo-data-public -
 RUN chown -R $USER:$USER /shared_data
 RUN chown $USER:$USER /home/$USER
 
-# Install wrapper
-COPY dtcc-module-dtcc-builder/tools.py /tools.py
-COPY dtcc-module-dtcc-builder/run.py /run.py
-RUN ["chmod", "+x", "/run.py"]
+# Install wrappers
+COPY wrappers /wrappers
 
-# Install pubsub client
-COPY pubsub_client /pubsub_client
-RUN pip install -r /pubsub_client/requirements.txt
+# Install core
+RUN python3 -m pip install https://gitlab.com/dtcc-platform/dtcc-core/-/raw/develop/dist/dtcc_core-0.1.0-py3-none-any.whl
+
+RUN /bin/bash -c "ls -la /wrappers"
+# Install Entrypoint
+RUN apt update -y && apt install curl -y
+RUN curl https://gitlab.com/dtcc-platform/dtcc-core/-/raw/develop/scripts/run-dtcc-modules.sh -o /run-dtcc-modules.sh
+RUN ["chmod", "+x", "/run-dtcc-modules.sh"]
+
+
 
 # Start client
-ENTRYPOINT ["/run.py"]
+ENTRYPOINT ["/run-dtcc-modules.sh"]
+
 
 

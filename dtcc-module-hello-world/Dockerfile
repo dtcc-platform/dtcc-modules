@@ -1,16 +1,19 @@
-FROM python:3.8-slim-buster
+FROM python:3.9-slim-buster
 
 # Install tool
-COPY dtcc-module-hello-world/dtcc_hello_world.py /dtcc_hello_world.py
+COPY dtcc_hello_world.py /dtcc_hello_world.py
 
-# Install wrapper
-COPY dtcc-module-hello-world/tools.py /tools.py
-COPY dtcc-module-hello-world/run.py /run.py
-RUN ["chmod", "+x", "/run.py"]
+# Install wrappers
+COPY wrappers /wrappers
 
-# Install client
-COPY pubsub_client /pubsub_client
-RUN pip install -r /pubsub_client/requirements.txt
+# Install core
+RUN python3 -m pip install https://gitlab.com/dtcc-platform/dtcc-core/-/raw/develop/dist/dtcc_core-0.1.0-py3-none-any.whl
+
+
+# Install Entrypoint
+RUN apt update -y && apt install curl -y
+RUN curl https://gitlab.com/dtcc-platform/dtcc-core/-/raw/develop/scripts/run-dtcc-modules.sh -o run-dtcc-modules.sh
+RUN ["chmod", "+x", "/run-dtcc-modules.sh"]
 
 # Start client
-ENTRYPOINT ["/run.py"]
+ENTRYPOINT ["/run-dtcc-modules.sh"]
