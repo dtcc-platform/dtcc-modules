@@ -52,7 +52,7 @@ services:
     container_name: dtcc-rabbitmq
     restart: unless-stopped
     ports:
-        - 5672:5672
+        - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
         - 15672:15672
     volumes:
         - rabbit-data:/var/lib/rabbitmq/
@@ -81,6 +81,7 @@ services:
     depends_on:
       - rabbitmq
       - dtcc-mongodb
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
     environment: *common-variables
 
   dtcc-module-hello-word:
@@ -94,6 +95,7 @@ services:
     depends_on:
       - rabbitmq
       - dtcc-mongodb
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
     environment: *common-variables
 
 
@@ -108,7 +110,9 @@ services:
         - ${FASTAPI_PORT}:${FASTAPI_PORT}
     depends_on:
       - rabbitmq
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- python3 -m core.api
     environment: *common-variables
+
 
 volumes:
   rabbit-data:
