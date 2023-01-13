@@ -1,0 +1,75 @@
+
+{
+	"name": "dtcc-module-citysolar",
+	"description": "DTCC solar analysis module",
+	"tools":
+	[
+	{
+		"name": "irradiance",
+		"description": "Calculate irradiance for city model",
+		"category": "solar analysis",
+		"parameters":
+		[
+		{
+			"name": "bucket_name",
+			"description": "Minio Bucket name",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "prefix",
+			"description": "Directory in minio containing the necessary data",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "file_name",
+			"description": "File name in minio",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "latitude",
+			"description": "Latitude for city location",
+			"type": "float",
+			"required": false
+		},
+		{
+			"name": "longitude",
+			"description": "Longitude for city location",
+			"type": "float",
+			"required": false
+		},
+		{
+			"name": "date",
+			"description": "Date for solar position, example: '2019-01-10 10:30:00'",
+			"type": "string",
+			"required": false
+		}	
+
+		],
+		"input": [],
+		"output":
+		[
+			{
+				"name": "bucket_name",
+				"description": "Minio Bucket name",
+				"type": "string",
+				"required": true
+			},
+			{
+				"name": "prefix",
+				"description": "Directory in minio containing the necessary data",
+				"type": "string",
+				"required": true
+			},
+			{
+				"name": "file_name",
+				"description": "File name in minio",
+				"type": "string",
+				"required": false
+			}
+		]
+	}
+	]
+}
