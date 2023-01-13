@@ -95,6 +95,7 @@ services:
     depends_on:
       - rabbitmq
       - dtcc-mongodb
+      - minio
     command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
     environment: *common-variables
 
@@ -111,6 +112,20 @@ services:
     depends_on:
       - rabbitmq
     command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- python3 -m core.api
+    environment: *common-variables
+
+  dtcc-module-examples:
+    build:
+      context: .
+      dockerfile: 'dtcc-module-examples/Dockerfile'
+    container_name: dtcc-module-examples
+    image: dtcc-module-examples-image
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - dtcc-mongodb
+      - minio
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
     environment: *common-variables
 
 

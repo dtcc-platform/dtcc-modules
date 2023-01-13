@@ -9,10 +9,12 @@ import json
 # sys.path.append(project_dir)
 
 from core.run_in_shell import RunInShell
+from core.pub_sub_base import PubSubBase
 from core.logger import getLogger
+from core.minio_service import MinioFileHandler
 logger = getLogger("dtcc-module-dtcc-builder")
 
-class DtccCalcBuildingHeights(RunInShell):
+class DtccCalcBuildingHeights(RunInShell,PubSubBase):
     def __init__(self, publish=True) -> None:
         RunInShell.__init__(self,
             module="dtcc-module-dtcc-builder",

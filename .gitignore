@@ -2,6 +2,7 @@ __pycache__
 *.pyc
 logs
 data
+k8s
 ## IDEs and editors
 .idea
 .vscode
