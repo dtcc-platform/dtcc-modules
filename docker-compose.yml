@@ -129,6 +129,21 @@ services:
     environment: *common-variables
 
 
+  dtcc-module-citysolar:
+    build:
+      context: .
+      dockerfile: 'dtcc-module-citysolar/Dockerfile'
+    container_name: dtcc-module-citysolar
+    image: dtcc-module-citysolar-image
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - dtcc-mongodb
+      - minio
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
+    environment: *common-variables
+
+
 volumes:
   rabbit-data:
   rabbit-logs:
