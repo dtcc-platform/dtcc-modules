@@ -16,5 +16,5 @@ RUN curl https://gitlab.com/dtcc-platform/dtcc-core/-/raw/develop/scripts/run-dt
 RUN chmod +x /run-dtcc-modules.sh
 
 # Wait for rabbitmq server
-RUN curl https://github.com/vishnubob/wait-for-it/blob/81b1373f17855a4dc21156cfe1694c31d7d1792e/wait-for-it.sh -o /wait-for-it.sh
+RUN curl https://raw.githubusercontent.com/vishnubob/wait-for-it/81b1373f17855a4dc21156cfe1694c31d7d1792e/wait-for-it.sh -o /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh

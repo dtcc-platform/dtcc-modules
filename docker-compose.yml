@@ -116,8 +116,8 @@ services:
 
   dtcc-module-examples:
     build:
-      context: .
-      dockerfile: 'dtcc-module-examples/Dockerfile'
+      context: ./dtcc-module-examples
+      dockerfile: 'Dockerfile'
     container_name: dtcc-module-examples
     image: dtcc-module-examples-image
     restart: unless-stopped
@@ -131,8 +131,8 @@ services:
 
   dtcc-module-citysolar:
     build:
-      context: .
-      dockerfile: 'dtcc-module-citysolar/Dockerfile'
+      context: ./dtcc-module-citysolar
+      dockerfile: 'Dockerfile'
     container_name: dtcc-module-citysolar
     image: dtcc-module-citysolar-image
     restart: unless-stopped
