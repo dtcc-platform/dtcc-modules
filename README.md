@@ -33,3 +33,12 @@ DTCC Modules is licensed under the
 
 Copyright is held by the individual authors as listed at the top of
 each source file.
+
+
+
+{
+  "task_id": "55d83bc3",
+  "module_name": "dtcc-module-examples",
+  "tool": "upload-download-minio"
+  "parameters": "{\"bucket_name\":\"dtcc\", \"prefix\":\"/HelsingborgHarbour2022\"}"
+}

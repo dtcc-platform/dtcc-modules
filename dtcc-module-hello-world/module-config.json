@@ -1,0 +1,63 @@
+{
+    "name": "dtcc-module-hello-world",
+    "description": "DTCC Hello World Module",
+    "tools":
+    [
+    {
+        "name": "hello-world",
+        "description": "Returns Hello World in different languages",
+        "category": "simulation",
+        "parameters":
+        [
+        {
+            "name": "lang",
+            "description": "Language to return the greeting in",
+            "type": "string",
+            "required": false
+        },
+        {
+            "name": "sleep_time",
+            "description": "Time to sleep in seconds",
+            "type": "float",
+            "required": false
+        }
+        ],
+        "input": [],
+        "output":
+        [
+        {
+            "name": "hello_world",
+            "type": "string"
+        }
+        ]
+    },
+    {
+        "name": "hello-world-2",
+        "description": "Also returns Hello World in different languages",
+        "category": "analysis",
+        "parameters":
+        [
+        {
+            "name": "lang",
+            "description": "Language to return the greeting in",
+            "type": "string",
+            "required": false
+        },
+        {
+            "name": "sleep_time",
+            "description": "Time to sleep in seconds",
+            "type": "float",
+            "required": false
+        }
+        ],
+        "input": [],
+        "output":
+        [
+        {
+            "name": "hello_world",
+            "type": "string"
+        }
+        ]
+    }
+    ]
+}

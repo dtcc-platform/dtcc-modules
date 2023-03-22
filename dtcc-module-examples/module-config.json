@@ -1,0 +1,62 @@
+
+{
+	"name": "dtcc-module-examples",
+	"description": "DTCC examples Module",
+	"tools":
+	[
+	{
+		"name": "upload-download-minio",
+		"description": "Tests upload and download functionality",
+		"category": "minio",
+		"parameters":
+		[
+		{
+			"name": "bucket_name",
+			"description": "Minio Bucket name",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "prefix",
+			"description": "Directory in minio containing the necessary data",
+			"type": "string",
+			"required": true
+		},
+		{
+			"name": "file_name",
+			"description": "File name in minio",
+			"type": "string",
+			"required": false
+		},
+		{
+			"name": "min_building_size",
+			"description": "smallets buildings to include",
+			"type": "float",
+			"required": false
+		}
+		],
+		"input": [],
+		"output":
+		[
+			{
+				"name": "bucket_name",
+				"description": "Minio Bucket name",
+				"type": "string",
+				"required": true
+			},
+			{
+				"name": "prefix",
+				"description": "Directory in minio containing the necessary data",
+				"type": "string",
+				"required": true
+			},
+			{
+				"name": "file_name",
+				"description": "File name in minio",
+				"type": "string",
+				"required": false
+			}
+		]
+	}
+	]
+}

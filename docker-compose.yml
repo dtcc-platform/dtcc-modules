@@ -1,0 +1,153 @@
+version: '3.9'
+
+x-common-variables: &common-variables
+  RABBITMQ_HOST: ${RABBITMQ_HOST}
+  RABBITMQ_PORT: ${RABBITMQ_PORT}
+  MONGODB_HOST: ${MONGODB_HOST}
+  MONGODB_DATABASE: ${MONGODB_DATABASE}
+  MONGODB_USERNAME: ${MONGODB_USERNAME}
+  MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+  MINIO_HOST: ${MINIO_HOST}
+  MINIO_USER: ${MINIO_USER}
+  MINIO_PASSWORD: ${MINIO_PASSWORD}
+  FASTAPI_PORT: ${FASTAPI_PORT}
+
+
+
+
+services:
+
+  dtcc-mongodb:
+    image: mongo:latest
+    container_name: dtcc-mongodb-container
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=${MONGODB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+    volumes:
+      - mongodb:/data/db
+      - mongoconfig:/data/configdb
+    networks:
+      - default
+    restart: unless-stopped
+
+  minio:
+    container_name: Minio
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
+    image: quay.io/minio/minio:latest
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - ./data/minio:/data
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: dtcc-rabbitmq
+    restart: unless-stopped
+    ports:
+        - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
+        - 15672:15672
+    volumes:
+        - rabbit-data:/var/lib/rabbitmq/
+        - rabbit-logs:/var/log/rabbitmq
+    networks:
+        - default
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+
+  dtcc-module-dtcc-builder:
+    build:
+      context: ./dtcc-module-dtcc-builder
+      dockerfile: 'Dockerfile'
+    working_dir: ${WORKING_DIR}
+    container_name: dtcc-module-dtcc-builder
+    image: dtcc-module-dtcc-builder-image
+    restart: unless-stopped
+    volumes:
+      - ../:${WORKING_DIR}:rw
+      - dtcc-modules-shared-data:${SHARED_DATA_DIR}:rw
+    security_opt:
+      - seccomp:unconfined
+    cap_add:
+      - SYS_PTRACE
+    depends_on:
+      - rabbitmq
+      - dtcc-mongodb
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
+    environment: *common-variables
+
+  dtcc-module-hello-word:
+    build:
+      context: ./dtcc-module-hello-world
+      dockerfile: 'Dockerfile'
+    
+    container_name: dtcc-module-hello-world
+    image: dtcc-module-hello-world-image
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - dtcc-mongodb
+      - minio
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
+    environment: *common-variables
+
+
+  dtcc-api:
+    build:
+      context: .
+      dockerfile: 'dtcc-api/Dockerfile'
+    container_name: dtcc-module-api
+    image: dtcc-module-api-image
+    restart: unless-stopped
+    ports:
+        - ${FASTAPI_PORT}:${FASTAPI_PORT}
+    depends_on:
+      - rabbitmq
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- python3 -m core.api
+    environment: *common-variables
+
+  dtcc-module-examples:
+    build:
+      context: ./dtcc-module-examples
+      dockerfile: 'Dockerfile'
+    container_name: dtcc-module-examples
+    image: dtcc-module-examples-image
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - dtcc-mongodb
+      - minio
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
+    environment: *common-variables
+
+
+  dtcc-module-citysolar:
+    build:
+      context: ./dtcc-module-citysolar
+      dockerfile: 'Dockerfile'
+    container_name: dtcc-module-citysolar
+    image: dtcc-module-citysolar-image
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - dtcc-mongodb
+      - minio
+    command: /wait-for-it.sh -h ${RABBITMQ_HOST} -p ${RABBITMQ_PORT} -t 300 -- /run-dtcc-modules.sh
+    environment: *common-variables
+
+
+volumes:
+  rabbit-data:
+  rabbit-logs:
+  dtcc-modules-shared-data:
+  mongodb:
+  mongoconfig:
+

@@ -1,0 +1,13 @@
+__pycache__
+*.pyc
+logs
+data
+k8s
+## IDEs and editors
+.idea
+.vscode
+LASzip
+
+.DS_Store
+pubsub_client/__pycache__/
+pubsub_client/logs/

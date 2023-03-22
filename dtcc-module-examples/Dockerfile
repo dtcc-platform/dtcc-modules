@@ -1,7 +1,8 @@
 FROM python:3.9-slim-buster
 
 # Install tool
-COPY dtcc_hello_world.py /dtcc_hello_world.py
+# ------------
+
 
 # Install wrappers
 COPY wrappers /wrappers

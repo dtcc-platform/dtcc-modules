@@ -1,7 +1,8 @@
-FROM python:3.9-slim-buster
+FROM python:3.8-slim-buster
 
 # Install tool
-COPY dtcc_hello_world.py /dtcc_hello_world.py
+# ------------
+RUN python3 -m pip install https://gitlab.com/jensoolsson/citysolar/-/raw/master/dist/citysolar-0.1.0-py3-none-any.whl
 
 # Install wrappers
 COPY wrappers /wrappers
